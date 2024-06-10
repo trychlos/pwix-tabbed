@@ -4,6 +4,10 @@
 
 A Blaze component which provides a consistent tabbed display.
 
+The tabbed navs and panes are Bootstrap-based.
+
+Here, 'consistent' means that all panes will have the same height (respectively the same width) regarding of their content.
+
 ## Configuration
 
 The package's behavior can be configured through a call to the `Tabbed.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
@@ -42,13 +46,72 @@ Returns the i18n namespace used by the package. Used to add translations at runt
 
 #### `Tabbed`
 
-Display a link to the Cookies Policy.
+Display a consistent tabbed component.
 
-Parameters can be provided:
+It accepts following parameters:
+ 
+- `tabs`, an array of the tabs, or a function which returns such an array, each item being an object:
 
-- label, defaulting to 'Cookies management policy'
-- title, defaulting to 'Cookies management policy'
-- route, defaulting to configured routePrefix + '/cookies'.
+    - `navLabel`: if set, the HTML nav label, or a function which returns such a string
+
+    - `navAttributes`: if set, an object, or a function which returns such an object, which define attributes to be added to the `nav-link` element
+        where each attribute is expected to be defined as `{ name: value }`
+
+    - `navTemplate`: if set, a template to be attached as the nav content (besides of the label if one is specified)
+
+    - `navData`: if set, the data to be attached to the navTemplate, or a function which returns such a thing
+
+    - `paneTemplate`: if set, the pane template name, or a function which returns such a name
+
+    - `paneData`: if set, the data to be passed to the paneTemplate, or a function which returns such a thing
+
+    - `tabName`: if set, the name of the tab, or a function which returns such a name
+
+- `name`: if set, the name used to read/write active tab into/from local storage, or a function which returns such a name
+
+- `navPosition`: may be 'bottom', 'top', 'left' or 'right'
+    defaulting to 'top'
+
+- `navClasses`: classes to be added to each ul.nav element
+
+- `navLinkClasses`: classes to be added to each button.nav-link element
+
+- `paneSubTemplate`: if set, the name of a template to add below the panes
+
+- `paneSubData`: if set, the data context to be passed to this sub-template, defaulting to this Tabbed data context
+
+This `Tabbed` component increases the data context passed to navTemplate's and paneTemplate's with datas:
+
+- `tabbedId`: the identifier of the 'Tabbed' component
+- `tabbedTabId`: the identifier of each tab, same whether we display a nav-link or a tab-pane
+
+The component Handles following events:
+- `tabbed-do-activate`, data={ tabbedId, index } ask to activate the tab by its index
+- `tabbed-do-activate`, data={ tabbedId, label } ask to activate the tab by its current nav label
+- `tabbed-do-activate`, data={ tabbedId, name } ask to activate the tab by its name
+- `tabbed-do-activate`, data={ tabbedId, attribute } ask to activate the tab by the specified nav attribute
+- `tabbed-do-enable`, data={ tabbedId, index, enabled } ask to enable/disable the tab by its index
+- `tabbed-do-enable`, data={ tabbedId, label, enabled } ask to enable/disable the tab by its current nav label
+- `tabbed-do-enable`, data={ tabbedId, name, enabled } ask to enable/disable the tab by its name
+- `tabbed-do-enable`, data={ tabbedId, attribute, enabled } ask to enable/disable the tab by the specified nav attribute
+   where 'tabbed' is expected to be the internal identifier of this tabbed template
+
+The component triggers following events:
+- on itself (and bubble up to the parents)
+    - `tabbed-rendered`, data={ tabbedId, tabbedName, $tabbed }  when the Tabbed component is rendered
+    - `tabbed-changed`, data={ tabbedId, tabbedName, $tabbed }   when the tabs population has changed
+
+- on every .tab-pane first child
+    - `tabbed-pane-to-hide`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when about to leave a tab
+    - `tabbed-pane-to-show`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a new tab is about to be shown
+    - `tabbed-pane-hidden`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when a tab has left
+    - `tabbed-pane-shown`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a tab has been shown
+  
+##### Identifiers management
+
+We dynamically allocate random identifiers for:
+- the Tabbed component, advertized as 'data-tabbed-id' in the DOM, and as 'tabbedId' in children data contexts
+- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as 'tabbedTabId' in children data contexts
 
 ## NPM peer dependencies
 

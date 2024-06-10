@@ -34,6 +34,7 @@ function configure( api ){
     _use( 'less@4.0.0', 'client' );
     _use( 'random' );
     _use( 'reactive-var' );
+    _use( 'pwix:ui-bootstrap5@2.0.0' );
     _use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );
     //_use( 'tracker', 'client' );
     api.addFiles( 'src/client/components/Tabbed/Tabbed.js', 'client' );
