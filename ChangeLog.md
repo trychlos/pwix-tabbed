@@ -8,6 +8,7 @@
 
     - Improve stylesheet
     - Update README
+    - Update TODO
 
 ### 1.0.0
 
