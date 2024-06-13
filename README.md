@@ -8,37 +8,39 @@ The tabbed navs and panes are Bootstrap-based.
 
 Here, 'consistent' means that all panes will have the same height (respectively the same width) regarding of their content.
 
-## Configuration
+## Installation
 
-The package's behavior can be configured through a call to the `Tabbed.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
+This Meteor package is installable with the usual command:
 
-Known configuration options are:
+```sh
+    meteor add pwix:tabbed
+```
 
-- `verbosity`
+## Usage
 
-    Define the expected verbosity level.
+In your .html template:
 
-    The accepted value can be any or-ed combination of following:
+```html
+    {{> Tabbled (parmsTabbed) }}
+```
 
-    - `Tabbed.C.Verbose.NONE`
+In your Blaze helper:
 
-        Do not display any trace log to the console
-
-    - `Tabbed.C.Verbose.CONFIGURE`
-
-        Trace `Tabbed.configure()` calls and their result
-
-Please note that `Tabbed.configure()` method should be called in the same terms both in client and server sides.
-
-Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `Tabbed.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
+```js
+    parmsTabbed(){
+        ..
+    }
+```
 
 ## Provides
 
-`Tabbed` provides following items:
+### `Tabbed`
 
-### Methods
+The exported `Tabbed` global object provides following items:
 
-#### `Tabbed.i18n.namespace()`
+#### Functions
+
+##### `Tabbed.i18n.namespace()`
 
 Returns the i18n namespace used by the package. Used to add translations at runtime.
 
@@ -49,7 +51,7 @@ Returns the i18n namespace used by the package. Used to add translations at runt
 Display a consistent tabbed component.
 
 It accepts following parameters:
- 
+
 - `tabs`, an array of the tabs, or a function which returns such an array, each item being an object:
 
     - `navLabel`: if set, the HTML nav label, or a function which returns such a string
@@ -106,26 +108,52 @@ The component triggers following events:
     - `tabbed-pane-to-show`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a new tab is about to be shown
     - `tabbed-pane-hidden`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when a tab has left
     - `tabbed-pane-shown`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a tab has been shown
-  
+
 ##### Identifiers management
 
 We dynamically allocate random identifiers for:
-- the Tabbed component, advertized as 'data-tabbed-id' in the DOM, and as 'tabbedId' in children data contexts
+- the `Tabbed` component, advertized as 'data-tabbed-id' in the DOM, and as 'tabbedId' in children data contexts
 - each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as 'tabbedTabId' in children data contexts
+
+## Configuration
+
+The package's behavior can be configured through a call to the `Tabbed.configure()` method, with just a single javascript object argument, which itself should only contains the options you want override.
+
+Known configuration options are:
+
+- `verbosity`
+
+    Define the expected verbosity level.
+
+    The accepted value can be any or-ed combination of following:
+
+    - `Tabbed.C.Verbose.NONE`
+
+        Do not display any trace log to the console
+
+    - `Tabbed.C.Verbose.CONFIGURE`
+
+        Trace `Tabbed.configure()` calls and their result
+
+Please note that `Tabbed.configure()` method should be called in the same terms both in client and server sides.
+
+Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `Tabbed.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
 
 ## NPM peer dependencies
 
-Starting with v 0.3.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`. 
+Starting with v 0.1.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`.
 
 Instead we check npm versions of installed packages at runtime, on server startup, in development environment.
 
 Dependencies as of v 1.0.0:
-```
+
+```js
     'lodash': '^4.17.0'
 ```
 
 Each of these dependencies should be installed at application level:
-```
+
+```sh
     meteor npm install <package> --save
 ```
 
@@ -138,6 +166,10 @@ New and updated translations are willingly accepted, and more than welcome. Just
 `pwix:tabbed` may use `localStorage` to record ...
 
 Because this is dynamically done on a per dialog basis, and only on the caller request, the package doesn't advertize of this use, relying on the caller own declaration.
+
+## Issues & help
+
+In case of support or error, please report your issue request to our [Issues tracker](https://github.com/trychlos/pwix-tabbed/issues).
 
 ---
 P. Wieser

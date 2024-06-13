@@ -7,6 +7,7 @@
     Release date:
 
     - Improve stylesheet
+    - Update README
 
 ### 1.0.0
 
