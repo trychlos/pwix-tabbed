@@ -4,13 +4,13 @@
 
 ### 1.0.1-rc
 
-    Release date: 
+    Release date:
 
-    - 
+    - Improve stylesheet
 
 ### 1.0.0
 
-Release date: 
+Release date:
 
 - Initial release
 
