@@ -6,9 +6,10 @@
 
     Release date:
 
-    - Improve stylesheet
+    - Review tabs layout to get panes of 100% height
     - Update README
     - Update TODO
+    - Remove (unused) DOM code
 
 ### 1.0.0
 
