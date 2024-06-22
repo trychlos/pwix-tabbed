@@ -143,8 +143,8 @@ Template.Tabbed.onCreated( function(){
             return( tabs );
         },
 
-        // whether tabs are vertical ?
-        isVertical(){
+        // whether navs are horizontally oriented ?
+        isHorizontal(){
             const pos = self.APP.navPosition.get();
             return pos === 'top' || pos === 'bottom';
         },
@@ -274,7 +274,7 @@ Template.Tabbed.onRendered( function(){
 Template.Tabbed.helpers({
     // make the div height 100% when position is horizontal
     classes(){
-        return Template.instance().APP.isVertical() ? '' : 'tabbed-h100';
+        return Template.instance().APP.isHorizontal() ? '' : 'tabbed-h100';
     },
     // whether we have a sub-pane ?
     haveSubPane(){
@@ -306,14 +306,14 @@ Template.Tabbed.helpers({
             dataContext: this
         };
     },
+    posHorizontal(){
+        return Template.instance().APP.isHorizontal();
+    },
     posLeft(){
         return Template.instance().APP.navPosition.get() === 'left';
     },
     posTop(){
         return Template.instance().APP.navPosition.get() === 'top';
-    },
-    posVertical(){
-        return Template.instance().APP.isVertical();
     }
 });
 
@@ -377,6 +377,11 @@ Template.coreTabbedTemplate_pane.helpers({
     // an identifier of this tabbed template
     myId(){
         return this.APP.myId;
+    },
+    // reming to panes how are navs oriented
+    navClasses(){
+        let str = 'nav-'+this.APP.navPosition.get();
+        return str;
     },
     // provides the data associated to this template
     paneData( it ){

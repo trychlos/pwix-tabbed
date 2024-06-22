@@ -1,7 +1,7 @@
 <template name="Tabbed">
     <div class="tabbed-template {{ classes }}" data-tabbed-id="{{ myId }}">
 
-        {{#if posVertical }}
+        {{#if posHorizontal }}
             <div class="tabbed-consistent-height">
                 {{#if posTop }}
                     <div class="tabbed-navs-encloser">
@@ -75,7 +75,7 @@
 
 <template name="coreTabbedTemplate_pane">
     <div class="tabbed-panes" data-tabbed-id="{{ myId }}">
-        <div class="tab-content">
+        <div class="tab-content {{ navClasses }}">
             {{#each it in tabs }}
                 {{#if hasTemplate it }}
                     <div class="tab-pane fade" id="{{ it.TABBED.paneid }}" role="tabpanel" aria-labelledby="{{ it.TABBED.tabid }}" tabindex="0" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">

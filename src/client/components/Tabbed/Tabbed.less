@@ -3,17 +3,47 @@
  */
 
 .tabbed-template {
-    .tabbed-h100 {
+    height: 100%;
+
+    // navs and panes
+    // have panes 100% height of the visual parent
+    .tabbed-consistent-height {
         height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .tabbed-panes-encloser {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .tabbed-panes {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+
+                .tab-content {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+
+                    .tab-pane {
+                        height: 100%;
+                        margin-top: 0.5em;
+                        margin-left: 1em;
+                    }
+                }
+            }
+        }
     }
-    // nav and tabs
+    /*
     // have a consistent height between the tabs
     // https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tab-panes
     .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content {
         display: flex;
     }
     .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .tab-pane {
-        display: block; /* undo "display: none;" */
+        display: block; // undo "display: none;"
         visibility: hidden;
         margin-right: -100%;
         width: 100%;
@@ -23,6 +53,7 @@
         visibility: visible;
         z-index: 0;
     }
+    */
     .nav-left.noborder {
         border: 0;
         .nav-link.active {
@@ -74,16 +105,18 @@
         height: 100%;
     }
     // have some space between tabs and panes
-    .nav-top {
-        margin-bottom: 0.5em;
-    }
-    .nav-bottom {
+    .tabbed-navs {
+        .nav-top {
+            margin-bottom: 0.5em;
+        }
+        .nav-bottom {
 
-    }
-    .nav-left {
+        }
+        .nav-left {
 
-    }
-    .nav-right {
+        }
+        .nav-right {
 
+        }
     }
 }
