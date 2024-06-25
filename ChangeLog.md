@@ -2,7 +2,7 @@
 
 ## ChangeLog
 
-### 1.0.1-rc
+### 1.1.0-rc
 
     Release date:
 
@@ -10,6 +10,7 @@
     - Update README
     - Update TODO
     - Remove (unused) DOM code
+    - Tabbed.configure() becomes a reactive data source, bumping minor candidate version number
 
 ### 1.0.0
 
