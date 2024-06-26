@@ -25,35 +25,30 @@
                 .tab-content {
                     height: 100%;
                     display: flex;
-                    flex-direction: column;
+                    //flex-direction: column;
 
                     .tab-pane {
                         height: 100%;
                         margin-top: 0.5em;
-                        margin-left: 1em;
                     }
                 }
             }
         }
     }
-    /*
+
     // have a consistent height between the tabs
     // https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tab-panes
-    .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content {
-        display: flex;
-    }
+    // and https://observablehq.com/@rkaravia/css-trick-tabs-with-consistent-height
     .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .tab-pane {
         display: block; // undo "display: none;"
         visibility: hidden;
         margin-right: -100%;
         width: 100%;
-        z-index: -1;
     }
     .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .active {
         visibility: visible;
-        z-index: 0;
     }
-    */
+
     .nav-left.noborder {
         border: 0;
         .nav-link.active {
