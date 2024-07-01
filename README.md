@@ -87,7 +87,7 @@ This `Tabbed` component increases the data context passed to navTemplate's and p
 - `tabbedId`: the identifier of the 'Tabbed' component
 - `tabbedTabId`: the identifier of each tab, same whether we display a nav-link or a tab-pane
 
-The component Handles following events:
+The component handles following events:
 - `tabbed-do-activate`, data={ tabbedId, index } ask to activate the tab by its index
 - `tabbed-do-activate`, data={ tabbedId, label } ask to activate the tab by its current nav label
 - `tabbed-do-activate`, data={ tabbedId, name } ask to activate the tab by its name
@@ -100,8 +100,8 @@ The component Handles following events:
 
 The component triggers following events:
 - on itself (and bubble up to the parents)
-    - `tabbed-rendered`, data={ tabbedId, tabbedName, $tabbed }  when the Tabbed component is rendered
-    - `tabbed-changed`, data={ tabbedId, tabbedName, $tabbed }   when the tabs population has changed
+    - `tabbed-rendered`, data={ tabbedId, tabbedName, $tabbed } when the Tabbed component is rendered
+    - `tabbed-changed`, data={ tabbedId, tabbedName, $tabbed } when the tabs population has changed
 
 - on every .tab-pane first child
     - `tabbed-pane-to-hide`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when about to leave a tab
