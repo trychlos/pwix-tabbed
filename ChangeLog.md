@@ -4,9 +4,9 @@
 
 ### 1.1.1-rc
 
-    Release date: 
+    Release date:
 
-    - 
+    - Introduce trace module
 
 ### 1.1.0
 

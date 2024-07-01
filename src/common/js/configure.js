@@ -24,11 +24,7 @@ Tabbed.configure = function( o ){
     if( o && _.isObject( o )){
         _.merge( _conf, Tabbed._defaults, o );
         Tabbed._conf.set( _conf );
-        // be verbose if asked for
-        if( _conf.verbosity & Tabbed.C.Verbose.CONFIGURE ){
-            //console.log( 'pwix:tabbed configure() with', o, 'building', Tabbed._conf );
-            console.log( 'pwix:tabbed configure() with', o );
-        }
+        _verbose( Tabbed.C.Verbose.CONFIGURE, 'pwix:tabbed configure() with', o );
     }
     // also acts as a getter
     return Tabbed._conf.get();
