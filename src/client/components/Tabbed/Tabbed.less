@@ -25,10 +25,8 @@
                 .tab-content {
                     height: 100%;
                     display: flex;
-                    //flex-direction: column;
 
                     .tab-pane {
-                        height: 100%;
                         margin-top: 0.5em;
                     }
                 }
@@ -44,9 +42,11 @@
         visibility: hidden;
         margin-right: -100%;
         width: 100%;
+        z-index: -1;
     }
     .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .active {
         visibility: visible;
+        z-index: 0;
     }
 
     .nav-left.noborder {
@@ -59,7 +59,7 @@
         }
     }
     // when we want have tabs on the bottom of the panel
-    .nav-bottom {
+    .tabbed-navs-encloser > .tabbed-navs > .nav-bottom {
         border-bottom: 0;
         border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
         .nav-link {
