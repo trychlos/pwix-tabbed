@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.0-rc
+### 1.2.0
 
-    Release date:
+    Release date: 2024- 7-11
 
     - Introduce trace module
     - Define navItemClasses attribute, bumping minor candidate version number
@@ -29,4 +29,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jul. 1st
+- Last updated on 2024, Jul. 11th
