@@ -40,6 +40,12 @@ The exported `Tabbed` global object provides following items:
 
 #### Functions
 
+##### `Tabbed.configure()`
+
+See [below](#configuration).
+
+A reactive data source.
+
 ##### `Tabbed.i18n.namespace()`
 
 Returns the i18n namespace used by the package. Used to add translations at runtime.
@@ -63,6 +69,10 @@ It accepts following parameters:
 
     - `navData`: if set, the data to be attached to the navTemplate, or a function which returns such a thing
 
+    - `navItemClasses`: classes to be added to this li.nav-item element
+
+    - `navLinkClasses`: classes to be added to this button.nav-link element
+
     - `paneTemplate`: if set, the pane template name, or a function which returns such a name
 
     - `paneData`: if set, the data to be passed to the paneTemplate, or a function which returns such a thing
@@ -75,6 +85,8 @@ It accepts following parameters:
     defaulting to 'top'
 
 - `navClasses`: classes to be added to each ul.nav element
+
+- `navItemClasses`: classes to be added to each li.nav-item element
 
 - `navLinkClasses`: classes to be added to each button.nav-link element
 

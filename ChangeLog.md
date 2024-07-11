@@ -2,11 +2,13 @@
 
 ## ChangeLog
 
-### 1.1.1-rc
+### 1.2.0-rc
 
     Release date:
 
     - Introduce trace module
+    - Define navItemClasses attribute, bumping minor candidate version number
+    - Have distinct (and cumulative) classes per nav-item and for all the nav-tabs
 
 ### 1.1.0
 

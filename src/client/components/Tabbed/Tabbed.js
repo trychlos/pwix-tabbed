@@ -322,14 +322,6 @@ Template.coreTabbedTemplate_nav.helpers({
     ariaSelected( it ){
         return it.TABBED.index === this.TABBED.activeTab.get() ? 'true' : 'false';
     },
-    // additional classes for the .nav element
-    classes(){
-        let str = 'nav-'+this.TABBED.navPosition.get();
-        if( this.dataContext.navClasses ){
-            str += ' '+this.dataContext.navClasses;
-        }
-        return str;
-    },
     // whether we have something to display in this nav tab ?
     hasLabel( it ){
         return this.TABBED.navLabel( it ).length > 0;
@@ -338,13 +330,39 @@ Template.coreTabbedTemplate_nav.helpers({
     hasTemplate( it ){
         return it.navTemplate;
     },
+    // add some classes to the nav-item's
+    itemClasses( it ){
+        let classes = [];
+        if( this.dataContext.navItemClasses ){
+            classes.push( this.dataContext.navItemClasses );
+        }
+        if( it.navItemClasses ){
+            classes.push( it.navItemClasses );
+        }
+        return classes.join( ' ' );
+    },
     // add some classes to the nav-link's
     linkClasses( it ){
-        return this.dataContext.navLinkClasses || '';
+        let classes = [];
+        if( this.dataContext.navLinkClasses ){
+            classes.push( this.dataContext.navLinkClasses );
+        }
+        if( it.navLinkClasses ){
+            classes.push( it.navLinkClasses );
+        }
+        return classes.join( ' ' );
     },
     // an identifier of this tabbed template
     myId(){
         return this.TABBED.myId;
+    },
+    // additional classes for the .nav element
+    navClasses(){
+        let str = 'nav-'+this.TABBED.navPosition.get();
+        if( this.dataContext.navClasses ){
+            str += ' '+this.dataContext.navClasses;
+        }
+        return str;
     },
     // provides the data (if any) associated with the template for this tab
     navData( it ){
