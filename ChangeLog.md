@@ -9,6 +9,7 @@
     - Introduce trace module
     - Define navItemClasses attribute, bumping minor candidate version number
     - Have distinct (and cumulative) classes per nav-item and for all the nav-tabs
+    - Define tabbed-do-activate-same new event
 
 ### 1.1.0
 

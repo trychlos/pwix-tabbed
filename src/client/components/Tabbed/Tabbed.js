@@ -217,7 +217,7 @@ Template.Tabbed.onCreated( function(){
     self.autorun(() => {
         const activeTab = self.TABBED.activeTab.get();
         const name = self.TABBED.tabbedName();
-        if(name && name.length && _.isFinite( activeTab )){
+        if( name && name.length && _.isFinite( activeTab )){
             sessionStorage.setItem( name+':activeTab', activeTab );
         }
     });
@@ -458,6 +458,15 @@ Template.Tabbed.events({
             } else if( data.attribute ){
                 instance.TABBED.activateByAttribute( data.attribute );
             }
+        }
+        return false;
+    },
+
+    // a request to re-send the same activation event
+    'tabbed-do-activate-same .tabbed-template'( event, instance, data ){
+        if( data.tabbedId === instance.TABBED.myId ){
+            console.debug( 'tabbed-do-activate-same' );
+            instance.TABBED.activateByIndex( instance.TABBED.activeTab.get());
         }
         return false;
     },

@@ -104,6 +104,7 @@ The component handles following events:
 - `tabbed-do-activate`, data={ tabbedId, label } ask to activate the tab by its current nav label
 - `tabbed-do-activate`, data={ tabbedId, name } ask to activate the tab by its name
 - `tabbed-do-activate`, data={ tabbedId, attribute } ask to activate the tab by the specified nav attribute
+- `tabbed-do-activate-same`, data={ tabbedId } ask to re-send the activation event on the same tab
 - `tabbed-do-enable`, data={ tabbedId, index, enabled } ask to enable/disable the tab by its index
 - `tabbed-do-enable`, data={ tabbedId, label, enabled } ask to enable/disable the tab by its current nav label
 - `tabbed-do-enable`, data={ tabbedId, name, enabled } ask to enable/disable the tab by its name
