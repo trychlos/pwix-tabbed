@@ -1,0 +1,13 @@
+<template name="pane">
+    <div class="tabbed-panes" data-tabbed-id="{{ myId }}">
+        <div class="tab-content {{ navClasses }}">
+            {{#each it in tabs }}
+                {{#if hasTemplate it }}
+                    <div class="tab-pane fade" id="{{ it.TABBED.paneid }}" role="tabpanel" aria-labelledby="{{ it.TABBED.tabid }}" tabindex="0" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">
+                        {{> Template.dynamic template=(paneTemplate it) data=(paneData it) }}
+                    </div>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+</template>

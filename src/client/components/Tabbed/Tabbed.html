@@ -5,23 +5,23 @@
             <div class="tabbed-consistent-height">
                 {{#if posTop }}
                     <div class="tabbed-navs-encloser">
-                        {{> coreTabbedTemplate_nav (parmsSubs) }}
+                        {{> nav (parmsSubs) }}
                     </div>
                     <div class="tabbed-panes-encloser">
-                        {{> coreTabbedTemplate_pane (parmsSubs) }}
+                        {{> pane (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                 {{else}}
                     <div class="tabbed-panes-encloser">
-                        {{> coreTabbedTemplate_pane (parmsSubs) }}
+                        {{> pane (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                     <div class="tabbed-navs-encloser">
-                        {{> coreTabbedTemplate_nav (parmsSubs) }}
+                        {{> nav (parmsSubs) }}
                     </div>
                 {{/if}}
             </div>
@@ -29,60 +29,27 @@
             <div class="tabbed-consistent-width">
                 {{#if posLeft }}
                     <div class="tabbed-navs-encloser">
-                        {{> coreTabbedTemplate_nav (parmsSubs) }}
+                        {{> nav (parmsSubs) }}
                     </div>
                     <div class="tabbed-panes-encloser">
-                        {{> coreTabbedTemplate_pane (parmsSubs) }}
+                        {{> pane (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                 {{else}}
                     <div class="tabbed-panes-encloser">
-                        {{> coreTabbedTemplate_pane (parmsSubs) }}
+                        {{> pane (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                     <div class="tabbed-navs-encloser">
-                        {{> coreTabbedTemplate_nav (parmsSubs) }}
+                        {{> nav (parmsSubs) }}
                     </div>
                 {{/if}}
             </div>
         {{/if}}
 
-    </div>
-</template>
-
-<template name="coreTabbedTemplate_nav">
-    <div class="tabbed-navs" data-tabbed-id="{{ myId }}">
-        <ul class="nav nav-tabs {{ navClasses }}" role="tablist">
-            {{#each it in tabs }}
-                <li class="nav-item {{ itemClasses it }}" role="presentation" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">
-                    {{#if hasLabel it }}
-                        <button class="nav-link {{ linkClasses it }}" id="{{ it.TABBED.tabid }}" data-tabbed-index="{{ it.TABBED.index }}" data-bs-toggle="tab" data-bs-target="#{{ it.TABBED.paneid }}" type="button" role="tab" aria-controls="{{ it.TABBED.paneid }}" aria-selected="{{ ariaSelected it }}">
-                            {{{ navLabel it }}}
-                        </button>
-                    {{/if}}
-                    {{#if hasTemplate it }}
-                        {{> Template.dynamic template=(navTemplate it) data=(navData it) }}
-                    {{/if}}
-                </li>
-            {{/each}}
-        </ul>
-    </div>
-</template>
-
-<template name="coreTabbedTemplate_pane">
-    <div class="tabbed-panes" data-tabbed-id="{{ myId }}">
-        <div class="tab-content {{ navClasses }}">
-            {{#each it in tabs }}
-                {{#if hasTemplate it }}
-                    <div class="tab-pane fade" id="{{ it.TABBED.paneid }}" role="tabpanel" aria-labelledby="{{ it.TABBED.tabid }}" tabindex="0" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">
-                        {{> Template.dynamic template=(paneTemplate it) data=(paneData it) }}
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
     </div>
 </template>

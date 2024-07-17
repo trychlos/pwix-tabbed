@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Split nav and pane components on their own source files
 
 ### 1.2.0
 
