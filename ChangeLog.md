@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.1-rc
+### 1.2.1
 
-    Release date: 
+    Release date: 2024- 7-18
 
     - Split nav and pane components on their own source files
     - Remove unused data context parameter when initializing the tabs
@@ -36,4 +36,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jul. 11th
+- Last updated on 2024, Jul. 18th
