@@ -55,7 +55,7 @@ Template.Tabbed.onCreated( function(){
         // return the tab definition by its name, or null
         byName( name ){
             let found = null;
-            self.TABBED.tabs().every(( tab ) => {
+            self.TABBED.tabs.get().every(( tab ) => {
                 if( tab.name === name ){
                     found = tab;
                 }
@@ -127,7 +127,7 @@ Template.Tabbed.onCreated( function(){
 
         // returns the list of tabs
         //  we only regenerate an identifier if the tab was not already present
-        getTabs( dataContext ){
+        initTabs( dataContext ){
             const o = ( dataContext || Template.currentData()).tabs;
             const tabs = _.isFunction( o ) ? o() : o;
             // index and identify each tab
@@ -205,30 +205,44 @@ Template.Tabbed.onCreated( function(){
 
     // compute the nav position
     self.autorun(() => {
-        console.debug( Template.currentData());
-        self.TABBED.navPosition.set( Template.currentData().navPosition || 'top' );
+        const dataContext = Template.currentData();
+        if( dataContext ){
+            self.TABBED.navPosition.set( dataContext.navPosition || 'top' );
+        }
     });
 
     // track last active tab from session storage
     self.autorun(() => {
-        const name = self.TABBED.tabbedName();
-        if( name && name.length ){
-            self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
+        const dataContext = Template.currentData();
+        if( dataContext ){
+            const name = self.TABBED.tabbedName();
+            if( name && name.length ){
+                self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
+            }
         }
     });
 
     // make sure session storage is updated each time the active tab changes
     self.autorun(() => {
-        const activeTab = self.TABBED.activeTab.get();
-        const name = self.TABBED.tabbedName();
-        if( name && name.length && _.isFinite( activeTab )){
-            sessionStorage.setItem( name+':activeTab', activeTab );
+        const dataContext = Template.currentData();
+        if( dataContext ){
+            const activeTab = self.TABBED.activeTab.get();
+            const name = self.TABBED.tabbedName();
+            if( name && name.length && _.isFinite( activeTab )){
+                sessionStorage.setItem( name+':activeTab', activeTab );
+            }
         }
     });
 
-    // reactively build the tabs
+    // reactively (re-)build the tabs
     self.autorun(() => {
-        self.TABBED.tabs.set( self.TABBED.dump( 'build', self.TABBED.getTabs()));
+        const dataContext = Template.currentData();
+        if( dataContext ){
+            //if( self.view.isRendered ){
+            //    self.$( '.tabbed-template' ).children().remove();
+            //}
+            self.TABBED.tabs.set( self.TABBED.dump( 'build', self.TABBED.initTabs()));
+        }
     });
 });
 
@@ -265,12 +279,32 @@ Template.Tabbed.onRendered( function(){
 
     // track the tabs changes and trigger an event
     self.autorun(() => {
-        if( self.TABBED.tabs.get()){
+        const dataContext = Template.currentData();
+        if( dataContext && self.TABBED.tabs.get().length ){
             self.$( '.tabbed-template' ).trigger( 'tabbed-changed', {
                 tabbedId: self.TABBED.myId,
                 tabbedName: self.TABBED.tabbedName(),
                 $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.myId+'"]' )
             });
+        }
+    });
+
+    // track the count of tabs
+    //  a debug message when working on dynamically removable tabs
+    self.autorun(() => {
+        if( false ){
+            const dataContext = Template.currentData();
+            const tabs = self.TABBED.tabs.get();
+            if( dataContext ){
+                if( Object.keys( self.TABBED ).includes( 'prevCount' )){
+                    if( self.TABBED.prevCount !== tabs.length ){
+                        console.debug( 'tabs count change from', self.TABBED.prevCount, 'to', tabs.length );
+                    } else {
+                        console.debug( 'autorun WITHOUT tabs count change' );
+                    }
+                }
+                self.TABBED.prevCount = tabs.length;
+            }
         }
     });
 });

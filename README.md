@@ -128,7 +128,15 @@ We dynamically allocate random identifiers for:
 
 - the `Tabbed` parent component itself, advertized as 'data-tabbed-id' in the DOM, and as `tabbedId` in events and children data contexts
 
-- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as `tabbedTabId` in children data contexts
+- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as `tabbedTabId` in children data contexts.
+
+##### Dynamically removing tabs
+
+When dynamically removing tabs, because you have provided less tabs in the `Tabbed` data context, uou should be conscious that Blaze introduces somes asynchronicities, and that - as such - the to-be-removed tab helpers will still be re-run before the view be actually destroyed.
+
+When using such a feature, you should take care of protecting your code by checking that the tabs are still alive.
+
+See, for example, `pwix:validity`.
 
 ## Configuration
 
