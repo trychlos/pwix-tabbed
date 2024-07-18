@@ -81,14 +81,14 @@ It accepts following parameters:
 
 - `name`: if set, the name used to read/write active tab into/from local storage, or a function which returns such a name
 
-- `navPosition`: may be 'bottom', 'top', 'left' or 'right'
+- `navPosition`: may be 'bottom', 'top', 'left' or 'right',
     defaulting to 'top'
 
-- `navClasses`: classes to be added to each ul.nav element
+- `navClasses`: classes to be added to each `ul.nav` element
 
-- `navItemClasses`: classes to be added to each li.nav-item element
+- `navItemClasses`: classes to be added to each `li.nav-item` element
 
-- `navLinkClasses`: classes to be added to each button.nav-link element
+- `navLinkClasses`: classes to be added to each `button.nav-link` element
 
 - `paneSubTemplate`: if set, the name of a template to add below the panes
 
@@ -125,8 +125,10 @@ The component triggers following events:
 ##### Identifiers management
 
 We dynamically allocate random identifiers for:
-- the `Tabbed` component, advertized as 'data-tabbed-id' in the DOM, and as 'tabbedId' in children data contexts
-- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as 'tabbedTabId' in children data contexts
+
+- the `Tabbed` parent component itself, advertized as 'data-tabbed-id' in the DOM, and as `tabbedId` in events and children data contexts
+
+- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as `tabbedTabId` in children data contexts
 
 ## Configuration
 
@@ -152,9 +154,11 @@ Known configuration options are:
 
         Trace all functions calls
 
+    Defaults to `Tabbed.C.Verbose.CONFIGURE`.
+
 Please note that `Tabbed.configure()` method should be called in the same terms both in client and server sides.
 
-Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Addtionnal calls to `Tabbed.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
+Remind too that Meteor packages are instanciated at application level. They are so only configurable once, or, in other words, only one instance has to be or can be configured. Additionnal calls to `Tabbed.configure()` will just override the previous one. You have been warned: **only the application should configure a package**.
 
 `Tabbed.configure()` is a reactive data source.
 
@@ -182,9 +186,9 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ## Cookies and comparable technologies
 
-`pwix:tabbed` may use `localStorage` to record ...
+On named tabs, `pwix:tabbed` uses `sessionStorage` to record the last activated tab.
 
-Because this is dynamically done on a per dialog basis, and only on the caller request, the package doesn't advertize of this use, relying on the caller own declaration.
+Because this is dynamically done on a per tabbed display unit basis, and only if this later is named, the package doesn't advertize of this use, relying on the caller own declaration.
 
 ## Issues & help
 

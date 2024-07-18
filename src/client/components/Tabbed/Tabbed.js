@@ -205,6 +205,7 @@ Template.Tabbed.onCreated( function(){
 
     // compute the nav position
     self.autorun(() => {
+        console.debug( Template.currentData());
         self.TABBED.navPosition.set( Template.currentData().navPosition || 'top' );
     });
 
