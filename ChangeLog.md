@@ -7,6 +7,7 @@
     Release date: 
 
     - Split nav and pane components on their own source files
+    - Remove unused data context parameter when initializing the tabs
 
 ### 1.2.0
 

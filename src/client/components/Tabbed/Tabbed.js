@@ -127,9 +127,10 @@ Template.Tabbed.onCreated( function(){
 
         // returns the list of tabs
         //  we only regenerate an identifier if the tab was not already present
-        initTabs( dataContext ){
-            const o = ( dataContext || Template.currentData()).tabs;
-            const tabs = _.isFunction( o ) ? o() : o;
+        initTabs(){
+            let tabs = Template.currentData().tabs;
+            tabs = _.isFunction( tabs ) ? tabs() : tabs;
+            //console.debug( 'initTabs', tabs );
             // index and identify each tab
             for( let i=0 ; i<tabs.length ; ++i ){
                 if( !tabs[i].TABBED ){
