@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.2.2-rc
+### 1.2.2
 
-    Release date: 
+    Release date: 2024- 8-14
 
     - Have a debug helper
     - Fix vertical tabbed stylesheet
@@ -43,4 +43,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Jul. 18th
+- Last updated on 2024, Aug. 14th
