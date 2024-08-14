@@ -311,6 +311,10 @@ Template.Tabbed.onRendered( function(){
 });
 
 Template.Tabbed.helpers({
+    // debug the used path
+    debugThis(){
+        console.debug( 'debugThis', this );
+    },
     // make the div height 100% when position is horizontal
     classes(){
         return Template.instance().TABBED.isHorizontal() ? '' : 'tabbed-h100';
@@ -336,6 +340,7 @@ Template.Tabbed.helpers({
     },
     // have a dynamic template
     parmsSubPane(){
+        console.debug( 'parmsSubPane', this );
         return this.paneSubTemplate;
     },
     // provides the tabs list

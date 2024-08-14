@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Have a debug helper
 
 ### 1.2.1
 
