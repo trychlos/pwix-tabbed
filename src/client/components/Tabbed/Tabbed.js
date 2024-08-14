@@ -340,7 +340,6 @@ Template.Tabbed.helpers({
     },
     // have a dynamic template
     parmsSubPane(){
-        console.debug( 'parmsSubPane', this );
         return this.paneSubTemplate;
     },
     // provides the tabs list
