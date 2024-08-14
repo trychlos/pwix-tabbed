@@ -52,13 +52,13 @@
     .tabbed-navs-encloser > .tabbed-navs > .nav-bottom {
         border-bottom: 0;
         border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
-        .nav-link {
-            --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 0.5em;
-            border-bottom-right-radius: 0.5em;
-        }
+    }
+    .tabbed-navs-encloser > .tabbed-navs > .nav-bottom > li > .nav-link {
+        --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0.5em;
+        border-bottom-right-radius: 0.5em;
     }
     // have some space between tabs and panes
     .tabbed-navs {
@@ -108,13 +108,13 @@
     .tabbed-navs-encloser.nav-left {
         margin-right: 0.75em;
         border-right: 1px solid lightgray;
-        .nav-link {
-            border-right: 0;
-            --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
-            border-top-left-radius: 0.375em;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 0.375em;
-            border-bottom-right-radius: 0em;
-        }
+    }
+    .tabbed-navs-encloser > .tabbed-navs > .nav-left > li > .nav-link {
+        border-right: 0;
+        --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
+        border-top-left-radius: 0.375em;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0.375em;
+        border-bottom-right-radius: 0em;
     }
 }

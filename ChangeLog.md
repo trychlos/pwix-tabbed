@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Make the stylesheet more precise to not override over links
 
 ### 1.2.2
 
