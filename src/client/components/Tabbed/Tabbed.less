@@ -5,6 +5,7 @@
 .tabbed-template {
     height: 100%;
 
+    // horizontal (top or bottom) position
     // navs and panes
     // have panes 100% height of the visual parent
     .tabbed-consistent-height {
@@ -33,7 +34,6 @@
             }
         }
     }
-
     // have a consistent height between the tabs
     // https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tab-panes
     // and https://observablehq.com/@rkaravia/css-trick-tabs-with-consistent-height
@@ -48,16 +48,6 @@
         visibility: visible;
         z-index: 0;
     }
-
-    .nav-left.noborder {
-        border: 0;
-        .nav-link.active {
-            border: 0;
-        }
-        .nav-link:hover {
-            border-color: transparent;
-        }
-    }
     // when we want have tabs on the bottom of the panel
     .tabbed-navs-encloser > .tabbed-navs > .nav-bottom {
         border-bottom: 0;
@@ -70,6 +60,18 @@
             border-bottom-right-radius: 0.5em;
         }
     }
+    // have some space between tabs and panes
+    .tabbed-navs {
+        .nav-top {
+            margin-bottom: 0.5em;
+        }
+        .nav-bottom {
+
+        }
+    }
+
+    // vertical (left or right) position
+    // navs and panes
     .tabbed-consistent-width {
         height: 100%;
         display: flex;
@@ -78,10 +80,13 @@
     .tabbed-consistent-width > .tabbed-navs-encloser > .tabbed-navs > ul {
         display: flex;
         flex-direction: column;
+        border: 0;
         .nav-item {
             white-space: nowrap;
-            margin-right: 0.5em;
         }
+    }
+    .tabbed-consistent-width > .tabbed-navs-encloser > .tabbed-navs > ul > li > button {
+        width: 100%;
     }
     // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container
     .tabbed-consistent-width > .tabbed-panes-encloser {
@@ -99,19 +104,17 @@
     .tabbed-consistent-width > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .tab-pane {
         height: 100%;
     }
-    // have some space between tabs and panes
-    .tabbed-navs {
-        .nav-top {
-            margin-bottom: 0.5em;
-        }
-        .nav-bottom {
-
-        }
-        .nav-left {
-
-        }
-        .nav-right {
-
+    // when we want have tabs on the left of the panel
+    .tabbed-navs-encloser.nav-left {
+        margin-right: 0.75em;
+        border-right: 1px solid lightgray;
+        .nav-link {
+            border-right: 0;
+            --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
+            border-top-left-radius: 0.375em;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0.375em;
+            border-bottom-right-radius: 0em;
         }
     }
 }

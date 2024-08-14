@@ -7,6 +7,7 @@
     Release date: 
 
     - Have a debug helper
+    - Fix vertical tabbed stylesheet
 
 ### 1.2.1
 

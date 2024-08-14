@@ -327,6 +327,10 @@ Template.Tabbed.helpers({
     myId(){
         return Template.instance().TABBED.myId;
     },
+    // additional classes for the .tabbed-navs-encloser element
+    navPosition(){
+        return 'nav-'+Template.instance().TABBED.navPosition.get();
+    },
     // provide dynamic data context
     parmsSubData(){
         //return this.paneSubData || this;
