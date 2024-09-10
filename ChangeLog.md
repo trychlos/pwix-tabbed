@@ -2,11 +2,13 @@
 
 ## ChangeLog
 
-### 1.2.3-rc
+### 1.3.0-rc
 
     Release date: 
 
     - Make the stylesheet more precise to not override over links
+    - Introduce Tabbed.Instance class, thus bumping minor candidate version number
+    - Introduce Tabbed.C.Position constants
 
 ### 1.2.2
 

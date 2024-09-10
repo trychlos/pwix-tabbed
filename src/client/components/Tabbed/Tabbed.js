@@ -9,8 +9,8 @@ import _ from 'lodash';
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import '../nav/nav.js';
-import '../pane/pane.js';
+import '../navs/navs.js';
+import '../panes/panes.js';
 
 import './Tabbed.html';
 import './Tabbed.less';
@@ -19,28 +19,30 @@ Template.Tabbed.onCreated( function(){
     const self = this;
 
     self.TABBED = {
-        myId: 'tabbed-'+Random.id(),
+        // the Tabbed.Instance
+        instance: new ReactiveVar( null ),
+
+
         tabs: new ReactiveVar( [], _.isEqual ),
-        navPosition: new ReactiveVar( null ),
         activeTab: new ReactiveVar( 0 ),
 
         // activate a tab by a nav attribute specified as { name: value }
         activateByAttribute( attribute ){
             const key = Object.keys( attribute )[0];
             const value = attribute[key];
-            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link['+key+'="'+value+'"]' ).data( 'tabbed-index' );
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link['+key+'="'+value+'"]' ).data( 'tabbed-index' );
             self.TABBED.activateByIndex( index );
         },
 
         // activate a tab by its index
         activateByIndex( index ){
             //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
-            self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
+            self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
         },
 
         // activate a tab by its current nav label
         activateByLabel( label ){
-            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link :contains("'+label+'")' ).data( 'tabbed-index' );
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link :contains("'+label+'")' ).data( 'tabbed-index' );
             self.TABBED.activateByIndex( index );
         },
 
@@ -91,13 +93,13 @@ Template.Tabbed.onCreated( function(){
         enableByAttribute( attribute, enabled ){
             const key = Object.keys( attribute )[0];
             const value = attribute[key];
-            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link['+key+'="'+value+'"]' ).data( 'tabbed-index' );
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link['+key+'="'+value+'"]' ).data( 'tabbed-index' );
             self.TABBED.enableByIndex( index, enabled );
         },
 
         // enable/disable a tab by its index
         enableByIndex( index, enabled ){
-            const $nav = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link[data-tabbed-index="'+index+'"]' )
+            const $nav = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' )
             if( enabled ){
                 $nav.removeClass( 'disabled' );
             } else {
@@ -107,7 +109,7 @@ Template.Tabbed.onCreated( function(){
 
         // enable/disable a tab by its current nav label
         enableByLabel( label, enabled ){
-            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link :contains("'+label+'")' ).data( 'tabbed-index' );
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link :contains("'+label+'")' ).data( 'tabbed-index' );
             self.TABBED.enableByIndex( index, enabled );
         },
 
@@ -122,7 +124,7 @@ Template.Tabbed.onCreated( function(){
         // returns the jQuery objects which correspond to the first child of each pane
         //  (which is expected to be the application component for the pane)
         firstPaneChildren(){
-            return self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.myId+'"] > * > * > * > * > .tab-pane > :first-child' );
+            return self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > * > .tab-pane > :first-child' );
         },
 
         // returns the list of tabs
@@ -149,8 +151,8 @@ Template.Tabbed.onCreated( function(){
 
         // whether navs are horizontally oriented ?
         isHorizontal(){
-            const pos = self.TABBED.navPosition.get();
-            return pos === 'top' || pos === 'bottom';
+            const pos = self.TABBED.instance.get().navPosition();
+            return pos === Tabbed.C.Position.TOP || pos === Tabbed.C.Position.BOTTOM;
         },
 
         // returns the tab label
@@ -168,17 +170,11 @@ Template.Tabbed.onCreated( function(){
             return _.toString( _.isFunction( tab.tabName ) ? tab.name() : tab.tabName );
         },
 
-        // returns the name associated with this tabbed template
-        tabbedName(){
-            const a = Template.currentData().name;
-            return _.toString( _.isFunction( a ) ? a() : a );
-        },
-
         // advertize the child panes of a tab transition
         //  it is expected the event will bubble up to here and to our parents
         tabTransition( event, $targets, current, field, related ){
             const myid = self.$( current ).closest( '.tabbed-navs' ).data( 'tabbed-id' );
-            if( myid === self.TABBED.myId ){
+            if( myid === self.TABBED.instance.get().id() ){
                 const tabid = self.$( current ).prop( 'id' );
                 const found = self.TABBED.byTabId( tabid );
                 if( found ){
@@ -187,7 +183,7 @@ Template.Tabbed.onCreated( function(){
                     // advertize all direct .tab-pane's children
                     const data = {
                         tabbedId: myid,
-                        tabbedName: self.TABBED.tabbedName(),
+                        tabbedName: self.TABBED.instance.get().name(),
                         tab: { ...found }
                     };
                     // search the related tab if any
@@ -204,19 +200,21 @@ Template.Tabbed.onCreated( function(){
         }
     };
 
-    // compute the nav position
+    // get the component name, maybe generating a random one
+    // get the named instance, maybe allocating one if not yet exist
     self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( dataContext ){
-            self.TABBED.navPosition.set( dataContext.navPosition || 'top' );
-        }
+        let name = Template.currentData().name;
+        name = _.toString( name ? ( _.isFunction( name ) ? name() : name ) : 'name-'+Random.id());
+        Template.currentData().name = Template.currentData().name || name;
+        const instance = Tabbed.instanceNames[name] || new Tabbed.Instance( self, Template.currentData());
+        self.TABBED.instance.set( instance );
     });
 
     // track last active tab from session storage
     self.autorun(() => {
         const dataContext = Template.currentData();
         if( dataContext ){
-            const name = self.TABBED.tabbedName();
+            const name = self.TABBED.instance.get().name();
             if( name && name.length ){
                 self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
             }
@@ -228,7 +226,7 @@ Template.Tabbed.onCreated( function(){
         const dataContext = Template.currentData();
         if( dataContext ){
             const activeTab = self.TABBED.activeTab.get();
-            const name = self.TABBED.tabbedName();
+            const name = self.TABBED.instance.get().name();
             if( name && name.length && _.isFinite( activeTab )){
                 sessionStorage.setItem( name+':activeTab', activeTab );
             }
@@ -252,9 +250,9 @@ Template.Tabbed.onRendered( function(){
 
     // advertize of our creation
     self.$( '.tabbed-template' ).trigger( 'tabbed-rendered', {
-        tabbedId: self.TABBED.myId,
-        tabbedName: self.TABBED.tabbedName(),
-        $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.myId+'"]' )
+        tabbedId: self.TABBED.instance.get().id(),
+        tabbedName: self.TABBED.instance.get().name(),
+        $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
     });
 
     // set the attributes on nav-link's if asked for
@@ -283,9 +281,9 @@ Template.Tabbed.onRendered( function(){
         const dataContext = Template.currentData();
         if( dataContext && self.TABBED.tabs.get().length ){
             self.$( '.tabbed-template' ).trigger( 'tabbed-changed', {
-                tabbedId: self.TABBED.myId,
-                tabbedName: self.TABBED.tabbedName(),
-                $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.myId+'"]' )
+                tabbedId: self.TABBED.instance.get().id(),
+                tabbedName: self.TABBED.instance.get().name(),
+                $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
             });
         }
     });
@@ -323,13 +321,9 @@ Template.Tabbed.helpers({
     haveSubPane(){
         return this.paneSubTemplate?.length > 0;
     },
-    // an identifier of this tabbed template
-    myId(){
-        return Template.instance().TABBED.myId;
-    },
     // additional classes for the .tabbed-navs-encloser element
     navPosition(){
-        return 'nav-'+Template.instance().TABBED.navPosition.get();
+        return 'nav-'+Template.instance().TABBED.instance.get().navPosition();
     },
     // provide dynamic data context
     parmsSubData(){
@@ -357,10 +351,18 @@ Template.Tabbed.helpers({
         return Template.instance().TABBED.isHorizontal();
     },
     posLeft(){
-        return Template.instance().TABBED.navPosition.get() === 'left';
+        return Template.instance().TABBED.instance.get().navPosition() === Tabbed.C.Position.LEFT;
     },
     posTop(){
-        return Template.instance().TABBED.navPosition.get() === 'top';
+        return Template.instance().TABBED.instance.get().navPosition() === Tabbed.C.Position.TOP;
+    },
+    // the identifier of this tabbed template
+    tabbedId(){
+        return Template.instance().TABBED.instance.get().id();
+    },
+    // the name of this tabbed template
+    tabbedName(){
+        return Template.instance().TABBED.instance.get().name();
     }
 });
 
@@ -392,7 +394,7 @@ Template.Tabbed.events({
 
     // a request to activate a tab
     'tabbed-do-activate .tabbed-template'( event, instance, data ){
-        if( data.tabbedId === instance.TABBED.myId ){
+        if( data.tabbedId === instance.TABBED.instance.get().id()){
             if( _.isNumber( data.index )){
                 instance.TABBED.activateByIndex( data.index );
             } else if( data.label ){
@@ -408,7 +410,7 @@ Template.Tabbed.events({
 
     // a request to re-send the same activation event
     'tabbed-do-activate-same .tabbed-template'( event, instance, data ){
-        if( data.tabbedId === instance.TABBED.myId ){
+        if( data.tabbedId === instance.TABBED.instance.get().id()){
             console.debug( 'tabbed-do-activate-same' );
             instance.TABBED.activateByIndex( instance.TABBED.activeTab.get());
         }
@@ -417,7 +419,7 @@ Template.Tabbed.events({
 
     // a request to enable/disable a tab
     'tabbed-do-enable .tabbed-template'( event, instance, data ){
-        if( data.tabbedId === instance.TABBED.myId ){
+        if( data.tabbedId === instance.TABBED.instance.get().id()){
             if( _.isNumber( data.index )){
                 instance.TABBED.enableByIndex( data.index, data.enabled );
             } else if( data.label ){

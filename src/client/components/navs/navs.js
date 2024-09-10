@@ -1,14 +1,14 @@
 /*
- * pwix:tabbed/src/client/components/nav/nav.js
+ * pwix:tabbed/src/client/components/navs/navs.js
  *
  * see README
  */
 
 import _ from 'lodash';
 
-import './nav.html';
+import './navs.html';
 
-Template.nav.helpers({
+Template.navs.helpers({
     // whether this tab defaults to be visible at loading time ?
     ariaSelected( it ){
         return it.TABBED.index === this.TABBED.activeTab.get() ? 'true' : 'false';
@@ -43,13 +43,9 @@ Template.nav.helpers({
         }
         return classes.join( ' ' );
     },
-    // an identifier of this tabbed template
-    myId(){
-        return this.TABBED.myId;
-    },
     // additional classes for the .nav element
     navClasses(){
-        let str = 'nav-'+this.TABBED.navPosition.get();
+        let str = 'nav-'+this.TABBED.instance.get().navPosition();
         if( this.dataContext.navClasses ){
             str += ' '+this.dataContext.navClasses;
         }
@@ -60,7 +56,7 @@ Template.nav.helpers({
         const o = _.isFunction( it.navData ) ? it.navData() : it.navData;
         return {
             ...o,
-            tabbedId: this.TABBED.myId,
+            tabbedId: this.TABBED.instance.get().id(),
             tabbedTabId: it.TABBED.id
         };
     },
@@ -71,6 +67,14 @@ Template.nav.helpers({
     // provides the template (if any) associated with this tab
     navTemplate( it ){
         return _.isFunction( it.navTemplate ) ? it.navTemplate() : it.navTemplate;
+    },
+    // the identifier of this tabbed template
+    tabbedId(){
+        return this.TABBED.instance.get().id();
+    },
+    // the name of this tabbed template
+    tabbedName(){
+        return this.TABBED.instance.get().name();
     },
     // returns the tabs list
     tabs(){

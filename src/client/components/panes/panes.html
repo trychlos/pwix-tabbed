@@ -1,5 +1,5 @@
-<template name="pane">
-    <div class="tabbed-panes" data-tabbed-id="{{ myId }}">
+<template name="panes">
+    <div class="tabbed-panes" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
         <div class="tab-content {{ navClasses }}">
             {{#each it in tabs }}
                 {{#if hasTemplate it }}

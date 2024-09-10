@@ -1,27 +1,27 @@
 <template name="Tabbed">
-    <div class="tabbed-template {{ classes }}" data-tabbed-id="{{ myId }}">
+    <div class="tabbed-template {{ classes }}" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
 
         {{#if posHorizontal }}
             <div class="tabbed-consistent-height">
                 {{#if posTop }}
-                    <div class="tabbed-navs-encloser">
-                        {{> nav (parmsSubs) }}
+                    <div class="tabbed-navs-encloser {{ navPosition }}">
+                        {{> navs (parmsSubs) }}
                     </div>
                     <div class="tabbed-panes-encloser">
-                        {{> pane (parmsSubs) }}
+                        {{> panes (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                 {{else}}
                     <div class="tabbed-panes-encloser">
-                        {{> pane (parmsSubs) }}
+                        {{> panes (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
-                    <div class="tabbed-navs-encloser">
-                        {{> nav (parmsSubs) }}
+                    <div class="tabbed-navs-encloser {{ navPosition }}">
+                        {{> navs (parmsSubs) }}
                     </div>
                 {{/if}}
             </div>
@@ -30,23 +30,23 @@
                 {{#if posLeft }}
                     <!-- {{ debugThis }} -->
                     <div class="tabbed-navs-encloser {{ navPosition }}">
-                        {{> nav (parmsSubs) }}
+                        {{> navs (parmsSubs) }}
                     </div>
                     <div class="tabbed-panes-encloser">
-                        {{> pane (parmsSubs) }}
+                        {{> panes (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                 {{else}}
                     <div class="tabbed-panes-encloser">
-                        {{> pane (parmsSubs) }}
+                        {{> panes (parmsSubs) }}
                         {{#if haveSubPane }}
                             {{> Template.dynamic template=(parmsSubPane) data=(parmsSubData) }}
                         {{/if}}
                     </div>
                     <div class="tabbed-navs-encloser {{ navPosition }}">
-                        {{> nav (parmsSubs) }}
+                        {{> navs (parmsSubs) }}
                     </div>
                 {{/if}}
             </div>

@@ -3,6 +3,13 @@
  */
 
 Tabbed.C = {
+    // nav position
+    Position: {
+        TOP:    'top',
+        RIGHT:  'right',
+        BOTTOM: 'bottom',
+        LEFT:   'left'
+    },
     // verbosity levels
     Verbose: {
         NONE: 0,

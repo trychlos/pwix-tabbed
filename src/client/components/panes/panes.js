@@ -1,25 +1,21 @@
 /*
- * pwix:tabbed/src/client/components/pane/pane.js
+ * pwix:tabbed/src/client/components/panes/panes.js
  *
  * see README
  */
 
 import _ from 'lodash';
 
-import './pane.html';
+import './panes.html';
 
-Template.pane.helpers({
+Template.panes.helpers({
     // whether we have something to display in this pane ?
     hasTemplate( it ){
         return this.TABBED.paneTemplate( it ).length > 0;
     },
-    // an identifier of this tabbed template
-    myId(){
-        return this.TABBED.myId;
-    },
     // reming to panes how are navs oriented
     navClasses(){
-        let str = 'nav-'+this.TABBED.navPosition.get();
+        let str = 'nav-'+this.TABBED.instance.get().navPosition();
         return str;
     },
     // provides the data associated to this template
@@ -27,13 +23,21 @@ Template.pane.helpers({
         const o = _.isFunction( it.paneData ) ? it.paneData() : it.paneData;
         return {
             ...o,
-            tabbedId: this.TABBED.myId,
+            tabbedId: this.TABBED.instance.get().id(),
             tabbedTabId: it.TABBED.id
         };
     },
     // provides the template associated with this pane
     paneTemplate( it ){
         return this.TABBED.paneTemplate( it );
+    },
+    // the identifier of this tabbed template
+    tabbedId(){
+        return this.TABBED.instance.get().id();
+    },
+    // the name of this tabbed template
+    tabbedName(){
+        return this.TABBED.instance.get().name();
     },
     // returns the tabs list
     tabs(){

@@ -1,5 +1,5 @@
-<template name="nav">
-    <div class="tabbed-navs" data-tabbed-id="{{ myId }}">
+<template name="navs">
+    <div class="tabbed-navs" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
         <ul class="nav nav-tabs {{ navClasses }}" role="tablist">
             {{#each it in tabs }}
                 <li class="nav-item {{ itemClasses it }}" role="presentation" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">
