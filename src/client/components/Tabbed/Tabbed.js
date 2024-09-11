@@ -46,39 +46,15 @@ Template.Tabbed.onCreated( function(){
 
         // activate a tab by its name
         activateByName( name ){
-            const found = self.TABBED.byName( name );
+            const found = self.TABBED.instance.get().tabByName( name );
             if( found ){
                 self.TABBED.activateByIndex( found.TABBED.index );
             }
         },
 
-        // return the tab definition by its name, or null
-        byName( name ){
-            let found = null;
-            self.TABBED.instance.get().tabs().every(( it ) => {
-                if( it.TABBED.tab.name() === name ){
-                    found = it;
-                }
-                return found === null;
-            });
-            return found;
-        },
-
         // return the tab definition by its nav-id, or null
         byNavId( id ){
-            return self.TABBED.byTabId( id.substr( 4 ));
-        },
-
-        // return the tab definition by its tab-id, or null
-        byTabId( id ){
-            let found = null;
-            self.TABBED.instance.get().tabs().every(( it ) => {
-                if( it.TABBED.tab.id() === id ){
-                    found = it;
-                }
-                return found === null;
-            });
-            return found;
+            return self.TABBED.instance.get().tabById( id.substr( 4 ));
         },
 
         // enable/disable a tab by a nav attribute specified as { name: value }
@@ -107,7 +83,7 @@ Template.Tabbed.onCreated( function(){
 
         // enable/disable a tab by its name
         enableByName( name, enabled ){
-            const found = self.TABBED.byName( name );
+            const found = self.TABBED.instance.get().tabByName( name );
             if( found ){
                 self.TABBED.enableByIndex( found.TABBED.index, enabled );
             }

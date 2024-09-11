@@ -115,6 +115,27 @@ export class Instance {
     }
 
     /**
+     * @param {String} the parameter name as a dotted string
+     * @returns {Any} the asked parameter
+     *  A reactive data source
+     */
+    get( name ){
+        const words = name.split( '.' );
+        if( words.length === 1 ){
+            if( _.isFunction( this[words[0]] )){
+                return this[words[0]]();
+            }
+        } else if( words.length === 3 && words[0] === 'tab' ){
+            const tab = this.tabByName( words[1] );
+            if( tab && _.isFunction( tab.TABBED.tab[words[2]] )){
+                return tab.TABBED.tab[words[2]]();
+            }
+        }
+        console.warn( 'pwix:tabbed.Instance() unable to get', name );
+        return null;
+    }
+
+    /**
      * @returns {Any} the unique id of this Tabbed component
      */
     id(){
@@ -231,6 +252,58 @@ export class Instance {
         }
         value = this.#paneSubTemplate.get();
         return _.isFunction( value ) ? value() : value;
+    }
+
+    /**
+     * @param {String} name the parameter as a dotted string
+     * @param {Any} value the value to be set
+     */
+    set( name, value ){
+        const words = name.split( '.' );
+        if( words.length === 1 ){
+            if( _.isFunction( this[words[0]] )){
+                return this[words[0]]( value );
+            }
+        } else if( words.length === 3 && words[0] === 'tab' ){
+            const tab = this.tabByName( words[1] );
+            if( tab && _.isFunction( tab.TABBED.tab[words[2]] )){
+                return tab.TABBED.tab[words[2]]( value );
+            }
+        }
+        console.warn( 'pwix:tabbed.Instance() unable to set', name, value );
+        return null;
+    }
+
+    /**
+     * @param {String} id
+     * @returns {Object} the identified tab
+     *  A reactive data source
+     */
+    tabById( id ){
+        let found = null;
+        this.tabs().every(( it ) => {
+            if( it.TABBED.tab.id() === id ){
+                found = it;
+            }
+            return !found;
+        });
+        return found;
+    }
+
+    /**
+     * @param {String} name
+     * @returns {Object} the named tab
+     *  A reactive data source
+     */
+    tabByName( name ){
+        let found = null;
+        this.tabs().every(( it ) => {
+            if( it.TABBED.tab.name() === name ){
+                found = it;
+            }
+            return !found;
+        });
+        return found;
     }
 
     /**

@@ -171,13 +171,9 @@ with:
 
 All above parameters can be specified either with the expected value, or with a function which returns such a value.
 
-###### Methods
-
-####### Tabbed.Instance.get( parm<String> )
+###### Tabbed.Instance.get( parm<String> )
 
 `parm` is a dotted-string with following structure:
-
-- name of the `Tabbed.Instance`
 
 - the parameter to be set, or `tab` to address a particular tab, or `tabs` to address all the tabs as a whole
 
@@ -185,11 +181,7 @@ All above parameters can be specified either with the expected value, or with a 
 
 - maybe the parameter to be set for this tab.
 
-####### Tabbed.Instance.set( parm<String>, value<Any> )
-
-####### Tabbed.Instance.enable()
-
-A shortcut for Tabbed.Instance.set( <tabbed_name>.tab.<tab_name>.enabled, true|false )
+###### Tabbed.Instance.set( parm<String>, value<Any> )
 
 #### Functions
 
