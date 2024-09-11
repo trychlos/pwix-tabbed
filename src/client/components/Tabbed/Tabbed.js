@@ -116,7 +116,7 @@ Template.Tabbed.onCreated( function(){
         // returns the jQuery objects which correspond to the first child of each pane
         //  (which is expected to be the application component for the pane)
         firstPaneChildren(){
-            return self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > * > .tab-pane > :first-child' );
+            return self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > * > .tab-pane > :first-child' );
         },
 
         // whether navs are horizontally oriented ?
@@ -207,10 +207,10 @@ Template.Tabbed.onRendered( function(){
     const self = this;
 
     // advertize of our creation
-    self.$( '.tabbed-template' ).trigger( 'tabbed-rendered', {
+    self.$( '.Tabbed' ).trigger( 'tabbed-rendered', {
         tabbedId: self.TABBED.instance.get().id(),
         tabbedName: self.TABBED.instance.get().name(),
-        $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
+        $tabbed: self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
     });
 
     // set the attributes on nav-link's if asked for
@@ -218,7 +218,7 @@ Template.Tabbed.onRendered( function(){
         self.TABBED.instance.get().tabs().forEach(( it ) => {
             const attributes = it.TABBED.tab.navAttributes();
             Object.keys( attributes ).forEach(( key ) => {
-                self.$( '.tabbed-template .nav-link#'+it.TABBED.tab.id()).attr( key, attributes[key] );
+                self.$( '.Tabbed .nav-link#'+it.TABBED.tab.id()).attr( key, attributes[key] );
             });
         });
     });
@@ -230,10 +230,10 @@ Template.Tabbed.onRendered( function(){
     // track the tabs changes and trigger an event
     self.autorun(() => {
         const tabs = self.TABBED.instance.get().tabs();
-        self.$( '.tabbed-template' ).trigger( 'tabbed-changed', {
+        self.$( '.Tabbed' ).trigger( 'tabbed-changed', {
             tabbedId: self.TABBED.instance.get().id(),
             tabbedName: self.TABBED.instance.get().name(),
-            $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
+            $tabbed: self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
         });
     });
 
@@ -305,33 +305,33 @@ Template.Tabbed.helpers({
 });
 
 Template.Tabbed.events({
-    // note that several tabbed-template may be imbricated - we must only deal with ours and not with those bubbling from lower tabbed-template's
+    // note that several Tabbed may be imbricated - we must only deal with ours and not with those bubbling from lower Tabbed's
     // hide.bs.tab is the first event triggered during the tab transition
     //  event.target and event.relatedTarget target the current active tab and the new-to-be-activated tab (if available) respectively
-    'hide.bs.tab .tabbed-template'( event, instance ){
+    'hide.bs.tab .Tabbed'( event, instance ){
         instance.TABBED.tabTransition( 'tabbed-pane-to-hide', instance.TABBED.firstPaneChildren(), event.target, 'next', event.relatedTarget );
     },
 
     // show.bs.tab is the second event triggered during the tab transition
     //  event.target and event.relatedTarget target the active tab and the previously active tab (if available) respectively
-    'show.bs.tab .tabbed-template'( event, instance ){
+    'show.bs.tab .Tabbed'( event, instance ){
         instance.TABBED.tabTransition( 'tabbed-pane-to-show', instance.TABBED.firstPaneChildren(), event.target, 'prev', event.relatedTarget );
     },
 
     // hidden.bs.tab is the last-but-one event triggered during the tab transition
     //  event.target and event.relatedTarget target the just hidden tab and the new-to-be-activated tab (if available) respectively
-    'hidden.bs.tab .tabbed-template'( event, instance ){
+    'hidden.bs.tab .Tabbed'( event, instance ){
         instance.TABBED.tabTransition( 'tabbed-pane-hidden', instance.TABBED.firstPaneChildren(), event.target, 'next', event.relatedTarget );
     },
 
     // shown.bs.tab is the last event triggered during the tab transition
     //  event.target and event.relatedTarget target the active tab and the previously active tab (if available) respectively
-    'shown.bs.tab .tabbed-template'( event, instance ){
+    'shown.bs.tab .Tabbed'( event, instance ){
         instance.TABBED.tabTransition( 'tabbed-pane-shown', instance.TABBED.firstPaneChildren(), event.target, 'prev', event.relatedTarget );
     },
 
     // a request to activate a tab
-    'tabbed-do-activate .tabbed-template'( event, instance, data ){
+    'tabbed-do-activate .Tabbed'( event, instance, data ){
         //console.debug( event.type, instance, data );
         if( data.tabbedId === instance.TABBED.instance.get().id()){
             if( _.isNumber( data.index )){
@@ -352,7 +352,7 @@ Template.Tabbed.events({
     },
 
     // a request to re-send the same activation event
-    'tabbed-do-activate-same .tabbed-template'( event, instance, data ){
+    'tabbed-do-activate-same .Tabbed'( event, instance, data ){
         if( data.tabbedId === instance.TABBED.instance.get().id()){
             console.debug( 'tabbed-do-activate-same' );
             instance.TABBED.activateByIndex( instance.TABBED.activeTab.get());
@@ -360,7 +360,7 @@ Template.Tabbed.events({
     },
 
     // a request to enable/disable a tab
-    'tabbed-do-enable .tabbed-template'( event, instance, data ){
+    'tabbed-do-enable .Tabbed'( event, instance, data ){
         if( data.tabbedId === instance.TABBED.instance.get().id()){
             if( _.isNumber( data.index )){
                 instance.TABBED.enableByIndex( data.index, data.enabled );

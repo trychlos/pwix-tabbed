@@ -9,6 +9,7 @@
     - Make the stylesheet more precise to not override over links
     - Introduce Tabbed.Instance class, thus bumping minor candidate version number
     - Introduce Tabbed.C.Position constants
+    - Rename tabbed-template topmost class to Tabbed
 
 ### 1.2.2
 
