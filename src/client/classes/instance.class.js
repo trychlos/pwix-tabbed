@@ -42,7 +42,7 @@ export class Instance {
      * @constructor
      * @param {Blaze.TemplateInstance} view
      * @param {ReactiveVar} o
-     * @returns {Instance} this instance
+     * @returns {Tabbed.Instance} this instance
      */
     constructor( view, o ){
         assert( view && view instanceof Blaze.TemplateInstance, 'pwix:tabbed.Instance() expects a Blaze.TemplateInstance argument, got '+view );

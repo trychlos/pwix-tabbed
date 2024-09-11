@@ -113,7 +113,7 @@ export class Tab {
      * @returns {Object} the nav element attributes
      */
     navLabel(){
-        let value = this.#args.navLabel || {};
+        let value = this.#args.navLabel || '';
         return _.isFunction( value ) ? value() : value;
     }
 
