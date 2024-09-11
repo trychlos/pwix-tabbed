@@ -11,25 +11,32 @@ import './panes.html';
 Template.panes.helpers({
     // whether we have something to display in this pane ?
     hasTemplate( it ){
-        return this.TABBED.paneTemplate( it ).length > 0;
-    },
-    // reming to panes how are navs oriented
-    navClasses(){
-        let str = 'nav-'+this.TABBED.instance.get().navPosition();
-        return str;
+        return Boolean( it.TABBED.tab.paneTemplate());
     },
     // provides the data associated to this template
     paneData( it ){
-        const o = _.isFunction( it.paneData ) ? it.paneData() : it.paneData;
+        const dc = it.TABBED.tab.paneData();
         return {
-            ...o,
+            ...dc,
             tabbedId: this.TABBED.instance.get().id(),
-            tabbedTabId: it.TABBED.id
+            tabbedTabId: it.TABBED.tab.id()
         };
+    },
+    // the pane-identifier of this tab
+    paneId( it ){
+        return it.TABBED.tab.paneId();
     },
     // provides the template associated with this pane
     paneTemplate( it ){
-        return this.TABBED.paneTemplate( it );
+        return it.TABBED.tab.paneTemplate();
+    },
+    // the identifier of this tab
+    tabId( it ){
+        return it.TABBED.tab.id();
+    },
+    // the name of this tab
+    tabName( it ){
+        return it.TABBED.tab.name();
     },
     // the identifier of this tabbed template
     tabbedId(){
@@ -41,6 +48,6 @@ Template.panes.helpers({
     },
     // returns the tabs list
     tabs(){
-        return this.TABBED.tabs.get();
+        return this.TABBED.instance.get().tabs();
     }
 });

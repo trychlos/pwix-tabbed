@@ -21,9 +21,7 @@ Template.Tabbed.onCreated( function(){
     self.TABBED = {
         // the Tabbed.Instance
         instance: new ReactiveVar( null ),
-
-
-        tabs: new ReactiveVar( [], _.isEqual ),
+        // the current active tab index
         activeTab: new ReactiveVar( 0 ),
 
         // activate a tab by a nav attribute specified as { name: value }
@@ -36,7 +34,7 @@ Template.Tabbed.onCreated( function(){
 
         // activate a tab by its index
         activateByIndex( index ){
-            //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.myId+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
+            //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
             self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
         },
 
@@ -57,36 +55,30 @@ Template.Tabbed.onCreated( function(){
         // return the tab definition by its name, or null
         byName( name ){
             let found = null;
-            self.TABBED.tabs.get().every(( tab ) => {
-                if( tab.name === name ){
-                    found = tab;
+            self.TABBED.instance.get().tabs().every(( it ) => {
+                if( it.TABBED.tab.name() === name ){
+                    found = it;
                 }
                 return found === null;
             });
             return found;
+        },
+
+        // return the tab definition by its nav-id, or null
+        byNavId( id ){
+            return self.TABBED.byTabId( id.substr( 4 ));
         },
 
         // return the tab definition by its tab-id, or null
         byTabId( id ){
             let found = null;
-            self.TABBED.tabs.get().every(( tab ) => {
-                if( tab.TABBED.tabid === id ){
-                    found = tab;
+            self.TABBED.instance.get().tabs().every(( it ) => {
+                if( it.TABBED.tab.id() === id ){
+                    found = it;
                 }
                 return found === null;
             });
             return found;
-        },
-
-        // dump the tabs array, returning this same tabs array to allow chaining
-        dump( orig, tabs ){
-            if( 0 ){
-                tabs.every(( t ) => {
-                    console.debug( orig, t.TABBED );
-                    return true;
-                });
-            }
-            return tabs;
         },
 
         // enable/disable a tab by a nav attribute specified as { name: value }
@@ -127,28 +119,6 @@ Template.Tabbed.onCreated( function(){
             return self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > * > .tab-pane > :first-child' );
         },
 
-        // returns the list of tabs
-        //  we only regenerate an identifier if the tab was not already present
-        initTabs(){
-            let tabs = Template.currentData().tabs;
-            tabs = _.isFunction( tabs ) ? tabs() : tabs;
-            //console.debug( 'initTabs', tabs );
-            // index and identify each tab
-            for( let i=0 ; i<tabs.length ; ++i ){
-                if( !tabs[i].TABBED ){
-                    const id = Random.id();
-                    tabs[i].TABBED = {
-                        id: id,
-                        tabid: 'tabbed-t-'+id,
-                        paneid: 'tabbed-p-'+id,
-                        name: self.TABBED.tabName( tabs[i] )
-                    };
-                }
-                tabs[i].TABBED.index = i;
-            }
-            return( tabs );
-        },
-
         // whether navs are horizontally oriented ?
         isHorizontal(){
             const pos = self.TABBED.instance.get().navPosition();
@@ -160,23 +130,13 @@ Template.Tabbed.onCreated( function(){
             return _.toString( _.isFunction( tab.navLabel ) ? tab.navLabel() : tab.navLabel );
         },
 
-        // returns the pane template
-        paneTemplate( tab ){
-            return _.toString( _.isFunction( tab.paneTemplate ) ? tab.paneTemplate() : tab.paneTemplate );
-        },
-
-        // returns the tab name
-        tabName( tab ){
-            return _.toString( _.isFunction( tab.tabName ) ? tab.name() : tab.tabName );
-        },
-
         // advertize the child panes of a tab transition
         //  it is expected the event will bubble up to here and to our parents
         tabTransition( event, $targets, current, field, related ){
             const myid = self.$( current ).closest( '.tabbed-navs' ).data( 'tabbed-id' );
             if( myid === self.TABBED.instance.get().id() ){
-                const tabid = self.$( current ).prop( 'id' );
-                const found = self.TABBED.byTabId( tabid );
+                const navid = self.$( current ).prop( 'id' );
+                const found = self.TABBED.byNavId( navid );
                 if( found ){
                     // update the active tab for next reload and HMR
                     self.TABBED.activeTab.set( found.TABBED.index );
@@ -187,60 +147,58 @@ Template.Tabbed.onCreated( function(){
                         tab: { ...found }
                     };
                     // search the related tab if any
-                    const relatedTab = self.TABBED.byTabId( self.$( related ).prop( 'id' ));
                     if( field && related ){
+                        const relatedTab = self.TABBED.byNavId( self.$( related ).prop( 'id' ));
                         data[field] = { ...relatedTab };
                     }
                     //console.debug( 'trigerring', event, data, $targets );
                     $targets.trigger( event, data );
                 } else {
-                    console.warn( 'myId', myid, 'tabid not found', tabid );
+                    console.warn( 'myId', myid, 'navid not found', navid );
                 }
             }
         }
     };
 
-    // get the component name, maybe generating a random one
+    // non reactively get the component name, maybe generating a random one
     // get the named instance, maybe allocating one if not yet exist
+    let name = this.data.name;
+    const isNamed = Boolean( name );
+    name = _.toString( name ? ( _.isFunction( name ) ? name() : name ) : 'name-'+Random.id());
+    this.data.name = this.data.name || name;
+    let instance = Tabbed.instanceNames[name];
+    const previouslyExisted = Boolean( instance );
+    let dataContext = null;
+    if( !previouslyExisted ){
+        dataContext = new ReactiveVar( this.data, _.isEqual );
+    }
+    instance = instance || new Tabbed.Instance( self, dataContext );
+    self.TABBED.instance.set( instance );
+
+    // track data context changes if not previously existed
+    // i.e. if we have created the Tabbed.Instance from the data context to get upward compatibility
     self.autorun(() => {
-        let name = Template.currentData().name;
-        name = _.toString( name ? ( _.isFunction( name ) ? name() : name ) : 'name-'+Random.id());
-        Template.currentData().name = Template.currentData().name || name;
-        const instance = Tabbed.instanceNames[name] || new Tabbed.Instance( self, Template.currentData());
-        self.TABBED.instance.set( instance );
+        if( !previouslyExisted ){
+            dataContext.set( Template.currentData());
+        }
     });
 
     // track last active tab from session storage
+    //  requires the Tabbed be explicitely named and the behaviour allowed
     self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( dataContext ){
-            const name = self.TABBED.instance.get().name();
-            if( name && name.length ){
-                self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
-            }
+        if( isNamed && self.TABBED.instance.get().activateLastTab()){
+            self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
         }
     });
 
     // make sure session storage is updated each time the active tab changes
     self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( dataContext ){
+        if( isNamed && self.TABBED.instance.get().activateLastTab()){
             const activeTab = self.TABBED.activeTab.get();
             const name = self.TABBED.instance.get().name();
-            if( name && name.length && _.isFinite( activeTab )){
+            if( _.isFinite( activeTab )){
                 sessionStorage.setItem( name+':activeTab', activeTab );
             }
-        }
-    });
-
-    // reactively (re-)build the tabs
-    self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( dataContext ){
-            //if( self.view.isRendered ){
-            //    self.$( '.tabbed-template' ).children().remove();
-            //}
-            self.TABBED.tabs.set( self.TABBED.dump( 'build', self.TABBED.initTabs()));
         }
     });
 });
@@ -257,18 +215,11 @@ Template.Tabbed.onRendered( function(){
 
     // set the attributes on nav-link's if asked for
     self.autorun(() => {
-        self.TABBED.tabs.get().every(( tab ) => {
-            if( tab.navAttributes ){
-                const o = tab.navAttributes;
-                const oo = _.isFunction( o ) ? o() : o;
-                if( oo ){
-                    Object.keys( oo ).every(( key ) => {
-                        self.$( '.tabbed-template .nav-link#'+tab.TABBED.tabid ).attr( key, oo[key] );
-                        return true;
-                    });
-                }
-            }
-            return true;
+        self.TABBED.instance.get().tabs().forEach(( it ) => {
+            const attributes = it.TABBED.tab.navAttributes();
+            Object.keys( attributes ).forEach(( key ) => {
+                self.$( '.tabbed-template .nav-link#'+it.TABBED.tab.id()).attr( key, attributes[key] );
+            });
         });
     });
 
@@ -278,48 +229,39 @@ Template.Tabbed.onRendered( function(){
 
     // track the tabs changes and trigger an event
     self.autorun(() => {
-        const dataContext = Template.currentData();
-        if( dataContext && self.TABBED.tabs.get().length ){
-            self.$( '.tabbed-template' ).trigger( 'tabbed-changed', {
-                tabbedId: self.TABBED.instance.get().id(),
-                tabbedName: self.TABBED.instance.get().name(),
-                $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
-            });
-        }
+        const tabs = self.TABBED.instance.get().tabs();
+        self.$( '.tabbed-template' ).trigger( 'tabbed-changed', {
+            tabbedId: self.TABBED.instance.get().id(),
+            tabbedName: self.TABBED.instance.get().name(),
+            $tabbed: self.$( '.tabbed-template[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
+        });
     });
 
     // track the count of tabs
     //  a debug message when working on dynamically removable tabs
     self.autorun(() => {
         if( false ){
-            const dataContext = Template.currentData();
-            const tabs = self.TABBED.tabs.get();
-            if( dataContext ){
-                if( Object.keys( self.TABBED ).includes( 'prevCount' )){
-                    if( self.TABBED.prevCount !== tabs.length ){
-                        console.debug( 'tabs count change from', self.TABBED.prevCount, 'to', tabs.length );
-                    } else {
-                        console.debug( 'autorun WITHOUT tabs count change' );
-                    }
+            const tabs = self.TABBED.instance.get().tabs();
+            if( Object.keys( self.TABBED ).includes( 'prevCount' )){
+                if( self.TABBED.prevCount !== tabs.length ){
+                    console.debug( 'tabs count change from', self.TABBED.prevCount, 'to', tabs.length );
+                } else {
+                    console.debug( 'autorun WITHOUT tabs count change' );
                 }
-                self.TABBED.prevCount = tabs.length;
             }
+            self.TABBED.prevCount = tabs.length;
         }
     });
 });
 
 Template.Tabbed.helpers({
-    // debug the used path
-    debugThis(){
-        console.debug( 'debugThis', this );
-    },
     // make the div height 100% when position is horizontal
     classes(){
         return Template.instance().TABBED.isHorizontal() ? '' : 'tabbed-h100';
     },
     // whether we have a sub-pane ?
     haveSubPane(){
-        return this.paneSubTemplate?.length > 0;
+        return Boolean( Template.instance().TABBED.instance.get().paneSubTemplate());
     },
     // additional classes for the .tabbed-navs-encloser element
     navPosition(){
@@ -327,20 +269,16 @@ Template.Tabbed.helpers({
     },
     // provide dynamic data context
     parmsSubData(){
-        //return this.paneSubData || this;
-        let o = null;
-        if( this.paneSubData ){
-            o = _.isFunction( this.paneSubData ) ? this.paneSubData() : this.paneSubData;
-        } else {
-            o = this;
-        }
-        return o;
+        //console.debug( 'paneSubData', Template.instance().TABBED.instance.get().paneSubData());
+        //console.debug( 'dataContext', Template.instance().TABBED.instance.get().dataContext());
+        //console.debug( 'this', this );
+        return Template.instance().TABBED.instance.get().paneSubData() || Template.instance().TABBED.instance.get().dataContext() || this;
     },
     // have a dynamic template
     parmsSubPane(){
-        return this.paneSubTemplate;
+        return Template.instance().TABBED.instance.get().paneSubTemplate();
     },
-    // provides the tabs list
+    // provides a data context to each nav and pane component
     parmsSubs(){
         return {
             TABBED: Template.instance().TABBED,
@@ -394,6 +332,7 @@ Template.Tabbed.events({
 
     // a request to activate a tab
     'tabbed-do-activate .tabbed-template'( event, instance, data ){
+        //console.debug( event.type, instance, data );
         if( data.tabbedId === instance.TABBED.instance.get().id()){
             if( _.isNumber( data.index )){
                 instance.TABBED.activateByIndex( data.index );
@@ -403,9 +342,13 @@ Template.Tabbed.events({
                 instance.TABBED.activateByName( data.name );
             } else if( data.attribute ){
                 instance.TABBED.activateByAttribute( data.attribute );
+            } else {
+                console.warn( 'doesn\'t know what to activate', data );
             }
+        //} else {
+        //    console.debug( 'data.tabbedId', data.tabbedId );
+        //    console.debug( 'instance.TABBED.instance.get().id()', instance.TABBED.instance.get().id() );
         }
-        return false;
     },
 
     // a request to re-send the same activation event
@@ -414,7 +357,6 @@ Template.Tabbed.events({
             console.debug( 'tabbed-do-activate-same' );
             instance.TABBED.activateByIndex( instance.TABBED.activeTab.get());
         }
-        return false;
     },
 
     // a request to enable/disable a tab
@@ -430,6 +372,5 @@ Template.Tabbed.events({
                 instance.TABBED.enableByAttribute( data.attribute, data.enabled );
             }
         }
-        return false;
     }
 });

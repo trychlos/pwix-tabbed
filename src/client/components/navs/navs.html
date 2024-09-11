@@ -2,9 +2,9 @@
     <div class="tabbed-navs" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
         <ul class="nav nav-tabs {{ navClasses }}" role="tablist">
             {{#each it in tabs }}
-                <li class="nav-item {{ itemClasses it }}" role="presentation" data-tabbed-tab-id="{{ it.TABBED.id }}" data-tabbed-tab-name="{{ it.TABBED.name }}">
+                <li class="nav-item {{ itemClasses it }}" role="presentation" data-tabbed-tab-id="{{ tabId it }}" data-tabbed-tab-name="{{ tabName it }}">
                     {{#if hasLabel it }}
-                        <button class="nav-link {{ linkClasses it }}" id="{{ it.TABBED.tabid }}" data-tabbed-index="{{ it.TABBED.index }}" data-bs-toggle="tab" data-bs-target="#{{ it.TABBED.paneid }}" type="button" role="tab" aria-controls="{{ it.TABBED.paneid }}" aria-selected="{{ ariaSelected it }}">
+                        <button class="nav-link {{ linkClasses it }}" id="{{ navId it }}" data-tabbed-index="{{ it.TABBED.index }}" data-bs-toggle="tab" data-bs-target="#{{ paneId it }}" type="button" role="tab" aria-controls="{{ paneId it }}" aria-selected="{{ ariaSelected it }}">
                             {{{ navLabel it }}}
                         </button>
                     {{/if}}

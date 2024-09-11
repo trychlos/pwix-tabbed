@@ -53,24 +53,24 @@ Each instance must be uniquely named, and will be used to define and interact wi
 The class can be instanciated as:
 
 ```js
-    new Tabbed.Instance( this<BlazeInstance> [, parms<Object> ] ) : Tabbed.Instance;
+    new Tabbed.Instance( this<BlazeInstance> [, parms<ReactiveVar> ] ) : Tabbed.Instance;
 ```
 
 with:
 
 - `this`: the current Blaze.TemplateInstance instance
 
-- `parms`: an options object with following keys:
+- `parms`: a mandatory ReactiveVar which contains an options object with following keys:
 
     - `name`
     
         The name which uniquely identifies this Tabbed instance at runtime
 
-        This name is mandatory, and let us uniquely associate the `Tabbed.Instance` instance with the Blaze component view. This is the mechanism which let instance methods interact with the UI.
+        This name is mandatory, and let us uniquely associate the `Tabbed.Instance` instance with the Blaze component view. This is the mechanism which let instance methods interact with the UI. It is non-reactively read from the template data context at creation time.
 
     - `dataContext`
 
-        A common data context to be passed to all templates.
+        An optional common data context to be passed to all templates.
 
     - `activateLastTab`
 
@@ -107,7 +107,7 @@ with:
 
     - `paneSubTemplate`
     
-        The name of a Blaze template to be added to the `panes` at the opposite of the `navs`.
+        The name of a Blaze template to be added to the bottom of the `panes`.
 
     - `paneSubData`
     
@@ -115,7 +115,7 @@ with:
     
     - `tabs`
 
-        An array with the initial list of tabs.
+        An optional array with the initial list of tabs.
 
         Each tab is defined with an object with following keys:
 
@@ -123,9 +123,7 @@ with:
 
             The optional name of the tab.
 
-            If not provided, the `Tabbed.Instance` will generate a random name for the tab.
-
-            Corresponding `nav` and `pane` names and ids will be derived from this name.
+            Defaults to paneTemplate name.
 
             Though all randomly generated names can be later be got by the application, this may be rather cumbersome. We strongly suggest to attribute a name to all tabs you want explicitely manage.
 
@@ -149,7 +147,7 @@ with:
 
         - `navData`
         
-            An optional data context specific to be passed to the above `navTemplate`.
+            An optional data context specific to be passed to the above `navTemplate`, defaulting to Tabbed data context.
 
         - `navItemClasses`
         
@@ -168,6 +166,8 @@ with:
         - `paneData`
         
             An optional data context to be passed to the above `paneTemplate`.
+
+        `Tabbed` generates a unique random identifier for each tab, which is derived both in the nav and pane parts.
 
 All above parameters can be specified either with the expected value, or with a function which returns such a value.
 
@@ -213,9 +213,9 @@ It accepts following parameters:
 
 - `name`
 
-    An optional name which may address , or just name this `Tabbed` component
+    An optional name
 
-    If the name actually addresses an instanciated `Tabbed.Instance`, then all parameters are taken from the named instance, and other parameters passed in the component data context are just ignored.
+    If the name actually addresses an already instanciated `Tabbed.Instance`, then all parameters are taken from the named instance, and other parameters passed in the component data context are just ignored.
 
 If the name doesn't address any `Tabbed.Instance`, or the component is not named, then all parameters accepted at `Tabbed.Instance` class instanciation can be provided as the component data context.
 
@@ -225,6 +225,8 @@ This `Tabbed` component increases the data context passed to navTemplate's and p
 
 - `tabbedId`: the identifier of the 'Tabbed' component
 - `tabbedTabId`: the identifier of each tab, same whether we display a nav-link or a tab-pane
+
+#### Events
 
 The component handles following events:
 - `tabbed-do-activate`, data={ tabbedId, index } ask to activate the tab by its index
@@ -239,14 +241,21 @@ The component handles following events:
    where 'tabbed' is expected to be the internal identifier of this tabbed template
 
 The component triggers following events:
+
 - on itself (and bubble up to the parents)
-    - `tabbed-rendered`, data={ tabbedId, tabbedName, $tabbed } when the Tabbed component is rendered
+
+    - `tabbed-rendered`, data={ tabbedId, tabbedName, $tabbed } when the Tabbed component has been rendered
+
     - `tabbed-changed`, data={ tabbedId, tabbedName, $tabbed } when the tabs population has changed
 
-- on every .tab-pane first child
+- on every `.tab-pane` first child, which happens to be the topmost component of the pane template:
+
     - `tabbed-pane-to-hide`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when about to leave a tab
+
     - `tabbed-pane-to-show`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a new tab is about to be shown
+
     - `tabbed-pane-hidden`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when a tab has left
+
     - `tabbed-pane-shown`, data={ tabbedId, tabbedName, tab:<tab_object>, prev:<tab_object> } when a tab has been shown
 
 ##### Identifiers management
@@ -259,7 +268,7 @@ We dynamically allocate random identifiers for:
 
 ##### Dynamically removing tabs
 
-When dynamically removing tabs, because you have provided less tabs in the `Tabbed` data context, uou should be conscious that Blaze introduces somes asynchronicities, and that - as such - the to-be-removed tab helpers will still be re-run before the view be actually destroyed.
+When dynamically removing tabs, because you have provided less tabs in the `Tabbed` data context, you should be conscious that Blaze introduces somes asynchronicities, and that - as such - the to-be-removed tab helpers will still be re-run before the view be actually destroyed.
 
 When using such a feature, you should take care of protecting your code by checking that the tabs are still alive.
 
