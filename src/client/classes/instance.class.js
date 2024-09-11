@@ -59,21 +59,26 @@ export class Instance {
         // register this name in the global client repository
         Tabbed.instanceNames[this.name()] = this;
 
+        let prev = null;
         // set up individual parameters for this Tabbed instance
         view.autorun(() => {
             const opts = o.get();
-            if( Object.keys( opts ).includes( 'activateLastTab' )){
-                self.activateLastTab( opts.activateLastTab );
+            //console.debug( 'prev', prev, 'opts', opts, 'isEqual', _.isEqual( prev, opts ));
+            if( !_.isEqual( prev, opts )){
+                prev = opts;
+                if( Object.keys( opts ).includes( 'activateLastTab' )){
+                    self.activateLastTab( opts.activateLastTab );
+                }
+                self.dataContext( opts.dataContext );
+                self.navClasses( opts.navClasses || '' );
+                self.navItemClasses( opts.navItemClasses || '' );
+                self.navLinkClasses( opts.navLinkClasses || '' );
+                self.navPosition( opts.navPosition || Tabbed.C.Position.TOP );
+                self.paneClasses( opts.paneClasses || '' );
+                self.paneSubData( opts.paneSubData );
+                self.paneSubTemplate( opts.paneSubTemplate );
+                self.tabs( opts.tabs || [] );
             }
-            self.dataContext( opts.dataContext );
-            self.navClasses( opts.navClasses || '' );
-            self.navItemClasses( opts.navItemClasses || '' );
-            self.navLinkClasses( opts.navLinkClasses || '' );
-            self.navPosition( opts.navPosition || Tabbed.C.Position.TOP );
-            self.paneClasses( opts.paneClasses || '' );
-            self.paneSubData( opts.paneSubData );
-            self.paneSubTemplate( opts.paneSubTemplate );
-            self.tabs( opts.tabs || [] );
         });
 
         // allocates a unique id for this Tabbed component
@@ -92,8 +97,9 @@ export class Instance {
     activateLastTab( value ){
         if( value !== undefined ){
             this.#activateLastTab.set( value );
+        } else {
+            value = this.#activateLastTab.get();
         }
-        value = this.#activateLastTab.get();
         if( value === null ){
             value = true;
         }
@@ -109,8 +115,9 @@ export class Instance {
     dataContext( value ){
         if( value ){
             this.#dataContext.set( value );
+        } else {
+            value = this.#dataContext.get();
         }
-        value = this.#dataContext.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -151,8 +158,9 @@ export class Instance {
     name( value ){
         if( value ){
             this.#name.set( value );
+        } else {
+            value = this.#name.get();
         }
-        value = this.#name.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -165,8 +173,9 @@ export class Instance {
     navClasses( value ){
         if( value !== undefined ){
             this.#navClasses.set( value );
+        } else {
+            value = this.#navClasses.get();
         }
-        value = this.#navClasses.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -179,8 +188,9 @@ export class Instance {
     navItemClasses( value ){
         if( value !== undefined ){
             this.#navItemClasses.set( value );
+        } else {
+            value = this.#navItemClasses.get();
         }
-        value = this.#navItemClasses.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -193,8 +203,9 @@ export class Instance {
     navLinkClasses( value ){
         if( value !== undefined ){
             this.#navLinkClasses.set( value );
+        } else {
+            value = this.#navLinkClasses.get();
         }
-        value = this.#navLinkClasses.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -207,8 +218,9 @@ export class Instance {
     navPosition( value ){
         if( value ){
             this.#navPosition.set( value );
+        } else {
+            value = this.#navPosition.get();
         }
-        value = this.#navPosition.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -221,8 +233,9 @@ export class Instance {
     paneClasses( value ){
         if( value !== undefined ){
             this.#paneClasses.set( value );
+        } else {
+            value = this.#paneClasses.get();
         }
-        value = this.#paneClasses.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -235,8 +248,9 @@ export class Instance {
     paneSubData( value ){
         if( value ){
             this.#paneSubData.set( value );
+        } else {
+            value = this.#paneSubData.get();
         }
-        value = this.#paneSubData.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -249,8 +263,9 @@ export class Instance {
     paneSubTemplate( value ){
         if( value ){
             this.#paneSubTemplate.set( value );
+        } else {
+            value = this.#paneSubTemplate.get();
         }
-        value = this.#paneSubTemplate.get();
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -287,6 +302,20 @@ export class Instance {
             }
             return !found;
         });
+        return found;
+    }
+
+    /**
+     * @param {Integer} index
+     * @returns {Object} the identified tab
+     *  A reactive data source
+     */
+    tabByIndex( index ){
+        let found = null;
+        const tabs = this.tabs();
+        if( index >= 0 && index < tabs.length ){
+            found = tabs[index];
+        }
         return found;
     }
 

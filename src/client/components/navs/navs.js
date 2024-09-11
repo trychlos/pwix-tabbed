@@ -33,6 +33,9 @@ Template.navs.helpers({
         let classes = [];
         classes.push( this.TABBED.instance.get().navLinkClasses());
         classes.push( it.TABBED.tab.navLinkClasses());
+        if( !it.TABBED.tab.enabled()){
+            classes.push( 'disabled' );
+        }
         return classes.join( ' ' );
     },
     // additional classes for the .nav element

@@ -22,6 +22,7 @@ export class Tab {
 
     // runtime
     #id = null;
+    #enabled = new ReactiveVar( null );
 
     // private methods
 
@@ -36,6 +37,14 @@ export class Tab {
         const self = this;
 
         this.#id = Random.id();
+
+        if( Object.keys( o ).includes( 'enabled' )){
+            this.enabled( o.enabled );
+        } else {
+            this.enabled( true );
+        }
+
+        //console.debug( 'instanciating tab', o );
     
         return this;
     }
@@ -48,10 +57,16 @@ export class Tab {
     }
 
     /**
-     * @returns {String} the tab name, defaulting to tab template
+     * Getter/Setter
+     * @param {Boolean|Function} value
+     * @returns {Boolean} whether the tab is enabled
+     *  A reactive data source
      */
-    enabled(){
-        let value = Object.keys( this.#args ).includes( 'enabled' ) ? this.#args.enabled : true;
+    enabled( value ){
+        if( value !== undefined ){
+            this.#enabled.set( value );
+        }
+        value = this.#enabled.get();
         return Boolean( _.isFunction( value ) ? value() : value );
     }
 

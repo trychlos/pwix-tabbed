@@ -67,11 +67,9 @@ Template.Tabbed.onCreated( function(){
 
         // enable/disable a tab by its index
         enableByIndex( index, enabled ){
-            const $nav = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' )
-            if( enabled ){
-                $nav.removeClass( 'disabled' );
-            } else {
-                $nav.addClass( 'disabled' );
+            const found = self.TABBED.instance.get().tabByIndex( index );
+            if( found ){
+                found.TABBED.tab.enabled( enabled );
             }
         },
 
@@ -130,7 +128,7 @@ Template.Tabbed.onCreated( function(){
                     //console.debug( 'trigerring', event, data, $targets );
                     $targets.trigger( event, data );
                 } else {
-                    console.warn( 'myId', myid, 'navid not found', navid );
+                    console.warn( 'myId', myid, 'navid not found', navid, self );
                 }
             }
         }
@@ -143,21 +141,14 @@ Template.Tabbed.onCreated( function(){
     name = _.toString( name ? ( _.isFunction( name ) ? name() : name ) : 'name-'+Random.id());
     this.data.name = this.data.name || name;
     let instance = Tabbed.instanceNames[name];
-    const previouslyExisted = Boolean( instance );
-    let dataContext = null;
-    if( !previouslyExisted ){
-        dataContext = new ReactiveVar( this.data, _.isEqual );
-    }
-    instance = instance || new Tabbed.Instance( self, dataContext );
-    self.TABBED.instance.set( instance );
-
-    // track data context changes if not previously existed
-    // i.e. if we have created the Tabbed.Instance from the data context to get upward compatibility
-    self.autorun(() => {
-        if( !previouslyExisted ){
+    if( !instance ){
+        let dataContext = new ReactiveVar( this.data, _.isEqual );
+        self.autorun(() => {
             dataContext.set( Template.currentData());
-        }
-    });
+        });
+        instance = new Tabbed.Instance( self, dataContext );
+    }
+    self.TABBED.instance.set( instance );
 
     // track last active tab from session storage
     //  requires the Tabbed be explicitely named and the behaviour allowed

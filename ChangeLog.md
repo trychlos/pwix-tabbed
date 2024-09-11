@@ -10,6 +10,8 @@
     - Introduce Tabbed.Instance class, thus bumping minor candidate version number
     - Introduce Tabbed.C.Position constants
     - Rename tabbed-template topmost class to Tabbed
+    - Improve disabled links stylesheet
+    - Make tab enabled() a reactive data source
 
 ### 1.2.2
 
