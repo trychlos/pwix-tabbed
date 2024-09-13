@@ -41,20 +41,20 @@ export class Instance {
     /**
      * @constructor
      * @param {Blaze.TemplateInstance} view
-     * @param {ReactiveVar} o
+     * @param {ReactiveVar} opts
      * @returns {Tabbed.Instance} this instance
      */
-    constructor( view, o ){
+    constructor( view, opts ){
         assert( view && view instanceof Blaze.TemplateInstance, 'pwix:tabbed.Instance() expects a Blaze.TemplateInstance argument, got '+view );
-        assert( o && o instanceof ReactiveVar, 'pwix:tabbed.Instance() expects a ReactiveVar argument, got '+o );
-        assert( o.get().name && ( _.isString( o.get().name ) || _.isFunction( o.get().name )), 'pwix:tabbed.Instance() expects a name option, got '+o.get().name );
+        assert( opts && _.isObject( opts ), 'pwix:tabbed.Instance() expects a plain Javascript object, got '+opts );
+        assert( opts.name && ( _.isString( opts.name ) || _.isFunction( opts.name )), 'pwix:tabbed.Instance() expects a name option, got '+opts.name );
 
         this.#view = view;
-        this.#args = o;
+        this.#args = opts;
         const self = this;
 
         // non reactively get the name from arguments
-        this.name( o.get().name );
+        this.name( opts.name );
 
         // register this name in the global client repository
         Tabbed.instanceNames[this.name()] = this;
@@ -62,7 +62,6 @@ export class Instance {
         let prev = null;
         // set up individual parameters for this Tabbed instance
         view.autorun(() => {
-            const opts = o.get();
             //console.debug( 'prev', prev, 'opts', opts, 'isEqual', _.isEqual( prev, opts ));
             if( !_.isEqual( prev, opts )){
                 prev = opts;

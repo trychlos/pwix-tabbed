@@ -6,7 +6,8 @@
 
     Release date: 
 
-    - 
+    - No more use a ReactiveVar as an instanciation argument
+    - Fix re-use bug (izIAM #113)
 
 ### 1.3.0
 

@@ -142,11 +142,7 @@ Template.Tabbed.onCreated( function(){
     this.data.name = this.data.name || name;
     let instance = Tabbed.instanceNames[name];
     if( !instance ){
-        let dataContext = new ReactiveVar( this.data, _.isEqual );
-        self.autorun(() => {
-            dataContext.set( Template.currentData());
-        });
-        instance = new Tabbed.Instance( self, dataContext );
+        instance = new Tabbed.Instance( self, Template.currentData());
     }
     self.TABBED.instance.set( instance );
 
@@ -340,4 +336,8 @@ Template.Tabbed.events({
             }
         }
     }
+});
+
+Template.Tabbed.onDestroyed( function(){
+    delete Tabbed.instanceNames[this.TABBED.instance.get().name()];
 });

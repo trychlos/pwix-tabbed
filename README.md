@@ -53,14 +53,14 @@ Each instance must be uniquely named, and will be used to define and interact wi
 The class can be instanciated as:
 
 ```js
-    new Tabbed.Instance( this<BlazeInstance> [, parms<ReactiveVar> ] ) : Tabbed.Instance;
+    new Tabbed.Instance( this<BlazeInstance> [, parms<Object> ] ) : Tabbed.Instance;
 ```
 
 with:
 
 - `this`: the current Blaze.TemplateInstance instance
 
-- `parms`: a mandatory ReactiveVar which contains an options object with following keys:
+- `parms`: an options object with following keys:
 
     - `name`
     
