@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.3.0-rc
+### 1.3.0
 
-    Release date: 
+    Release date: 2024- 9-13
 
     - Make the stylesheet more precise to not override over links
     - Introduce Tabbed.Instance class, thus bumping minor candidate version number
@@ -54,4 +54,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Aug. 14th
+- Last updated on 2024, Sep. 13th
