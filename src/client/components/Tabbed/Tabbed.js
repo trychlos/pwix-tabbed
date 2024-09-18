@@ -233,7 +233,7 @@ Template.Tabbed.helpers({
     },
     // whether we have a sub-pane ?
     haveSubPane(){
-        console.debug( Template.instance().TABBED.instance.get());
+        //console.debug( Template.instance().TABBED.instance.get());
         return Boolean( Template.instance().TABBED.instance.get().paneSubTemplate());
     },
     // additional classes for the .tabbed-navs-encloser element
