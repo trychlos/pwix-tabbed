@@ -56,6 +56,16 @@ The class can be instanciated as:
     new Tabbed.Instance( this<BlazeInstance> [, parms<Object> ] ) : Tabbed.Instance;
 ```
 
+or, if you want more reactivity:
+
+```js
+    const instance = new Tabbed.Instance( this<BlazeInstance> { name: name<String> } ) : Tabbed.Instance;
+
+    this.autorun(() => {
+        instance.setDataContext( Template.currentData());
+    });
+```
+
 with:
 
 - `this`: the current Blaze.TemplateInstance instance
@@ -182,6 +192,10 @@ All above parameters can be specified either with the expected value, or with a 
 - maybe the parameter to be set for this tab.
 
 ###### Tabbed.Instance.set( parm<String>, value<Any> )
+
+###### Tabbed.Instance.setDataContext( parms<Object> )
+
+Let the caller reactively update the parameters of the `Tabbed` Blaze component.
 
 #### Functions
 

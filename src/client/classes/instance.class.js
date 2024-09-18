@@ -35,13 +35,32 @@ export class Instance {
     #paneSubData = new ReactiveVar( null );
     #paneSubTemplate = new ReactiveVar( null );
     #tabs = new ReactiveVar( null );
+    #prevParms = null;
 
     // private methods
+
+    _setParms( parms ){
+        if( !_.isEqual( this.#prevParms, parms )){
+            this.#prevParms = parms;
+            if( Object.keys( parms ).includes( 'activateLastTab' )){
+                this.activateLastTab( parms.activateLastTab );
+            }
+            this.dataContext( parms.dataContext );
+            this.navClasses( parms.navClasses || '' );
+            this.navItemClasses( parms.navItemClasses || '' );
+            this.navLinkClasses( parms.navLinkClasses || '' );
+            this.navPosition( parms.navPosition || Tabbed.C.Position.TOP );
+            this.paneClasses( parms.paneClasses || '' );
+            this.paneSubData( parms.paneSubData );
+            this.paneSubTemplate( parms.paneSubTemplate );
+            this.tabs( parms.tabs || [] );
+        }
+    }
 
     /**
      * @constructor
      * @param {Blaze.TemplateInstance} view
-     * @param {ReactiveVar} opts
+     * @param {Object} opts
      * @returns {Tabbed.Instance} this instance
      */
     constructor( view, opts ){
@@ -59,30 +78,14 @@ export class Instance {
         // register this name in the global client repository
         Tabbed.instanceNames[this.name()] = this;
 
-        let prev = null;
-        // set up individual parameters for this Tabbed instance
-        view.autorun(() => {
-            //console.debug( 'prev', prev, 'opts', opts, 'isEqual', _.isEqual( prev, opts ));
-            if( !_.isEqual( prev, opts )){
-                prev = opts;
-                if( Object.keys( opts ).includes( 'activateLastTab' )){
-                    self.activateLastTab( opts.activateLastTab );
-                }
-                self.dataContext( opts.dataContext );
-                self.navClasses( opts.navClasses || '' );
-                self.navItemClasses( opts.navItemClasses || '' );
-                self.navLinkClasses( opts.navLinkClasses || '' );
-                self.navPosition( opts.navPosition || Tabbed.C.Position.TOP );
-                self.paneClasses( opts.paneClasses || '' );
-                self.paneSubData( opts.paneSubData );
-                self.paneSubTemplate( opts.paneSubTemplate );
-                self.tabs( opts.tabs || [] );
-            }
-        });
-
         // allocates a unique id for this Tabbed component
         this.#id = 'tabbed-'+Random.id();
         //console.debug( 'instanciating', this.name(), this.id());
+
+        // setup the parms if they are provided here
+        if( Object.keys( opts ) > 1 ){
+            this._setParms( opts );
+        }
 
         return this;
     }
@@ -286,6 +289,14 @@ export class Instance {
         }
         console.warn( 'pwix:tabbed.Instance() unable to set', name, value );
         return null;
+    }
+
+    /**
+     * @summary Setup the Tabbed.Instance parameters (reactively called from Tabbed.js)
+     * @param {Object} dc the current data context
+     */
+    setDataContext( dc ){
+        this._setParms( dc );
     }
 
     /**

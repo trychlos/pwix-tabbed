@@ -141,10 +141,19 @@ Template.Tabbed.onCreated( function(){
     name = _.toString( name ? ( _.isFunction( name ) ? name() : name ) : 'name-'+Random.id());
     this.data.name = this.data.name || name;
     let instance = Tabbed.instanceNames[name];
+    const isInstanciated = Boolean( instance );
     if( !instance ){
-        instance = new Tabbed.Instance( self, Template.currentData());
+        instance = new Tabbed.Instance( self, { name: name });
     }
     self.TABBED.instance.set( instance );
+
+    // reactively update the data context if the Tabbed.Instance is just created and parms are passed with the Blaze component data context
+    // if the Tabbed.Instance has been previously instanciated, maybe with parms, it is the responsability of the caller to update these parms when needed
+    if( !isInstanciated ){
+        self.autorun(() => {
+            instance.setDataContext( Template.currentData());
+        });
+    }
 
     // track last active tab from session storage
     //  requires the Tabbed be explicitely named and the behaviour allowed
@@ -224,6 +233,7 @@ Template.Tabbed.helpers({
     },
     // whether we have a sub-pane ?
     haveSubPane(){
+        console.debug( Template.instance().TABBED.instance.get());
         return Boolean( Template.instance().TABBED.instance.get().paneSubTemplate());
     },
     // additional classes for the .tabbed-navs-encloser element

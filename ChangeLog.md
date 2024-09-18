@@ -2,12 +2,13 @@
 
 ## ChangeLog
 
-### 1.3.1-rc
+### 1.4.0-rc
 
     Release date: 
 
     - No more use a ReactiveVar as an instanciation argument
     - Fix re-use bug (izIAM #113)
+    - Introduce Tabbed.Instance.setDataContext() method to let the callers reactively updates the Tabbed parameters, thus bumping minor candidate version number
 
 ### 1.3.0
 
