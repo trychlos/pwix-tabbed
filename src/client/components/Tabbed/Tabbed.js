@@ -34,8 +34,13 @@ Template.Tabbed.onCreated( function(){
         },
 
         // activate a tab by its index
+        // try the previous tab if the requested one is disabled
         activateByIndex( index ){
             //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
+            let tab = self.TABBED.instance.get().tabByIndex( index );
+            if( !tab.TABBED.tab.enabled()){
+                index = index > 0 ? index-1 : index+1;
+            }
             self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
         },
 

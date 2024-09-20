@@ -10,6 +10,7 @@
     - Fix re-use bug (izIAM #113)
     - Introduce Tabbed.Instance.setTabbedParms() method to let the callers reactively updates the Tabbed parameters, thus bumping minor candidate version number
     - Fix data context transmission
+    - Fix first tab activation when it is disabled
 
 ### 1.3.0
 
