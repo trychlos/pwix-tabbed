@@ -45,7 +45,6 @@ export class Tab {
         }
 
         //console.debug( 'instanciating tab', o );
-    
         return this;
     }
 
@@ -90,7 +89,7 @@ export class Tab {
      * @returns {Object} the nav element data context
      */
     navData(){
-        let value = this.#args.navData || this.tabbed().dataContext();
+        let value = this.#args.navData || null;
         return _.isFunction( value ) ? value() : value;
     }
 
@@ -137,7 +136,7 @@ export class Tab {
      * @returns {Object} the nav element data context
      */
     paneData(){
-        let value = this.#args.paneData || this.tabbed().dataContext();
+        let value = this.#args.paneData || null;
         return _.isFunction( value ) ? value() : value;
     }
 

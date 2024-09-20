@@ -15,12 +15,12 @@ Template.panes.helpers({
     },
     // provides the data associated to this template
     paneData( it ){
-        const dc = it.TABBED.tab.paneData();
-        return {
-            ...dc,
+        let dc = it.TABBED.tab.paneData() || this.TABBED.instance.get().dataContext() || this.dataContext;
+        _.merge( dc, {
             tabbedId: this.TABBED.instance.get().id(),
             tabbedTabId: it.TABBED.tab.id()
-        };
+        });
+        return dc;
     },
     // the pane-identifier of this tab
     paneId( it ){

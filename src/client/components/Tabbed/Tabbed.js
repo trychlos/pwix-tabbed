@@ -17,6 +17,7 @@ import './Tabbed.less';
 
 Template.Tabbed.onCreated( function(){
     const self = this;
+    //console.debug( this );
 
     self.TABBED = {
         // the Tabbed.Instance
@@ -151,7 +152,7 @@ Template.Tabbed.onCreated( function(){
     // if the Tabbed.Instance has been previously instanciated, maybe with parms, it is the responsability of the caller to update these parms when needed
     if( !isInstanciated ){
         self.autorun(() => {
-            instance.setDataContext( Template.currentData());
+            instance.setTabbedParms( Template.currentData());
         });
     }
 

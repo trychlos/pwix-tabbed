@@ -41,6 +41,7 @@ export class Instance {
 
     _setParms( parms ){
         if( !_.isEqual( this.#prevParms, parms )){
+            //console.debug( 'setParms', parms );
             this.#prevParms = parms;
             if( Object.keys( parms ).includes( 'activateLastTab' )){
                 this.activateLastTab( parms.activateLastTab );
@@ -295,7 +296,7 @@ export class Instance {
      * @summary Setup the Tabbed.Instance parameters (reactively called from Tabbed.js)
      * @param {Object} dc the current data context
      */
-    setDataContext( dc ){
+    setTabbedParms( dc ){
         this._setParms( dc );
     }
 

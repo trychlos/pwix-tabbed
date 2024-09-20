@@ -8,7 +8,8 @@
 
     - No more use a ReactiveVar as an instanciation argument
     - Fix re-use bug (izIAM #113)
-    - Introduce Tabbed.Instance.setDataContext() method to let the callers reactively updates the Tabbed parameters, thus bumping minor candidate version number
+    - Introduce Tabbed.Instance.setTabbedParms() method to let the callers reactively updates the Tabbed parameters, thus bumping minor candidate version number
+    - Fix data context transmission
 
 ### 1.3.0
 

@@ -50,134 +50,131 @@ Each instance must be uniquely named, and will be used to define and interact wi
 
 ###### Instanciation
 
-The class can be instanciated as:
+The class must be instanciated with its name, then feed with its data context, as:
 
 ```js
-    new Tabbed.Instance( this<BlazeInstance> [, parms<Object> ] ) : Tabbed.Instance;
-```
+    const tabbed = new Tabbed.Instance( this<BlazeInstance>, { name: name<String|Function> });
 
-or, if you want more reactivity:
-
-```js
-    const instance = new Tabbed.Instance( this<BlazeInstance> { name: name<String> } ) : Tabbed.Instance;
-
+    // in order to be reactive to changes, the parms should be managed through a ReactiveVar
     this.autorun(() => {
-        instance.setDataContext( Template.currentData());
+        tabbed.setTabbedParms( reactiveParms.get());
     });
 ```
 
-with:
+with at instanciation time:
 
 - `this`: the current Blaze.TemplateInstance instance
 
-- `parms`: an options object with following keys:
+- `name`
+
+    The name which uniquely identifies this Tabbed instance at runtime
+
+    This name is mandatory, and let us uniquely associate the `Tabbed.Instance` instance with the Blaze component view. This is the mechanism which let instance methods interact with the UI. It is read from the `Tabbed` template data context.
+
+and when settings the `Tabbed.Instance` parameters:
+
+- `dataContext`
+
+    An optional common data context to be passed to all panes.
+
+    Can be superseded on the per-pane basis via the `paneData` below parameter.
+
+- `activateLastTab`
+
+    Whether to keep the last active pane in local storage, defaulting to `true`.
+
+- `navClasses`
+
+    Classes to be added to each `ul.nav` element.
+
+- `navItemClasses`
+
+    Classes to be added to each `li.nav-item` element.
+
+- `navLinkClasses`
+
+    Classes to be added to each `button.nav-link` element.
+
+- `navPosition`
+
+    Defines where the `navs` are relatively to the `panes`.
+    
+    May be one the following values:
+
+    - `Tabbed.C.Position.TOP`
+    - `Tabbed.C.Position.RIGHT`
+    - `Tabbed.C.Position.BOTTOM`
+    - `Tabbed.C.Position.LEFT`
+
+    Defaults to `Tabbed.C.Position.TOP`.
+
+- `paneClasses`
+
+    Classes to be added to each `tab-pane` element.
+
+- `paneSubTemplate`
+
+    The name of a Blaze template to be added to the bottom of the `panes`.
+
+- `paneSubData`
+
+    A data context object to be passed to the above `paneSubTemplate` sub-template.
+
+- `tabs`
+
+    An optional array with the list of tabs.
+
+    Each tab is defined with an object with following keys:
 
     - `name`
-    
-        The name which uniquely identifies this Tabbed instance at runtime
 
-        This name is mandatory, and let us uniquely associate the `Tabbed.Instance` instance with the Blaze component view. This is the mechanism which let instance methods interact with the UI. It is non-reactively read from the template data context at creation time.
+        The optional name of the tab.
 
-    - `dataContext`
+        Defaults to paneTemplate name.
 
-        An optional common data context to be passed to all templates.
+        Though all randomly generated names can be later be got by the application, this may be rather cumbersome. We strongly suggest to attribute a name to all tabs you want explicitely manage.
 
-    - `activateLastTab`
+    - `enabled`
 
-        Whether to keep the last active pane in local storage, defaulting to `true`.
+        Whether this `tab` is enabled, defaulting to `true`.
 
-    - `navClasses`
-    
-        Classes to be added to each `ul.nav` element.
+    - `navLabel`
+
+        The optional `nav` label, as a HTML string.
+
+        Defaults to the `tab` name.
+
+    - `navAttributes`
+
+        An optional object which define attributes to be added to the `nav-link` element where each attribute is expected to be defined as `{ name: value }`.
+
+    - `navTemplate`
+
+        The name of an optional template to be displayed as the `nav` content (besides of the label if one is specified).
+
+    - `navData`
+
+        An optional data context specific to be passed to the above `navTemplate`, defaulting to Tabbed data context.
 
     - `navItemClasses`
-    
-        Classes to be added to each `li.nav-item` element.
+
+        Classes to be added to this `li.nav-item` element.
 
     - `navLinkClasses`
-    
-        Classes to be added to each `button.nav-link` element.
 
-    - `navPosition`
-    
-        Defines where the `navs` are relatively to the `panes`.
-        
-        May be one the following values:
+        Classes to be added to this `button.nav-link` element.
 
-        - `Tabbed.C.Position.TOP`
-        - `Tabbed.C.Position.RIGHT`
-        - `Tabbed.C.Position.BOTTOM`
-        - `Tabbed.C.Position.LEFT`
+    - `paneTemplate`
 
-        Defaults to `Tabbed.C.Position.TOP`.
+        The name of the pane template name.
 
-    - `paneClasses`
-    
-        Classes to be added to each `tab-pane` element.
+        Defaults to none.
 
-    - `paneSubTemplate`
-    
-        The name of a Blaze template to be added to the bottom of the `panes`.
+    - `paneData`
 
-    - `paneSubData`
-    
-        A data context object to be passed to the above `paneSubTemplate` sub-template.
-    
-    - `tabs`
+        An optional data context to be passed to the above `paneTemplate`, defaulting to `dataContext`, which itself defaults to the `Tabbed` component data context.
 
-        An optional array with the initial list of tabs.
-
-        Each tab is defined with an object with following keys:
-
-        - `name`
-
-            The optional name of the tab.
-
-            Defaults to paneTemplate name.
-
-            Though all randomly generated names can be later be got by the application, this may be rather cumbersome. We strongly suggest to attribute a name to all tabs you want explicitely manage.
-
-        - `enabled`
-
-            Whether this `tab` is enabled, defaulting to `true`.
-
-        - `navLabel`
-        
-            The optional `nav` label, as a HTML string.
-
-            Defaults to the `tab` name.
-
-        - `navAttributes`
-        
-            An optional object which define attributes to be added to the `nav-link` element where each attribute is expected to be defined as `{ name: value }`.
-
-        - `navTemplate`
-        
-            The name of an optional template to be displayed as the `nav` content (besides of the label if one is specified).
-
-        - `navData`
-        
-            An optional data context specific to be passed to the above `navTemplate`, defaulting to Tabbed data context.
-
-        - `navItemClasses`
-        
-            Classes to be added to this `li.nav-item` element.
-
-        - `navLinkClasses`
-        
-            Classes to be added to this `button.nav-link` element.
-
-        - `paneTemplate`
-        
-            The name of the pane template name.
-
-            Defaults to none.
-
-        - `paneData`
-        
-            An optional data context to be passed to the above `paneTemplate`.
-
-        `Tabbed` generates a unique random identifier for each tab, which is derived both in the nav and pane parts.
+    `Tabbed` generates a unique random identifier for each tab, which is derived both in the nav and pane parts.
 
 All above parameters can be specified either with the expected value, or with a function which returns such a value.
 
@@ -193,7 +190,7 @@ All above parameters can be specified either with the expected value, or with a 
 
 ###### Tabbed.Instance.set( parm<String>, value<Any> )
 
-###### Tabbed.Instance.setDataContext( parms<Object> )
+###### Tabbed.Instance.setTabbedParms( parms<Object> )
 
 Let the caller reactively update the parameters of the `Tabbed` Blaze component.
 
