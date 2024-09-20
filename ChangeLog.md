@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.4.0-rc
+### 1.4.0
 
-    Release date: 
+    Release date: 2024- 9-20
 
     - No more use a ReactiveVar as an instanciation argument
     - Fix re-use bug (izIAM #113)
@@ -64,4 +64,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Sep. 13th
+- Last updated on 2024, Sep. 20th
