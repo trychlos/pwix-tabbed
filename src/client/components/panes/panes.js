@@ -13,6 +13,10 @@ Template.panes.helpers({
     hasTemplate( it ){
         return Boolean( it.TABBED.tab.paneTemplate());
     },
+    // whether the tab is shown ?
+    isShown( it ){
+        return Boolean( it.TABBED.tab.shown());
+    },
     // provides the data associated to this template
     paneData( it ){
         let dc = it.TABBED.tab.paneData() || this.TABBED.instance.get().dataContext() || this.dataContext;

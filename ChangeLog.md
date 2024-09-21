@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 1.4.1-rc
+### 1.5.0-rc
 
     Release date: 
 
-    - 
+    - Add shown parameter to the tab definition, thus bumping minor candidate version number
 
 ### 1.4.0
 

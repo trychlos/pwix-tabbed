@@ -23,6 +23,7 @@ export class Tab {
     // runtime
     #id = null;
     #enabled = new ReactiveVar( null );
+    #shown = new ReactiveVar( null );
 
     // private methods
 
@@ -42,6 +43,12 @@ export class Tab {
             this.enabled( o.enabled );
         } else {
             this.enabled( true );
+        }
+
+        if( Object.keys( o ).includes( 'shown' )){
+            this.shown( o.shown );
+        } else {
+            this.shown( true );
         }
 
         //console.debug( 'instanciating tab', o );
@@ -153,6 +160,20 @@ export class Tab {
     paneTemplate(){
         let value = this.#args.paneTemplate || '';
         return _.isFunction( value ) ? value() : value;
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Boolean|Function} value
+     * @returns {Boolean} whether the tab is shown
+     *  A reactive data source
+     */
+    shown( value ){
+        if( value !== undefined ){
+            this.#shown.set( value );
+        }
+        value = this.#shown.get();
+        return Boolean( _.isFunction( value ) ? value() : value );
     }
 
     /**

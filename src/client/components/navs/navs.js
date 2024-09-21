@@ -21,6 +21,10 @@ Template.navs.helpers({
     hasTemplate( it ){
         return Boolean( it.TABBED.tab.navTemplate());
     },
+    // whether the tab is shown ?
+    isShown( it ){
+        return Boolean( it.TABBED.tab.shown());
+    },
     // add some classes to the nav-item's
     itemClasses( it ){
         let classes = [];

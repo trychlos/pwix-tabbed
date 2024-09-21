@@ -174,6 +174,10 @@ and when settings the `Tabbed.Instance` parameters:
 
         An optional data context to be passed to the above `paneTemplate`, defaulting to `dataContext`, which itself defaults to the `Tabbed` component data context.
 
+    - `shown`
+
+        Whether this tab is shown, defaulting to `true`.
+
     `Tabbed` generates a unique random identifier for each tab, which is derived both in the nav and pane parts.
 
 All above parameters can be specified either with the expected value, or with a function which returns such a value.
