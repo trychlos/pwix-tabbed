@@ -228,6 +228,48 @@ export class Instance {
     }
 
     /**
+     * @param {Integer} index the index of a to-be-activated tab
+     * @returns {Integer} the index of the closest activable tab, which may be
+     *  - either the very same index than the one asked, if the tab is shown and enabled
+     *  - else we test the previous tabs
+     *  - else we test the next tabs
+     *  - at then end, and in the worst case or all panes are either hidden or disabled, the initial asked index
+     */
+    nextActivable( index ){
+        const self = this;
+        const _activable = function( tab ){
+            //console.debug( self.name(), 'index', tab.TABBED.index, 'shown', tab.TABBED.tab.shown(), 'enabled', tab.TABBED.tab.enabled());
+            return tab.TABBED.tab.shown() && tab.TABBED.tab.enabled();
+        };
+        const tabs = this.tabs();
+        // test the asked index
+        if( index >= 0 && index < tabs.length ){
+            if( _activable( tabs[index] )){
+                return index;
+            }
+        }
+        // test the previous indexes
+        if( index > 0 ){
+            for( let i=index-1 ; i>=0 ; --i ){
+                if( _activable( tabs[i] )){
+                    return i;
+                }
+            }
+        }
+        // test the next indexes
+        if( index < tabs.length-1 ){
+            for( let i=index+1 ; i<tabs.length ; ++i ){
+                if( _activable( tabs[i] )){
+                    return i;
+                }
+            }
+        }
+        // at last, unfortunately return the requested index
+        console.warn( 'pwix:tabbed unable to find an activable tab starting from', index );
+        return index;
+    }
+
+    /**
      * Getter/Setter
      * @param {Any} value the classes
      * @returns {Any} the paneClasses
