@@ -8,6 +8,7 @@
 
     - Add shown parameter to the tab definition, thus bumping minor candidate version number
     - Fix tab-pane margin top to not be added to tabbed-navs margin bottom
+    - package.js refactoring
 
 ### 1.4.0
 
