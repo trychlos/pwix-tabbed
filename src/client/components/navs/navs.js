@@ -21,15 +21,15 @@ Template.navs.helpers({
     hasTemplate( it ){
         return Boolean( it.TABBED.tab.navTemplate());
     },
-    // whether the tab is shown ?
-    isShown( it ){
-        return Boolean( it.TABBED.tab.shown());
-    },
     // add some classes to the nav-item's
+    // wants the hidden tabs be still initialized
     itemClasses( it ){
         let classes = [];
         classes.push( this.TABBED.instance.get().navItemClasses());
         classes.push( it.TABBED.tab.navItemClasses());
+        if( !it.TABBED.tab.shown()){
+            classes.push( 'ui-hidden' );
+        }
         return classes.join( ' ' );
     },
     // add some classes to the nav-link's

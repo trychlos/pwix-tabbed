@@ -10,6 +10,7 @@
     - Fix tab-pane margin top to not be added to tabbed-navs margin bottom
     - package.js refactoring
     - Fix next tab activating computing
+    - Unshown tabs are initialized
 
 ### 1.4.0
 

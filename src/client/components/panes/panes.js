@@ -13,9 +13,13 @@ Template.panes.helpers({
     hasTemplate( it ){
         return Boolean( it.TABBED.tab.paneTemplate());
     },
-    // whether the tab is shown ?
-    isShown( it ){
-        return Boolean( it.TABBED.tab.shown());
+    // wants the hidden tabs be still initialized
+    itemClasses( it ){
+        let classes = [];
+        if( !it.TABBED.tab.shown()){
+            classes.push( 'ui-hidden' );
+        }
+        return classes.join( ' ' );
     },
     // provides the data associated to this template
     paneData( it ){
