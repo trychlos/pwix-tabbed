@@ -242,8 +242,13 @@ export class Instance {
             return tab.TABBED.tab.shown() && tab.TABBED.tab.enabled();
         };
         const tabs = this.tabs();
+        //console.debug( 'tabs', tabs );
+        // protect against a configuration change
+        if( index >= tabs.length ){
+            index = tabs.length - 1;
+        }
         // test the asked index
-        if( index >= 0 && index < tabs.length ){
+        if( index >= 0 ){
             if( _activable( tabs[index] )){
                 return index;
             }
@@ -257,11 +262,9 @@ export class Instance {
             }
         }
         // test the next indexes
-        if( index < tabs.length-1 ){
-            for( let i=index+1 ; i<tabs.length ; ++i ){
-                if( _activable( tabs[i] )){
-                    return i;
-                }
+        for( let i=index+1 ; i<tabs.length ; ++i ){
+            if( _activable( tabs[i] )){
+                return i;
             }
         }
         // at last, unfortunately return the requested index
