@@ -26,6 +26,7 @@ export class Instance {
     #id = null;
     #name = new ReactiveVar( null );
     #activateLastTab = new ReactiveVar( null );
+    #activateTab = new ReactiveVar( null );
     #dataContext = new ReactiveVar( null );
     #navClasses = new ReactiveVar( null );
     #navItemClasses = new ReactiveVar( null );
@@ -45,6 +46,9 @@ export class Instance {
             this.#prevParms = parms;
             if( Object.keys( parms ).includes( 'activateLastTab' )){
                 this.activateLastTab( parms.activateLastTab );
+            }
+            if( Object.keys( parms ).includes( 'activateTab' )){
+                this.activateTab( parms.activateTab );
             }
             this.dataContext( parms.dataContext );
             this.navClasses( parms.navClasses || '' );
@@ -94,7 +98,7 @@ export class Instance {
     /**
      * Getter/Setter
      * @param {Any} value a data object
-     * @returns {Any} whether tpo keep last activated pane
+     * @returns {Any} whether to keep last activated pane
      *  A reactive data source
      */
     activateLastTab( value ){
@@ -107,6 +111,21 @@ export class Instance {
             value = true;
         }
         return Boolean( _.isFunction( value ) ? value() : value );
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Any} value a data object
+     * @returns {Any} the tab to activate at startup
+     *  A reactive data source
+     */
+    activateTab( value ){
+        if( value !== undefined ){
+            this.#activateTab.set( parseInt( value ));
+        } else {
+            value = this.#activateTab.get();
+        }
+        return _.isFunction( value ) ? value() : value;
     }
 
     /**

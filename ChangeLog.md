@@ -11,6 +11,7 @@
     - package.js refactoring
     - Fix next tab activating computing
     - Unshown tabs are initialized
+    - Define new 'activateTab' parameter
 
 ### 1.4.0
 

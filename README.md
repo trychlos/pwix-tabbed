@@ -83,6 +83,10 @@ and when settings the `Tabbed.Instance` parameters:
 
     Whether to keep the last active pane in local storage, defaulting to `true`.
 
+- `activateTab`
+
+    The tab to activate at startup, defaulting to last tab if the `activateLastTab` is set to `true`, defaulting to the first tab.
+
 - `navClasses`
 
     Classes to be added to each `ul.nav` element.

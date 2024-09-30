@@ -161,7 +161,10 @@ Template.Tabbed.onCreated( function(){
     // track last active tab from session storage
     //  requires the Tabbed be explicitely named and the behaviour allowed
     self.autorun(() => {
-        if( isNamed && self.TABBED.instance.get().activateLastTab()){
+        const tab = self.TABBED.instance.get().activateTab();
+        if( Number.isInteger( tab )){
+            self.TABBED.activeTab.set( tab );
+        } else if( isNamed && self.TABBED.instance.get().activateLastTab()){
             self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
         }
     });
