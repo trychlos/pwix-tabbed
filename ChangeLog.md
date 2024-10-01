@@ -12,6 +12,7 @@
     - Fix next tab activating computing
     - Unshown tabs are initialized
     - Define new 'activateTab' parameter
+    - Fix configuration overrides
 
 ### 1.4.0
 

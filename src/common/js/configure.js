@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 let _conf = {};
-
 Tabbed._conf = new ReactiveVar( _conf );
 
 Tabbed._defaults = {
@@ -22,7 +21,7 @@ Tabbed._defaults = {
  */
 Tabbed.configure = function( o ){
     if( o && _.isObject( o )){
-        _.merge( _conf, Tabbed._defaults, o );
+        _conf = _.merge( Tabbed._defaults, _conf, o );
         Tabbed._conf.set( _conf );
         _verbose( Tabbed.C.Verbose.CONFIGURE, 'pwix:tabbed configure() with', o );
     }
@@ -30,5 +29,5 @@ Tabbed.configure = function( o ){
     return Tabbed._conf.get();
 }
 
-_.merge( _conf, Tabbed._defaults );
+_conf = _.merge( {}, Tabbed._defaults );
 Tabbed._conf.set( _conf );
