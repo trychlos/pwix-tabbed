@@ -13,6 +13,7 @@
     - Unshown tabs are initialized
     - Define new 'activateTab' parameter
     - Fix configuration overrides
+    - Define new 'tabbed-do-show' event
 
 ### 1.4.0
 

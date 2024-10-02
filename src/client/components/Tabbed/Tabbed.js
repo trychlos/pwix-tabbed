@@ -107,6 +107,36 @@ Template.Tabbed.onCreated( function(){
             return _.toString( _.isFunction( tab.navLabel ) ? tab.navLabel() : tab.navLabel );
         },
 
+        // show/hide a tab by a nav attribute specified as { name: value }
+        showByAttribute( attribute, shown ){
+            const key = Object.keys( attribute )[0];
+            const value = attribute[key];
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link['+key+'="'+value+'"]' ).data( 'tabbed-index' );
+            self.TABBED.showByIndex( index, shown );
+        },
+
+        // show/hide a tab by its index
+        showByIndex( index, shown ){
+            const found = self.TABBED.instance.get().tabByIndex( index );
+            if( found ){
+                found.TABBED.tab.shown( shown );
+            }
+        },
+
+        // show/hide a tab by its current nav label
+        showByLabel( label, shown ){
+            const index = self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link :contains("'+label+'")' ).data( 'tabbed-index' );
+            self.TABBED.showByIndex( index, shown );
+        },
+
+        // show/hide a tab by its name
+        showByName( name, shown ){
+            const found = self.TABBED.instance.get().tabByName( name );
+            if( found ){
+                self.TABBED.showByIndex( found.TABBED.index, shown );
+            }
+        },
+
         // advertize the child panes of a tab transition
         //  it is expected the event will bubble up to here and to our parents
         tabTransition( event, $targets, current, field, related ){
@@ -349,6 +379,21 @@ Template.Tabbed.events({
                 instance.TABBED.enableByName( data.name, data.enabled );
             } else if( data.attribute ){
                 instance.TABBED.enableByAttribute( data.attribute, data.enabled );
+            }
+        }
+    },
+
+    // a request to show/hide a tab
+    'tabbed-do-show .Tabbed'( event, instance, data ){
+        if( data.tabbedId === instance.TABBED.instance.get().id()){
+            if( _.isNumber( data.index )){
+                instance.TABBED.showByIndex( data.index, data.shown );
+            } else if( data.label ){
+                instance.TABBED.showByLabel( data.label, data.shown );
+            } else if( data.name ){
+                instance.TABBED.showByName( data.name, data.shown );
+            } else if( data.attribute ){
+                instance.TABBED.showByAttribute( data.attribute, data.shown );
             }
         }
     }

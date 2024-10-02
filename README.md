@@ -249,6 +249,10 @@ The component handles following events:
 - `tabbed-do-enable`, data={ tabbedId, label, enabled } ask to enable/disable the tab by its current nav label
 - `tabbed-do-enable`, data={ tabbedId, name, enabled } ask to enable/disable the tab by its name
 - `tabbed-do-enable`, data={ tabbedId, attribute, enabled } ask to enable/disable the tab by the specified nav attribute
+- `tabbed-do-show`, data={ tabbedId, index, shown } ask to show/hide the tab by its index
+- `tabbed-do-show`, data={ tabbedId, label, shown } ask to show/hide the tab by its current nav label
+- `tabbed-do-show`, data={ tabbedId, name, shown } ask to show/hide the tab by its name
+- `tabbed-do-show`, data={ tabbedId, attribute, shown } ask to show/hide the tab by the specified nav attribute
    where 'tabbed' is expected to be the internal identifier of this tabbed template
 
 The component triggers following events:
