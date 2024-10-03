@@ -51,7 +51,7 @@ Template.navs.helpers({
     },
     // provides the data (if any) associated with the template for this tab
     navData( it ){
-        let dc = it.TABBED.tab.navData() || this.TABBED.instance.get().dataContext() || this.dataContext;
+        let dc = it.TABBED.tab.navData() || it.TABBED.tab.paneData() || this.TABBED.instance.get().dataContext() || this.dataContext;
         _.merge( dc, {
             tabbedId: this.TABBED.instance.get().id(),
             tabbedTabId: it.TABBED.tab.id()

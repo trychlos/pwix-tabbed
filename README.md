@@ -158,7 +158,7 @@ and when settings the `Tabbed.Instance` parameters:
 
     - `navData`
 
-        An optional data context specific to be passed to the above `navTemplate`, defaulting to Tabbed data context.
+        An optional data context specific to be passed to the above `navTemplate`, defaulting to pane data context.
 
     - `navItemClasses`
 

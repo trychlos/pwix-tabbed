@@ -14,6 +14,7 @@
     - Define new 'activateTab' parameter
     - Fix configuration overrides
     - Define new 'tabbed-do-show' event
+    - Change the default nav data context to the same than the pane
 
 ### 1.4.0
 
