@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.5.0-rc
+### 1.5.0
 
-    Release date: 
+    Release date: 2024-10- 4
 
     - Add shown parameter to the tab definition, thus bumping minor candidate version number
     - Fix tab-pane margin top to not be added to tabbed-navs margin bottom
@@ -78,4 +78,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Sep. 20th
+- Last updated on 2024, Oct. 4th
