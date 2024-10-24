@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Fix the visibility of the hidden tabs
 
 ### 1.5.0
 

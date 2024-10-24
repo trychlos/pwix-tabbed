@@ -23,12 +23,13 @@ Template.navs.helpers({
     },
     // add some classes to the nav-item's
     // wants the hidden tabs be still initialized
+    // actually the pane is hidden (i.e. still initialized) but the nav is not displayed to prevent a hole in the line
     itemClasses( it ){
         let classes = [];
         classes.push( this.TABBED.instance.get().navItemClasses());
         classes.push( it.TABBED.tab.navItemClasses());
         if( !it.TABBED.tab.shown()){
-            classes.push( 'ui-hidden' );
+            classes.push( 'ui-dnone' );
         }
         return classes.join( ' ' );
     },

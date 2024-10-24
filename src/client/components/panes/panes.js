@@ -14,6 +14,7 @@ Template.panes.helpers({
         return Boolean( it.TABBED.tab.paneTemplate());
     },
     // wants the hidden tabs be still initialized
+    // actually the pane is hidden (i.e. still initialized) but the nav is not displayed to prevent a hole in the line
     itemClasses( it ){
         let classes = [];
         if( !it.TABBED.tab.shown()){
