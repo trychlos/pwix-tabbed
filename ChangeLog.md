@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix the visibility of the hidden tabs
+    - Minor spelling fixes
 
 ### 1.5.0
 

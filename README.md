@@ -277,9 +277,9 @@ The component triggers following events:
 
 We dynamically allocate random identifiers for:
 
-- the `Tabbed` parent component itself, advertized as 'data-tabbed-id' in the DOM, and as `tabbedId` in events and children data contexts
+- the `Tabbed` parent component itself, advertised as 'data-tabbed-id' in the DOM, and as `tabbedId` in events and children data contexts
 
-- each tab, advertized as 'data-tabbed-tab-id' in the DOM, and as `tabbedTabId` in children data contexts.
+- each tab, advertised as 'data-tabbed-tab-id' in the DOM, and as `tabbedTabId` in children data contexts.
 
 ##### Dynamically removing tabs
 
@@ -347,7 +347,7 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 On named tabs, `pwix:tabbed` uses `sessionStorage` to record the last activated tab.
 
-Because this is dynamically done on a per tabbed display unit basis, and only if this later is named, the package doesn't advertize of this use, relying on the caller own declaration.
+Because this is dynamically done on a per tabbed display unit basis, and only if this later is named, the package doesn't advertise of this use, relying on the caller own declaration.
 
 ## Issues & help
 

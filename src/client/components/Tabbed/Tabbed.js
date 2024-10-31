@@ -137,7 +137,7 @@ Template.Tabbed.onCreated( function(){
             }
         },
 
-        // advertize the child panes of a tab transition
+        // advertise the child panes of a tab transition
         //  it is expected the event will bubble up to here and to our parents
         tabTransition( event, $targets, current, field, related ){
             const myid = self.$( current ).closest( '.tabbed-navs' ).data( 'tabbed-id' );
@@ -147,7 +147,7 @@ Template.Tabbed.onCreated( function(){
                 if( found ){
                     // update the active tab for next reload and HMR
                     self.TABBED.activeTab.set( found.TABBED.index );
-                    // advertize all direct .tab-pane's children
+                    // advertise all direct .tab-pane's children
                     const data = {
                         tabbedId: myid,
                         tabbedName: self.TABBED.instance.get().name(),
@@ -214,7 +214,7 @@ Template.Tabbed.onCreated( function(){
 Template.Tabbed.onRendered( function(){
     const self = this;
 
-    // advertize of our creation
+    // advertise of our creation
     self.$( '.Tabbed' ).trigger( 'tabbed-rendered', {
         tabbedId: self.TABBED.instance.get().id(),
         tabbedName: self.TABBED.instance.get().name(),

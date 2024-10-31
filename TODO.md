@@ -20,7 +20,7 @@
 
 |   Id | Date       | Description and comment(s) |
 | ---: | :---       | :---                       |
-|    3 | 2024- 7-11 | seems that the first tab at initial display is not advertized |
+|    3 | 2024- 7-11 | seems that the first tab at initial display is not advertised |
 |      | 2024- 7-11 | actually it is sent, but - at initial display - only shown events are sent - not the hidden ones as there is no previous tab at that moment |
 
 ---
