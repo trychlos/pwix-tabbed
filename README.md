@@ -345,7 +345,7 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ## Cookies and comparable technologies
 
-On named tabs, `pwix:tabbed` uses `sessionStorage` to record the last activated tab.
+On named tabs, `pwix:tabbed` uses `localStorage` to record the last activated tab.
 
 Because this is dynamically done on a per tabbed display unit basis, and only if this later is named, the package doesn't advertize of this use, relying on the caller own declaration.
 

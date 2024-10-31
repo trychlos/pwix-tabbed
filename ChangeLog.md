@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Store the active tab in localStorage instead of sessionStorage
 
 ### 1.5.0
 
