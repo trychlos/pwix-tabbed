@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix the visibility of the hidden tabs
+    - Store the active tab in localStorage instead of sessionStorage
     - Minor spelling fixes
 
 ### 1.5.0

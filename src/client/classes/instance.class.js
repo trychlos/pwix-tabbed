@@ -421,6 +421,7 @@ export class Instance {
             value = _.isFunction( value ) ? value() : value;
             assert( _.isArray( value ), 'pwix:tabbed.Instance() expects an array, got '+value );
             // make sure each provided tab object has a TABBED definition with a Tab instance
+            //console.debug( this.name(), 'tabs.count', value.length );
             for( let i=0 ; i<value.length ; ++i ){
                 let it = value[i];
                 it.TABBED = it.TABBED || {};

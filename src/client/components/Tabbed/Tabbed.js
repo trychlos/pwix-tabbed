@@ -37,6 +37,8 @@ Template.Tabbed.onCreated( function(){
         // try the previous tab if the requested one is disabled
         activateByIndex( index ){
             //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
+            //const tab = self.TABBED.instance.get().tabByIndex( index );
+            //console.warn( 'activateByIndex', index, 'tab', tab.TABBED.tab.id(), 'Tabbed', self.TABBED.instance.get().name(), self.TABBED.instance.get().id());
             index = self.TABBED.instance.get().nextActivable( index );
             self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
         },
@@ -195,17 +197,17 @@ Template.Tabbed.onCreated( function(){
         if( Number.isInteger( tab )){
             self.TABBED.activeTab.set( tab );
         } else if( isNamed && self.TABBED.instance.get().activateLastTab()){
-            self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
+            self.TABBED.activeTab.set( parseInt( localStorage.getItem( name+':activeTab' )) || 0 );
         }
     });
 
-    // make sure session storage is updated each time the active tab changes
+    // make sure local storage is updated each time the active tab changes
     self.autorun(() => {
         if( isNamed && self.TABBED.instance.get().activateLastTab()){
             const activeTab = self.TABBED.activeTab.get();
             const name = self.TABBED.instance.get().name();
             if( _.isFinite( activeTab )){
-                sessionStorage.setItem( name+':activeTab', activeTab );
+                localStorage.setItem( name+':activeTab', activeTab );
             }
         }
     });
