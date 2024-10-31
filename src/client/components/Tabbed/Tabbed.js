@@ -37,6 +37,8 @@ Template.Tabbed.onCreated( function(){
         // try the previous tab if the requested one is disabled
         activateByIndex( index ){
             //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
+            //const tab = self.TABBED.instance.get().tabByIndex( index );
+            //console.warn( 'activateByIndex', index, 'tab', tab.TABBED.tab.id(), 'Tabbed', self.TABBED.instance.get().name(), self.TABBED.instance.get().id());
             index = self.TABBED.instance.get().nextActivable( index );
             self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
         },
@@ -199,7 +201,7 @@ Template.Tabbed.onCreated( function(){
         }
     });
 
-    // make sure session storage is updated each time the active tab changes
+    // make sure local storage is updated each time the active tab changes
     self.autorun(() => {
         if( isNamed && self.TABBED.instance.get().activateLastTab()){
             const activeTab = self.TABBED.activeTab.get();

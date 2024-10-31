@@ -51,7 +51,7 @@ export class Tab {
             this.shown( true );
         }
 
-        //console.debug( 'instanciating tab', o );
+        //console.debug( tabbed.name(), 'instanciating tab', o, this.#id );
         return this;
     }
 
