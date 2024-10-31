@@ -195,7 +195,7 @@ Template.Tabbed.onCreated( function(){
         if( Number.isInteger( tab )){
             self.TABBED.activeTab.set( tab );
         } else if( isNamed && self.TABBED.instance.get().activateLastTab()){
-            self.TABBED.activeTab.set( parseInt( sessionStorage.getItem( name+':activeTab' )) || 0 );
+            self.TABBED.activeTab.set( parseInt( localStorage.getItem( name+':activeTab' )) || 0 );
         }
     });
 
@@ -205,7 +205,7 @@ Template.Tabbed.onCreated( function(){
             const activeTab = self.TABBED.activeTab.get();
             const name = self.TABBED.instance.get().name();
             if( _.isFinite( activeTab )){
-                sessionStorage.setItem( name+':activeTab', activeTab );
+                localStorage.setItem( name+':activeTab', activeTab );
             }
         }
     });

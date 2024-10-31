@@ -8,6 +8,7 @@
 
     - Fix the visibility of the hidden tabs
     - Minor spelling fixes
+    - Store the active tab in localStorage instead of sessionStorage
 
 ### 1.5.0
 
