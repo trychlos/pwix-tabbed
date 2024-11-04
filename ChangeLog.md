@@ -9,6 +9,7 @@
     - Fix the visibility of the hidden tabs
     - Minor spelling fixes
     - Store the active tab in localStorage instead of sessionStorage
+    - Introduce Tabbed.C.Verbose.INSTANCIATIONS verbosity level
 
 ### 1.5.0
 

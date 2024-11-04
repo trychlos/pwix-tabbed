@@ -51,7 +51,10 @@ export class Tab {
             this.shown( true );
         }
 
-        //console.debug( tabbed.name(), 'instanciating tab', o, this.#id );
+        if( Tabbed.configure().verbosity & Tabbed.C.Verbose.INSTANCIATIONS ){
+            console.debug( 'pwix:tabbed', tabbed.name(), 'instanciating tab', o, this.#id );
+        }
+
         return this;
     }
 
