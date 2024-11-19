@@ -2,14 +2,18 @@
 
 ## ChangeLog
 
+### 1.5.2-rc
+
+    Release date: 
+
+    - 
+
 ### 1.5.1
 
     Release date: 2024-11-19
 
     - Fix the visibility of the hidden tabs
     - Minor spelling fixes
-    - Store the active tab in localStorage instead of sessionStorage
-    - Introduce Tabbed.C.Verbose.INSTANCIATIONS verbosity level
     - Store the active tab in localStorage instead of sessionStorage
     - Introduce Tabbed.C.Verbose.INSTANCIATIONS verbosity level
 
