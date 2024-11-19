@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.5.1-rc
+### 1.5.1
 
-    Release date: 
+    Release date: 2024-11-19
 
     - Fix the visibility of the hidden tabs
     - Store the active tab in localStorage instead of sessionStorage
@@ -87,4 +87,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Oct. 4th
+- Last updated on 2024, Nov. 19th
