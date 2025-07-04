@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { UIU } from 'meteor/pwix:ui-utils';
 
 import '../navs/navs.js';
 import '../panes/panes.js';
@@ -23,7 +24,7 @@ Template.Tabbed.onCreated( function(){
         // the Tabbed.Instance
         instance: new ReactiveVar( null ),
         // the current active tab index
-        activeTab: new ReactiveVar( 0 ),
+        activeTab: new ReactiveVar( -1 ),
 
         // activate a tab by a nav attribute specified as { name: value }
         activateByAttribute( attribute ){
@@ -35,12 +36,12 @@ Template.Tabbed.onCreated( function(){
 
         // activate a tab by its index
         // try the previous tab if the requested one is disabled
+        // wait for the to-be-activated tab be available
         activateByIndex( index ){
             //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
-            //const tab = self.TABBED.instance.get().tabByIndex( index );
-            //console.warn( 'activateByIndex', index, 'tab', tab.TABBED.tab.id(), 'Tabbed', self.TABBED.instance.get().name(), self.TABBED.instance.get().id());
             index = self.TABBED.instance.get().nextActivable( index );
-            self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ).trigger( 'click' );
+            const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
+            UIU.DOM.waitFor( selector ).then(() => { self.$( selector ).trigger( 'click' ); });
         },
 
         // activate a tab by its current nav label
@@ -233,9 +234,10 @@ Template.Tabbed.onRendered( function(){
         });
     });
 
-    // activate the designated tab
-    //  this also triggers the first 'shown.bs.tab' event which is good
-    self.TABBED.activateByIndex( self.TABBED.activeTab.get());
+    // track active tab
+    self.autorun(() => {
+        //console.debug( 'activeTab', self.TABBED.activeTab.get());
+    });
 
     // track the tabs changes and trigger an event
     self.autorun(() => {
@@ -247,19 +249,35 @@ Template.Tabbed.onRendered( function(){
         });
     });
 
+    // the tabs are initialized or have changed
+    // activate either the designated activeTab if any, or the first one
+    // activate the first one when we had zero before
+    self.autorun(() => {
+        const activeTab = self.TABBED.activeTab.get();
+        const tabs = self.TABBED.instance.get().tabs();
+        if( activeTab === -1 && tabs.length > 0 ){
+            self.TABBED.activateByIndex( 0 );
+        } else if( activeTab >= 0 ){
+            self.TABBED.activateByIndex( activeTab );
+        }
+    });
+
     // track the count of tabs
     //  a debug message when working on dynamically removable tabs
     self.autorun(() => {
         if( false ){
             const tabs = self.TABBED.instance.get().tabs();
-            if( Object.keys( self.TABBED ).includes( 'prevCount' )){
-                if( self.TABBED.prevCount !== tabs.length ){
-                    console.debug( 'tabs count change from', self.TABBED.prevCount, 'to', tabs.length );
-                } else {
-                    console.debug( 'autorun WITHOUT tabs count change' );
+            console.debug( 'tabs', tabs );
+            if( false ){
+                if( Object.keys( self.TABBED ).includes( 'prevCount' )){
+                    if( self.TABBED.prevCount !== tabs.length ){
+                        console.debug( 'tabs count change from', self.TABBED.prevCount, 'to', tabs.length );
+                    } else {
+                        console.debug( 'autorun WITHOUT tabs count change' );
+                    }
                 }
+                self.TABBED.prevCount = tabs.length;
             }
-            self.TABBED.prevCount = tabs.length;
         }
     });
 });
@@ -339,6 +357,10 @@ Template.Tabbed.events({
     //  event.target and event.relatedTarget target the active tab and the previously active tab (if available) respectively
     'shown.bs.tab .Tabbed'( event, instance ){
         instance.TABBED.tabTransition( 'tabbed-pane-shown', instance.TABBED.firstPaneChildren(), event.target, 'prev', event.relatedTarget );
+    },
+
+    // the tabs have changed
+    'tabbed-changed .Tabbed'( event, instance, data ){
     },
 
     // a request to activate a tab

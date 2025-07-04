@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:tabbed',
-    version: '1.5.2-rc',
+    version: '1.6.0-rc',
     summary: 'A Blaze component which provides a consistent tabbed display',
     git: 'https://github.com/trychlos/pwix-tabbed.git',
     documentation: 'README.md'
@@ -29,6 +29,7 @@ function configure( api ){
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
     api.use( 'pwix:ui-bootstrap5@2.0.0' );
+    api.use( 'pwix:ui-utils@1.0.0' );
     api.use( 'random' );
     api.use( 'reactive-var' );
     api.use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );

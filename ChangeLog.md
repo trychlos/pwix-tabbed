@@ -2,11 +2,11 @@
 
 ## ChangeLog
 
-### 1.5.2-rc
+### 1.6.0-rc
 
     Release date: 
 
-    - 
+    - Fix first tab activation by waiting for the DOM element (which requires an additional dependency, thus bumping minor candidate release number)
 
 ### 1.5.1
 
