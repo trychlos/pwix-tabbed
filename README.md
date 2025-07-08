@@ -321,6 +321,12 @@ Remind too that Meteor packages are instanciated at application level. They are 
 
 `Tabbed.configure()` is a reactive data source.
 
+## Caveat
+
+`pwix:tabbed` makes its best to display the last active tab when the page is refreshed.
+
+Unfortunately, and specially when tabs are dynamically built, The HTML templating system is often first activated with an empty tabs list. In this situation, `pwix:tabbed` has no other choices that activating the first tab, because it doesn't know at that time if and when other tabs will be available.
+
 ## NPM peer dependencies
 
 Starting with v 0.1.0, and in accordance with advices from [the Meteor Guide](https://guide.meteor.com/writing-atmosphere-packages.html#peer-npm-dependencies), we no more hardcode NPM dependencies in the `Npm.depends` clause of the `package.js`.

@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix first tab activation by waiting for the DOM element (which requires an additional dependency, thus bumping minor candidate release number)
+    - Advertise a caveat in README when tabs are dynamically built (todo #4)
 
 ### 1.5.1
 

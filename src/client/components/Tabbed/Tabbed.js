@@ -38,10 +38,12 @@ Template.Tabbed.onCreated( function(){
         // try the previous tab if the requested one is disabled
         // wait for the to-be-activated tab be available
         activateByIndex( index ){
-            //console.debug( 'activateByIndex', index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
+            //console.debug( 'activateByIndex', self.TABBED.instance.get().name(), index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
             index = self.TABBED.instance.get().nextActivable( index );
             const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
-            UIU.DOM.waitFor( selector ).then(() => { self.$( selector ).trigger( 'click' ); });
+            UIU.DOM.waitFor( selector ).then(( elt ) => {
+                elt.click();
+            });
         },
 
         // activate a tab by its current nav label
@@ -195,9 +197,12 @@ Template.Tabbed.onCreated( function(){
     //  requires the Tabbed be explicitely named and the behaviour allowed
     self.autorun(() => {
         const tab = self.TABBED.instance.get().activateTab();
+        //console.debug( self.TABBED.instance.get().name(), 'activateTab', tab, 'isNamed', isNamed, 'activateLastTab', self.TABBED.instance.get().activateLastTab());
         if( Number.isInteger( tab )){
+            //console.debug( self.TABBED.instance.get().name(), 'set active tab' );
             self.TABBED.activeTab.set( tab );
         } else if( isNamed && self.TABBED.instance.get().activateLastTab()){
+            //console.debug( self.TABBED.instance.get().name(), 'localStorage', localStorage.getItem( name+':activeTab' ));
             self.TABBED.activeTab.set( parseInt( localStorage.getItem( name+':activeTab' )) || 0 );
         }
     });

@@ -267,18 +267,22 @@ export class Instance {
         //console.debug( 'tabs', tabs );
         // protect against a configuration change
         if( index >= tabs.length ){
-            index = tabs.length - 1;
+            //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'tabs.length='+tabs.length, 'returning', tabs.length-1 );
+            index = tabs.length-1;
         }
         // test the asked index
         if( index >= 0 ){
             if( _activable( tabs[index] )){
+                //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'activable=true OK' );
                 return index;
             }
+            //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'not activable' );
         }
         // test the previous indexes
         if( index > 0 ){
             for( let i=index-1 ; i>=0 ; --i ){
                 if( _activable( tabs[i] )){
+                    //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning previous activable='+i );
                     return i;
                 }
             }
@@ -286,12 +290,14 @@ export class Instance {
         // test the next indexes
         for( let i=index+1 ; i<tabs.length ; ++i ){
             if( _activable( tabs[i] )){
+                //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning next activable='+i );
                 return i;
             }
         }
-        // at last, unfortunately return the requested index
-        console.warn( 'pwix:tabbed unable to find an activable tab starting from', index );
-        return index;
+        // at last, unfortunately return the first tab if any or -1
+        const res = tabs.length ? 0 : -1; 
+        console.warn( 'pwix:tabbed nextActivable()', this.name(), 'unable to find an activable tab starting from', index, 'returning', res );
+        return res;
     }
 
     /**
