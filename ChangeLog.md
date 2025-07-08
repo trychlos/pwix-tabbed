@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.6.0-rc
+### 1.6.0
 
-    Release date: 
+    Release date: 2025- 7- 8
 
     - Fix first tab activation by waiting for the DOM element (which requires an additional dependency, thus bumping minor candidate release number)
     - Advertise a caveat in README when tabs are dynamically built (todo #4)
@@ -95,4 +95,4 @@
 
 ---
 P. Wieser
-- Last updated on 2024, Nov. 19th
+- Last updated on 2025, Jul. 8th
