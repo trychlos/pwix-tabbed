@@ -29,7 +29,7 @@ function configure( api ){
     api.use( 'ecmascript' );
     api.use( 'less@4.0.0', 'client' );
     api.use( 'pwix:ui-bootstrap5@2.0.0' );
-    api.use( 'pwix:ui-utils@1.0.0' );
+    api.use( 'pwix:ui-utils@1.4.0' );
     api.use( 'random' );
     api.use( 'reactive-var' );
     api.use( 'tmeasday:check-npm-versions@1.0.2 || 2.0.0-beta.0', 'server' );

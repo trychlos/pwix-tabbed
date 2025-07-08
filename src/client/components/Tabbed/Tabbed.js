@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { UIU } from 'meteor/pwix:ui-utils';
+import { UIUtils } from 'meteor/pwix:ui-utils';
 
 import '../navs/navs.js';
 import '../panes/panes.js';
@@ -41,7 +41,7 @@ Template.Tabbed.onCreated( function(){
             //console.debug( 'activateByIndex', self.TABBED.instance.get().name(), index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
             index = self.TABBED.instance.get().nextActivable( index );
             const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
-            UIU.DOM.waitFor( selector ).then(( elt ) => {
+            UIUtils.DOM.waitFor( selector ).then(( elt ) => {
                 elt.click();
             });
         },
