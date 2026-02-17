@@ -7,6 +7,7 @@
     Release date: 
 
     - configure() now warns for unmanaged keys
+    - Change active tab z-index from 0 to auto (fixing the overriding of dropdown menus)
 
 ### 1.6.0
 
