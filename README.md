@@ -14,6 +14,7 @@ This Meteor package is installable with the usual command:
 
 ```sh
     meteor add pwix:tabbed
+    meteor npm install lodash --save
 ```
 
 ## Usage

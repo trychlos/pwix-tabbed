@@ -21,9 +21,20 @@ Tabbed._defaults = {
  */
 Tabbed.configure = function( o ){
     if( o && _.isObject( o )){
-        _conf = _.merge( Tabbed._defaults, _conf, o );
-        Tabbed._conf.set( _conf );
-        _verbose( Tabbed.C.Verbose.CONFIGURE, 'pwix:tabbed configure() with', o );
+        // check that keys exist
+        let built_conf = {};
+        Object.keys( o ).forEach(( it ) => {
+            if( Object.keys( Tabbed._defaults ).includes( it )){
+                built_conf[it] = o[it];
+            } else {
+                console.warn( 'pwix:tabbed configure() ignore unmanaged key \''+it+'\'' );
+            }
+        });
+        if( Object.keys( built_conf ).length ){
+            _conf = _.merge( Tabbed._defaults, _conf, built_conf );
+            Tabbed._conf.set( _conf );
+            _verbose( Tabbed.C.Verbose.CONFIGURE, 'pwix:tabbed configure() with', built_conf );
+        }
     }
     // also acts as a getter
     return Tabbed._conf.get();
