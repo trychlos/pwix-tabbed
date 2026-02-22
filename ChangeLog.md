@@ -8,6 +8,7 @@
 
     - configure() now warns for unmanaged keys
     - Change active tab z-index from 0 to auto (fixing the overriding of dropdown menus)
+    - Make the Tabbed panes of consistent size both on width and height
 
 ### 1.6.0
 

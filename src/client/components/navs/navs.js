@@ -46,7 +46,7 @@ Template.navs.helpers({
     // additional classes for the .nav element
     navClasses(){
         let classes = [];
-        classes.push( 'nav-'+this.TABBED.instance.get().navPosition());
+        //classes.push( 'nav-'+this.TABBED.instance.get().navPosition());
         classes.push( this.TABBED.instance.get().navClasses());
         return classes.join( ' ' );
     },

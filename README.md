@@ -2,11 +2,9 @@
 
 ## What is it ?
 
-A Blaze component which provides a consistent tabbed display.
+A Blaze component which provides a consistent tabbed display. Here, 'consistent' means that all panes will have the same width and height regarding of their content.
 
 The tabbed navs and panes are Bootstrap-based.
-
-Here, 'consistent' means that all panes will have the same height (respectively the same width) regarding of their content.
 
 ## Installation
 
@@ -115,7 +113,7 @@ and when settings the `Tabbed.Instance` parameters:
 
 - `paneClasses`
 
-    Classes to be added to each `tab-pane` element.
+    Classes to be added to each `tabbed-pane` element.
 
 - `paneSubTemplate`
 
@@ -236,7 +234,7 @@ If the name doesn't address any `Tabbed.Instance`, or the component is not named
 This `Tabbed` component increases the data context passed to navTemplate's and paneTemplate's with datas:
 
 - `tabbedId`: the identifier of the 'Tabbed' component
-- `tabbedTabId`: the identifier of each tab, same whether we display a nav-link or a tab-pane
+- `tabbedTabId`: the identifier of each tab, same whether we display a nav-link or a tabbed-pane
 
 #### Events
 
@@ -264,7 +262,7 @@ The component triggers following events:
 
     - `tabbed-changed`, data={ tabbedId, tabbedName, $tabbed } when the tabs population has changed
 
-- on every `.tab-pane` first child, which happens to be the topmost component of the pane template:
+- on every `.tabbed-pane` first child, which happens to be the topmost component of the pane template:
 
     - `tabbed-pane-to-hide`, data={ tabbedId, tabbedName, tab:<tab_object>, next:<tab_object> } when about to leave a tab
 

@@ -98,7 +98,7 @@ Template.Tabbed.onCreated( function(){
         // returns the jQuery objects which correspond to the first child of each pane
         //  (which is expected to be the application component for the pane)
         firstPaneChildren(){
-            return self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > * > .tab-pane > :first-child' );
+            return self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] > * > * > * > .tabbed-pane > :first-child' );
         },
 
         // whether navs are horizontally oriented ?
@@ -152,7 +152,7 @@ Template.Tabbed.onCreated( function(){
                 if( found ){
                     // update the active tab for next reload and HMR
                     self.TABBED.activeTab.set( found.TABBED.index );
-                    // advertise all direct .tab-pane's children
+                    // advertise all direct .tabbed-pane's children
                     const data = {
                         tabbedId: myid,
                         tabbedName: self.TABBED.instance.get().name(),
@@ -193,7 +193,7 @@ Template.Tabbed.onCreated( function(){
         });
     }
 
-    // track last active tab from session storage
+    // track last active tab from local storage
     //  requires the Tabbed be explicitely named and the behaviour allowed
     self.autorun(() => {
         const tab = self.TABBED.instance.get().activateTab();
@@ -288,16 +288,27 @@ Template.Tabbed.onRendered( function(){
 });
 
 Template.Tabbed.helpers({
-    // make the div height 100% when position is horizontal
-    classes(){
-        return Template.instance().TABBED.isHorizontal() ? '' : 'tabbed-h100';
-    },
     // whether we have a sub-pane ?
     haveSubPane(){
         //console.debug( Template.instance().TABBED.instance.get());
         return Boolean( Template.instance().TABBED.instance.get().paneSubTemplate());
     },
-    // additional classes for the .tabbed-navs-encloser element
+
+    // whether we display the navs before the panes
+    navFirst(){
+        const position = Template.instance().TABBED.instance.get().navPosition();
+        return position === Tabbed.C.Position.TOP || position === Tabbed.C.Position.LEFT;
+    },
+    // whether we display the navs after the panes
+    navLast(){
+        const position = Template.instance().TABBED.instance.get().navPosition();
+        return position === Tabbed.C.Position.BOTTOM || position === Tabbed.C.Position.RIGHT;
+    },
+    // either 'nav-horizontal' or 'nav-vertical
+    navLayout(){
+        return Template.instance().TABBED.isHorizontal() ? 'nav-horizontal' : 'nav-vertical';
+    },
+    // additional classes for the .Tabbed topmost element
     navPosition(){
         return 'nav-'+Template.instance().TABBED.instance.get().navPosition();
     },
@@ -318,15 +329,6 @@ Template.Tabbed.helpers({
             TABBED: Template.instance().TABBED,
             dataContext: this
         };
-    },
-    posHorizontal(){
-        return Template.instance().TABBED.isHorizontal();
-    },
-    posLeft(){
-        return Template.instance().TABBED.instance.get().navPosition() === Tabbed.C.Position.LEFT;
-    },
-    posTop(){
-        return Template.instance().TABBED.instance.get().navPosition() === Tabbed.C.Position.TOP;
     },
     // the identifier of this tabbed template
     tabbedId(){

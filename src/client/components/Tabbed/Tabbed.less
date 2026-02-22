@@ -1,125 +1,154 @@
 /*
  * pwix:tabbed/src/client/stylesheets/Tabbed.less
+ *
+ * See:
+ *  https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tabbed-panes
+ *  https://observablehq.com/@rkaravia/css-trick-tabs-with-consistent-height
+ *  https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container
  */
 
 .Tabbed {
     height: 100%;
+    display: flex;
 
-    // horizontal (top or bottom) position
-    // navs and panes
-    // have panes 100% height of the visual parent
-    .tabbed-consistent-height {
-        height: 100%;
+    .tabbed-content {
         display: flex;
-        flex-direction: column;
-
-        .tabbed-panes-encloser {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-
-            .tabbed-panes {
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-
-                .tab-content {
-                    height: 100%;
-                    display: flex;
-                }
-            }
-        }
+        flex-direction: row;
+        flex-grow: 1;
+        min-width: 0;
+        min-height: 0;
     }
-    // have a consistent height between the tabs
-    // https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tab-panes
-    // and https://observablehq.com/@rkaravia/css-trick-tabs-with-consistent-height
-    .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .tab-pane {
-        display: block; // undo "display: none;"
+
+    .tabbed-pane {
+        display: block;
         visibility: hidden;
         margin-right: -100%;
         width: 100%;
         z-index: -1;
+        min-width: 0;
     }
-    .tabbed-consistent-height > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .active {
+
+    .tabbed-pane.active {
         visibility: visible;
         z-index: auto;
     }
-    // when we want have tabs on the bottom of the panel
-    .tabbed-navs-encloser > .tabbed-navs > .nav-bottom {
-        border-bottom: 0;
-        border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
-    }
-    .tabbed-navs-encloser > .tabbed-navs > .nav-bottom > li > .nav-link {
-        --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 0.5em;
-        border-bottom-right-radius: 0.5em;
-    }
-    // have some space between tabs and panes
+
     .tabbed-navs {
-        .nav-top {
-            margin-bottom: 0.5em;
-        }
-        .nav-bottom {
-        }
         .nav-link.disabled {
             font-style: italic;
             color: gray;
         }
+
+        ul {
+            .nav-item {
+                white-space: nowrap;
+            }
+
+            li > button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.Tabbed.nav-horizontal {
+    flex-direction: column;
+}
+
+.Tabbed.nav-horizontal > .tabbed-panes-encloser {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    flex-grow: 1;
+
+    .tabbed-panes {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-height: 0;
     }
 
-    // vertical (left or right) position
-    // navs and panes
-    .tabbed-consistent-width {
-        height: 100%;
+    .tabbed-pane {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
     }
-    .tabbed-consistent-width > .tabbed-navs-encloser > .tabbed-navs > ul {
+}
+
+.Tabbed.nav-horizontal.nav-bottom > .tabbed-navs-encloser {
+    .tabbed-navs {
+        margin-top: 0.5em;
+    }
+
+    .tabbed-navs > .nav-tabs {
+        border-bottom: 0;
+        border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
+
+        .nav-link:hover {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0.5em;
+            border-bottom-right-radius: 0.5em;
+        }
+
+        li > .nav-link {
+            --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0.5em;
+            border-bottom-right-radius: 0.5em;
+        }
+    }
+}
+
+.Tabbed.nav-horizontal.nav-top > .tabbed-navs-encloser {
+    .tabbed-navs {
+        margin-bottom: 0.5em;
+    }
+}
+
+.Tabbed.nav-vertical {
+    flex-direction: row;
+}
+
+.Tabbed.nav-vertical > .tabbed-navs-encloser {
+    overflow-x: clip;
+
+    .tabbed-navs > ul {
         display: flex;
         flex-direction: column;
         border: 0;
-        .nav-item {
-            white-space: nowrap;
-        }
     }
-    .tabbed-consistent-width > .tabbed-navs-encloser > .tabbed-navs > ul > li > button {
-        width: 100%;
-    }
-    .tabbed-navs-encloser.nav-bottom .nav-tabs .nav-link:hover {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 0.5em;
-        border-bottom-right-radius: 0.5em;
-    }
-    // https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container
-    .tabbed-consistent-width > .tabbed-panes-encloser {
-        min-width: 0;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-    .tabbed-consistent-width > .tabbed-panes-encloser > .tabbed-panes {
-        flex-grow: 1;
-    }
-    .tabbed-consistent-width > .tabbed-panes-encloser > .tabbed-panes > .tab-content {
-        height: 100%;
-    }
-    .tabbed-consistent-width > .tabbed-panes-encloser > .tabbed-panes > .tab-content > .tab-pane {
-        height: 100%;
-    }
-    // when we want have tabs on the left of the panel
-    .tabbed-navs-encloser.nav-left {
-        margin-right: 0.75em;
-        border-right: 1px solid lightgray;
-    }
-    .tabbed-navs-encloser > .tabbed-navs > .nav-left > li > .nav-link {
+}
+
+.Tabbed.nav-vertical > .tabbed-panes-encloser {
+    overflow-x: auto;
+}
+
+.Tabbed.nav-vertical.nav-left > .tabbed-navs-encloser {
+    margin-right: 0.75em;
+    border-right: 1px solid lightgray;
+
+    .tabbed-navs > .nav-tabs > li > .nav-link {
         border-right: 0;
         --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
         border-top-left-radius: 0.375em;
         border-top-right-radius: 0;
         border-bottom-left-radius: 0.375em;
         border-bottom-right-radius: 0em;
+    }
+}
+
+.Tabbed.nav-vertical.nav-right > .tabbed-navs-encloser {
+    margin-left: 0.75em;
+    border-left: 1px solid lightgray;
+
+    .tabbed-navs > .nav-tabs > li > .nav-link {
+        border-left: 0;
+        --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
+        border-top-right-radius: 0.375em;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0.375em;
+        border-bottom-left-radius: 0em;
     }
 }
