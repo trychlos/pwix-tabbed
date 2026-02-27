@@ -7,10 +7,13 @@
 import _ from 'lodash';
 const assert = require( 'assert' ).strict;
 
+import { Logger } from 'meteor/pwix:logger';
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Tab } from './tab.class.js';
+
+const logger = Logger.get();
 
 export class Instance {
 
@@ -42,7 +45,7 @@ export class Instance {
 
     _setParms( parms ){
         if( !_.isEqual( this.#prevParms, parms )){
-            //console.debug( 'setParms', parms );
+            //logger.debug( 'setParms', parms );
             this.#prevParms = parms;
             if( Object.keys( parms ).includes( 'activateLastTab' )){
                 this.activateLastTab( parms.activateLastTab );
@@ -86,9 +89,7 @@ export class Instance {
         // allocates a unique id for this Tabbed component
         this.#id = 'tabbed-'+Random.id();
 
-        if( Tabbed.configure().verbosity & Tabbed.C.Verbose.INSTANCIATIONS ){
-            console.debug( 'pwix:tabbed instanciating', this.name(), this.id());
-        }
+        logger.verbose({ verbosity: Tabbed.configure().verbosity, against: Tabbed.C.Verbose.INSTANCIATIONS }, 'Instance.Instance() instanciating', this.name(), this.id());
 
         // setup the parms if they are provided here
         if( Object.keys( opts ) > 1 ){
@@ -163,7 +164,7 @@ export class Instance {
                 return tab.TABBED.tab[words[2]]();
             }
         }
-        console.warn( 'pwix:tabbed.Instance() unable to get', name );
+        logger.warn( 'Instance.get() unable to get', name );
         return null;
     }
 
@@ -260,29 +261,29 @@ export class Instance {
     nextActivable( index ){
         const self = this;
         const _activable = function( tab ){
-            //console.debug( self.name(), 'index', tab.TABBED.index, 'shown', tab.TABBED.tab.shown(), 'enabled', tab.TABBED.tab.enabled());
+            //logger.debug( self.name(), 'index', tab.TABBED.index, 'shown', tab.TABBED.tab.shown(), 'enabled', tab.TABBED.tab.enabled());
             return tab.TABBED.tab.shown() && tab.TABBED.tab.enabled();
         };
         const tabs = this.tabs();
-        //console.debug( 'tabs', tabs );
+        //logger.debug( 'tabs', tabs );
         // protect against a configuration change
         if( index >= tabs.length ){
-            //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'tabs.length='+tabs.length, 'returning', tabs.length-1 );
+            //logger.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'tabs.length='+tabs.length, 'returning', tabs.length-1 );
             index = tabs.length-1;
         }
         // test the asked index
         if( index >= 0 ){
             if( _activable( tabs[index] )){
-                //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'activable=true OK' );
+                //logger.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'activable=true OK' );
                 return index;
             }
-            //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'not activable' );
+            //logger.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'not activable' );
         }
         // test the previous indexes
         if( index > 0 ){
             for( let i=index-1 ; i>=0 ; --i ){
                 if( _activable( tabs[i] )){
-                    //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning previous activable='+i );
+                    //logger.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning previous activable='+i );
                     return i;
                 }
             }
@@ -290,13 +291,13 @@ export class Instance {
         // test the next indexes
         for( let i=index+1 ; i<tabs.length ; ++i ){
             if( _activable( tabs[i] )){
-                //console.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning next activable='+i );
+                //logger.debug( 'pwix:tabbed nextActivable()', this.name(), 'requested='+index, 'returning next activable='+i );
                 return i;
             }
         }
         // at last, unfortunately return the first tab if any or -1
         const res = tabs.length ? 0 : -1; 
-        console.warn( 'pwix:tabbed nextActivable()', this.name(), 'unable to find an activable tab starting from', index, 'returning', res );
+        logger.warn( 'instance.nextActivable()', this.name(), 'unable to find an activable tab starting from', index, 'returning', res );
         return res;
     }
 
@@ -361,7 +362,7 @@ export class Instance {
                 return tab.TABBED.tab[words[2]]( value );
             }
         }
-        console.warn( 'pwix:tabbed.Instance() unable to set', name, value );
+        logger.warn( 'Instance.set() unable to set', name, value );
         return null;
     }
 
@@ -430,9 +431,7 @@ export class Instance {
             value = _.isFunction( value ) ? value() : value;
             assert( _.isArray( value ), 'pwix:tabbed.Instance() expects an array, got '+value );
             // make sure each provided tab object has a TABBED definition with a Tab instance
-            if( Tabbed.configure().verbosity & Tabbed.C.Verbose.INSTANCIATIONS ){
-                console.debug( 'pwix:tabbed', this.name(), 'tabs.count', value.length );
-            }
+            logger.verbose({ verbosity: Tabbed.configure().verbosity, against: Tabbed.C.Verbose.INSTANCIATIONS }, 'Instance.tabs()', this.name(), 'tabs.count', value.length );
             for( let i=0 ; i<value.length ; ++i ){
                 let it = value[i];
                 it.TABBED = it.TABBED || {};

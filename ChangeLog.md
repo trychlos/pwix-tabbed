@@ -2,13 +2,14 @@
 
 ## ChangeLog
 
-### 1.6.1-rc
+### 1.7.0-rc
 
     Release date: 
 
     - configure() now warns for unmanaged keys
     - Change active tab z-index from 0 to auto (fixing the overriding of dropdown menus)
     - Make the Tabbed panes of consistent size both on width and height
+    - Use pwix:logger universal logger, thus bumping minor candidate version number
 
 ### 1.6.0
 

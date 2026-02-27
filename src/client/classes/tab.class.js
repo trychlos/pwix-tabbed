@@ -7,8 +7,11 @@
 import _ from 'lodash';
 const assert = require( 'assert' ).strict;
 
+import { Logger } from 'meteor/pwix:logger';
 import { Random } from 'meteor/random';
 import { ReactiveVar } from 'meteor/reactive-var';
+
+const logger = Logger.get();
 
 export class Tab {
 
@@ -51,9 +54,7 @@ export class Tab {
             this.shown( true );
         }
 
-        if( Tabbed.configure().verbosity & Tabbed.C.Verbose.INSTANCIATIONS ){
-            console.debug( 'pwix:tabbed', tabbed.name(), 'instanciating tab', o, this.#id );
-        }
+        logger.verbose({ verbosity: Tabbed.configure().verbosity, against: Tabbed.C.Verbose.INSTANCIATIONS }, 'Tab.Tab()', tabbed.name(), 'instanciating tab', o, this.#id );
 
         return this;
     }
