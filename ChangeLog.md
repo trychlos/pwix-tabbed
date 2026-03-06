@@ -11,6 +11,7 @@
     - Make the Tabbed panes of consistent size both on width and height
     - Use pwix:logger universal logger, thus bumping minor candidate version number
     - Remove width extension of the nav buttons to leave some place to a right additional button
+    - Align border-radius on bootstrap measures
 
 ### 1.6.0
 
