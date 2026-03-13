@@ -12,6 +12,7 @@
     - Use pwix:logger universal logger, thus bumping minor candidate version number
     - Remove width extension of the nav buttons to leave some place to a right additional button
     - Align border-radius on bootstrap measures
+    - Have a stylesheet more precise to only target the direct descendants (and not other embedded Tabbed)
 
 ### 1.6.0
 

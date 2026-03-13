@@ -5,146 +5,146 @@
  *  https://stackoverflow.com/questions/54810478/bootstrap-4-how-to-equal-height-two-tabbed-panes
  *  https://observablehq.com/@rkaravia/css-trick-tabs-with-consistent-height
  *  https://stackoverflow.com/questions/36230944/prevent-flex-items-from-overflowing-a-container
+ *
+ * As Tabbed can be imbricated, we have to take care of only addressing here the components of *this* Tabbed.
  */
 
 .Tabbed {
     height: 100%;
     display: flex;
+}
 
-    .tabbed-content {
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        min-width: 0;
-        min-height: 0;
+.Tabbed > .tabbed-navs-encloser {
+
+}
+
+.Tabbed > .tabbed-navs-encloser > .tabbed-navs {
+    .nav-link.disabled {
+        font-style: italic;
+        color: gray;
     }
 
-    .tabbed-pane {
-        display: block;
-        visibility: hidden;
-        margin-right: -100%;
-        width: 100%;
-        z-index: -1;
-        min-width: 0;
-    }
-
-    .tabbed-pane.active {
-        visibility: visible;
-        z-index: auto;
-    }
-
-    .tabbed-navs {
-        .nav-link.disabled {
-            font-style: italic;
-            color: gray;
-        }
-
-        ul {
-            .nav-item {
-                white-space: nowrap;
-            }
+    ul {
+        .nav-item {
+            white-space: nowrap;
         }
     }
 }
+
+.Tabbed > .tabbed-panes-encloser {
+    min-width: 0;
+    min-height: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Tabbed > .tabbed-panes-encloser > .tabbed-panes {
+    min-width: 0;
+    min-height: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Tabbed > .tabbed-panes-encloser > .tabbed-panes > .tabbed-content {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.Tabbed > .tabbed-panes-encloser > .tabbed-panes > .tabbed-content > .tabbed-pane {
+    min-width: 0;
+    width:100%;
+    max-width: 100%;
+    margin-right: -100%;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    z-index: -1;
+}
+
+.Tabbed > .tabbed-panes-encloser > .tabbed-panes > .tabbed-content > .tabbed-pane.active {
+    visibility: visible;
+    z-index: auto;
+}
+
+/*
+ * horizontal tabs
+ */
 
 .Tabbed.nav-horizontal {
     flex-direction: column;
 }
 
-.Tabbed.nav-horizontal > .tabbed-panes-encloser {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 0;
-    flex-grow: 1;
+.Tabbed.nav-horizontal.nav-bottom > .tabbed-navs-encloser > .tabbed-navs {
+    margin-top: 0.5em;
+}
 
-    .tabbed-panes {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        min-height: 0;
+.Tabbed.nav-horizontal.nav-bottom > .tabbed-navs-encloser > .tabbed-navs > .nav-tabs {
+    border-bottom: 0;
+    border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
+
+    .nav-link:hover {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
+        border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
     }
 
-    .tabbed-pane {
-        display: flex;
-        flex-direction: column;
+    li > .nav-link {
+        --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
+        border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
     }
 }
 
-.Tabbed.nav-horizontal.nav-bottom > .tabbed-navs-encloser {
-    .tabbed-navs {
-        margin-top: 0.5em;
-    }
-
-    .tabbed-navs > .nav-tabs {
-        border-bottom: 0;
-        border-top: var( --bs-nav-tabs-border-width ) solid lightgray;
-
-        .nav-link:hover {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
-            border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
-        }
-
-        li > .nav-link {
-            --bs-nav-tabs-link-active-border-color: #ffffff lightgray lightgray lightgray;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-            border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
-            border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
-        }
-    }
+.Tabbed.nav-horizontal.nav-top > .tabbed-navs-encloser > .tabbed-navs {
+    margin-bottom: 0.5em;
 }
 
-.Tabbed.nav-horizontal.nav-top > .tabbed-navs-encloser {
-    .tabbed-navs {
-        margin-bottom: 0.5em;
-    }
-}
+/*
+ * vertical tabs
+ */
 
 .Tabbed.nav-vertical {
     flex-direction: row;
 }
 
-.Tabbed.nav-vertical > .tabbed-navs-encloser {
-    overflow-x: clip;
-
-    .tabbed-navs > ul {
-        display: flex;
-        flex-direction: column;
-        border: 0;
-    }
-}
-
-.Tabbed.nav-vertical > .tabbed-panes-encloser {
-    overflow-x: auto;
+.Tabbed.nav-vertical > .tabbed-navs-encloser > .tabbed-navs > .nav-tabs {
+    display: flex;
+    flex-direction: column;
+    border: 0;
 }
 
 .Tabbed.nav-vertical.nav-left > .tabbed-navs-encloser {
     margin-right: 0.75em;
     border-right: 1px solid lightgray;
+}
 
-    .tabbed-navs > .nav-tabs > li > .nav-link {
-        border-right: 0;
-        --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
-        border-top-left-radius: var( --bs-nav-tabs-border-radius );
-        border-top-right-radius: 0;
-        border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
-        border-bottom-right-radius: 0em;
-    }
+.Tabbed.nav-vertical.nav-left > .tabbed-navs-encloser > .tabbed-navs > .nav-tabs > .nav-item > .nav-link {
+    border-right: 0;
+    --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
+    border-top-left-radius: var( --bs-nav-tabs-border-radius );
+    border-top-right-radius: 0;
+    border-bottom-left-radius: var( --bs-nav-tabs-border-radius );
+    border-bottom-right-radius: 0em;
 }
 
 .Tabbed.nav-vertical.nav-right > .tabbed-navs-encloser {
     margin-left: 0.75em;
     border-left: 1px solid lightgray;
+}
 
-    .tabbed-navs > .nav-tabs > li > .nav-link {
-        border-left: 0;
-        --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
-        border-top-right-radius: var( --bs-nav-tabs-border-radius );
-        border-top-left-radius: 0;
-        border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
-        border-bottom-left-radius: 0em;
-    }
+.Tabbed.nav-vertical.nav-right > .tabbed-navs-encloser > .tabbed-navs > .nav-tabs > .nav-item > .nav-link {
+    border-left: 0;
+    --bs-nav-tabs-link-active-border-color:  lightgray #ffffff lightgray lightgray;
+    border-top-right-radius: var( --bs-nav-tabs-border-radius );
+    border-top-left-radius: 0;
+    border-bottom-right-radius: var( --bs-nav-tabs-border-radius );
+    border-bottom-left-radius: 0em;
 }
