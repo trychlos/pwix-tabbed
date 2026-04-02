@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.7.0-rc
+### 1.7.0
 
-    Release date: 
+    Release date: 2026- 4- 2
 
     - configure() now warns for unmanaged keys
     - Change active tab z-index from 0 to auto (fixing the overriding of dropdown menus)
@@ -107,4 +107,4 @@
 
 ---
 P. Wieser
-- Last updated on 2025, Jul. 8th
+- Last updated on 2026, Apr. 2nd
