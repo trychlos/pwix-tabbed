@@ -14,7 +14,9 @@
 |      |            | or anything else - use case: prevent losing unsaved changes on a pane |
 |    2 | 2024- 1-13 | identify in the README the localStorage used when managing the tabs |
 |    4 | 2025- 7- 8 | cannot display last active tab when tabs are dynamically built - see README caveat |
-|    5 |  |  |
+|    5 | 2026- 4-27 | have scrollable navs |
+|    6 | 2026- 4-28 | have reorderable tabs |
+|    7 |  |  |
 
 ---
 ## Done

@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Fix top component style
 
 ### 1.7.0
 

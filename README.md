@@ -350,9 +350,13 @@ New and updated translations are willingly accepted, and more than welcome. Just
 
 ## Cookies and comparable technologies
 
-On named tabs, `pwix:tabbed` uses `localStorage` to record the last activated tab.
+`pwix:tabular` may use `localStorage` to record some valuable data.
 
-Because this is dynamically done on a per tabbed display unit basis, and only if this later is named, the package doesn't advertise of this use, relying on the caller own declaration.
+### `pwix:tabbed/active-tab/<tabbedName>`
+
+The last active tab of the named tabbed panel.
+
+This is considered a disableable functional _cookie_, and is advertised as such to the CookieManager if present.
 
 ## Issues & help
 
