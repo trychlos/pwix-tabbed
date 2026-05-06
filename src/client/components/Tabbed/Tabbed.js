@@ -44,7 +44,7 @@ Template.Tabbed.onCreated( function(){
             //logger.debug( 'activateByIndex', self.TABBED.instance.get().name(), index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
             index = self.TABBED.instance.get().nextActivable( index );
             const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
-            UIUtils.DOM.waitFor( selector ).then(( elt ) => {
+            UIUtils.DOM.waitFor( selector, { timeout: Tabbed.C.waitForTimeout }).then(( elt ) => {
                 elt.click();
             });
         },

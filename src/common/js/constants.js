@@ -10,6 +10,10 @@ Tabbed.C = {
         BOTTOM: 'bottom',
         LEFT:   'left'
     },
+
+    // UIUtils.waitFor() timeout, defaulting to 1000ms
+    waitForTimeout: 5000,
+
     // verbosity levels
     Verbose: {
         NONE: 0,

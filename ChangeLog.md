@@ -7,6 +7,7 @@
     Release date: 
 
     - Fix top component style
+    - Increase UIUtils.waitFor() timeout for Tabbed component
 
 ### 1.7.0
 
