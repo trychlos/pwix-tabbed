@@ -8,6 +8,7 @@
 
     - Fix top component style
     - Increase UIUtils.waitFor() timeout for Tabbed component
+    - Do not try to active an unknown tab
 
 ### 1.7.0
 

@@ -43,10 +43,12 @@ Template.Tabbed.onCreated( function(){
         activateByIndex( index ){
             //logger.debug( 'activateByIndex', self.TABBED.instance.get().name(), index, self.$( '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]' ));
             index = self.TABBED.instance.get().nextActivable( index );
-            const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
-            UIUtils.DOM.waitFor( selector, { timeout: Tabbed.C.waitForTimeout }).then(( elt ) => {
-                elt.click();
-            });
+            if( index >= 0 ){
+                const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
+                UIUtils.DOM.waitFor( selector, { timeout: Tabbed.C.waitForTimeout }).then(( elt ) => {
+                    elt.click();
+                });
+            }
         },
 
         // activate a tab by its current nav label
