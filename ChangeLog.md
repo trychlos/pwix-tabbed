@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.7.1-rc.0
+### 1.7.1
 
-    Release date: 
+    Release date: 2026- 5-10
 
     - Fix top component style
     - Increase UIUtils.waitFor() timeout for Tabbed component
@@ -115,4 +115,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, Apr. 2nd
+- Last updated on 2026, May. 10th
