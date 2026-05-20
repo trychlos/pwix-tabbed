@@ -1,5 +1,5 @@
 <template name="Tabbed">
-    <div class="Tabbed {{ navPosition }}  {{ navLayout }}" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
+    <div class="Tabbed {{ tabbedClasses }} {{ navPosition }} {{ navLayout }}" data-tabbed-id="{{ tabbedId }}" data-tabbed-name="{{ tabbedName }}">
 
         {{#if navFirst }}
             <div class="tabbed-navs-encloser">

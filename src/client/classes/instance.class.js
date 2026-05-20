@@ -38,6 +38,7 @@ export class Instance {
     #paneClasses = new ReactiveVar( null );
     #paneSubData = new ReactiveVar( null );
     #paneSubTemplate = new ReactiveVar( null );
+    #tabbedClasses = new ReactiveVar( null );
     #tabs = new ReactiveVar( null );
     #prevParms = null;
 
@@ -61,6 +62,7 @@ export class Instance {
             this.paneClasses( parms.paneClasses || '' );
             this.paneSubData( parms.paneSubData );
             this.paneSubTemplate( parms.paneSubTemplate );
+            this.tabbedClasses( parms.tabbedClasses || '' );
             this.tabs( parms.tabs || [] );
         }
     }
@@ -372,6 +374,21 @@ export class Instance {
      */
     setTabbedParms( dc ){
         this._setParms( dc );
+    }
+
+    /**
+     * Getter/Setter
+     * @param {Any} value the classes
+     * @returns {Any} the tabbedClasses
+     *  A reactive data source
+     */
+    tabbedClasses( value ){
+        if( value !== undefined ){
+            this.#tabbedClasses.set( value );
+        } else {
+            value = this.#tabbedClasses.get();
+        }
+        return _.isFunction( value ) ? value() : value;
     }
 
     /**

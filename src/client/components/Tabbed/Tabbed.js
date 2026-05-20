@@ -304,19 +304,23 @@ Template.Tabbed.helpers({
         const position = Template.instance().TABBED.instance.get().navPosition();
         return position === Tabbed.C.Position.TOP || position === Tabbed.C.Position.LEFT;
     },
+
     // whether we display the navs after the panes
     navLast(){
         const position = Template.instance().TABBED.instance.get().navPosition();
         return position === Tabbed.C.Position.BOTTOM || position === Tabbed.C.Position.RIGHT;
     },
+
     // either 'nav-horizontal' or 'nav-vertical
     navLayout(){
         return Template.instance().TABBED.isHorizontal() ? 'nav-horizontal' : 'nav-vertical';
     },
+
     // additional classes for the .Tabbed topmost element
     navPosition(){
         return 'nav-'+Template.instance().TABBED.instance.get().navPosition();
     },
+
     // provide dynamic data context
     parmsSubData(){
         //logger.debug( 'paneSubData', Template.instance().TABBED.instance.get().paneSubData());
@@ -324,10 +328,12 @@ Template.Tabbed.helpers({
         //logger.debug( 'this', this );
         return Template.instance().TABBED.instance.get().paneSubData() || Template.instance().TABBED.instance.get().dataContext() || this;
     },
+
     // have a dynamic template
     parmsSubPane(){
         return Template.instance().TABBED.instance.get().paneSubTemplate();
     },
+
     // provides a data context to each nav and pane component
     parmsSubs(){
         return {
@@ -335,10 +341,17 @@ Template.Tabbed.helpers({
             dataContext: this
         };
     },
+
+    // some classes to be added to the Tabbed component itself
+    tabbedClasses(){
+        return Template.instance().TABBED.instance.get().tabbedClasses();
+    },
+
     // the identifier of this tabbed template
     tabbedId(){
         return Template.instance().TABBED.instance.get().id();
     },
+
     // the name of this tabbed template
     tabbedName(){
         return Template.instance().TABBED.instance.get().name();

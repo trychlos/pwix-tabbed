@@ -1,6 +1,6 @@
 Package.describe({
     name: 'pwix:tabbed',
-    version: '1.7.2-rc.0',
+    version: '1.8.0-rc.0',
     summary: 'A Blaze component which provides a consistent tabbed display',
     git: 'https://github.com/trychlos/pwix-tabbed.git',
     documentation: 'README.md'

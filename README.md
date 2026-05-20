@@ -123,6 +123,10 @@ and when settings the `Tabbed.Instance` parameters:
 
     A data context object to be passed to the above `paneSubTemplate` sub-template.
 
+- `tabbedClasses`
+
+    Classes to be added to the `Tabbed` component itself.
+
 - `tabs`
 
     An optional array with the list of tabs.

@@ -2,11 +2,12 @@
 
 ## ChangeLog
 
-### 1.7.2-rc.0
+### 1.8.0-rc.0
 
     Release date: 
 
     - Honor 'paneClasses' parameter
+    - Define new 'tabbedClasses' parameter, thus bumping minor candidate version number
 
 ### 1.7.1
 
