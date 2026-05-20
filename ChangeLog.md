@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Honor 'paneClasses' parameter
 
 ### 1.7.1
 

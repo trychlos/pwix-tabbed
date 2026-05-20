@@ -6,7 +6,11 @@
 
 import _ from 'lodash';
 
+import { Logger } from 'meteor/pwix:logger';
+
 import './panes.html';
+
+const logger = Logger.get();
 
 Template.panes.helpers({
     // whether we have something to display in this pane ?
@@ -20,6 +24,9 @@ Template.panes.helpers({
         if( !it.TABBED.tab.shown()){
             classes.push( 'ui-hidden' );
         }
+        let fromPanes = it.TABBED.tab.tabbed().paneClasses() || '';   // can be a string or an array
+        fromPanes = _.isArray( fromPanes ) ? fromPanes.join( ' ' ) : fromPanes;
+        classes.push( fromPanes );
         return classes.join( ' ' );
     },
     // provides the data associated to this template
