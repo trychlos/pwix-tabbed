@@ -8,6 +8,7 @@
 
     - Honor 'paneClasses' parameter
     - Define new 'tabbedClasses' parameter, thus bumping minor candidate version number
+    - Install new 'calcMinHeight()' function as a data on Tabbed component
 
 ### 1.7.1
 

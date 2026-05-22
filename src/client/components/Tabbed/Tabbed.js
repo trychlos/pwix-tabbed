@@ -70,6 +70,67 @@ Template.Tabbed.onCreated( function(){
             return self.TABBED.instance.get().tabById( id.substr( 4 ));
         },
 
+        // compute the min-height of a pane
+        // considering that scrollable should not be considered as almost always requiring a tall height to accomodate all items
+        //  but still computing a ration scrollable vs. forms to maybe keep this tall height if there are too many scrollables
+        calcPaneMinHeight( $pane ){
+            let total = 0;
+            let scrollableCount = 0;
+            let totalCount = 0;
+
+            const isScrollable = $pane.find( '*' ).is( function(){
+                return self.$( this ).css( 'overflow-y' ) === 'auto' || self.$( this ).css( 'overflow-y' ) === 'scroll';
+            });
+            if( isScrollable ){
+                // scrollable pane: count it but don't add its height
+                scrollableCount++;
+            }
+            totalCount++;
+
+            const $nested = $pane.find( '.Tabbed' ).first();
+            if( $nested.length ){
+                const result = self.TABBED.calcTabbedMinHeight( $nested );
+                scrollableCount += result.scrollableCount;
+                totalCount += result.totalCount;
+                total = result.minH;
+            } else {
+                total = $pane.prop( 'scrollHeight' );
+            }
+
+            return { minH: total, scrollableCount, totalCount };
+        },
+
+        // @summary Compute the min height needed by this Tabbed component, considering that it may have siblings
+        // @returns {Integer} the min height
+        calcTabbedMinHeight( $tabbed ){
+            const navH = $tabbed.find( '> .tabbed-navs-encloser' ).prop( 'scrollHeight' ) || 0;
+            const $panes = $tabbed.find( '> .tabbed-panes-encloser > .tabbed-panes > .tabbed-content > .tabbed-pane' );
+
+            let scrollableCount = 0;
+            let totalCount = 0;
+            let paneH = 0;
+
+            $panes.each( function(){
+                const result = self.TABBED.calcPaneMinHeight( self.$( this ));
+                scrollableCount += result.scrollableCount;
+                totalCount += result.totalCount;
+                paneH = Math.max( paneH, result.minH );
+            });
+
+            let siblingsH = 0;
+            $tabbed.siblings().each( function(){
+                const height = self.$( this ).prop( 'scrollHeight' ) || 0;
+                siblingsH += height;
+            });
+
+            //logger.debug( $tabbed.data( 'tabbed-name' ), navH, paneH, siblingsH );
+            return {
+                minH: navH + paneH + siblingsH,
+                scrollableCount,
+                totalCount
+            };
+        },
+
         // enable/disable a tab by a nav attribute specified as { name: value }
         enableByAttribute( attribute, enabled ){
             const key = Object.keys( attribute )[0];
@@ -110,6 +171,12 @@ Template.Tabbed.onCreated( function(){
         isHorizontal(){
             const pos = self.TABBED.instance.get().navPosition();
             return pos === Tabbed.C.Position.TOP || pos === Tabbed.C.Position.BOTTOM;
+        },
+
+        // whether we display the navs before the panes
+        navFirst(){
+            const position = self.TABBED.instance.get().navPosition();
+            return position === Tabbed.C.Position.TOP || position === Tabbed.C.Position.LEFT;
         },
 
         // returns the tab label
@@ -227,12 +294,18 @@ Template.Tabbed.onCreated( function(){
 Template.Tabbed.onRendered( function(){
     const self = this;
 
-    // advertise of our creation
-    self.$( '.Tabbed' ).trigger( 'tabbed-rendered', {
-        tabbedId: self.TABBED.instance.get().id(),
-        tabbedName: self.TABBED.instance.get().name(),
-        $tabbed: self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
+    // install the height computing function
+    //  rationale: Modal will use this function to compute the minimal height of the modal
+    //  this is needed as hidden panes may have different requisites and only the tabbed "knows" how to compute them
+    const tabbedId = self.TABBED.instance.get().id();
+    const tabbedName = self.TABBED.instance.get().name();
+    const $tabbed = self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' );
+    $tabbed.data( 'calcMinHeight', function(){
+        return self.TABBED.calcTabbedMinHeight( $tabbed );
     });
+
+    // advertise of our creation
+    self.$( '.Tabbed' ).trigger( 'tabbed-rendered', { tabbedId, tabbedName, $tabbed });
 
     // set the attributes on nav-link's if asked for
     self.autorun(() => {
@@ -252,11 +325,7 @@ Template.Tabbed.onRendered( function(){
     // track the tabs changes and trigger an event
     self.autorun(() => {
         const tabs = self.TABBED.instance.get().tabs();
-        self.$( '.Tabbed' ).trigger( 'tabbed-changed', {
-            tabbedId: self.TABBED.instance.get().id(),
-            tabbedName: self.TABBED.instance.get().name(),
-            $tabbed: self.$( '.Tabbed[data-tabbed-id="'+self.TABBED.instance.get().id()+'"]' )
-        });
+        self.$( '.Tabbed' ).trigger( 'tabbed-changed', { tabbedId, tabbedName, $tabbed });
     });
 
     // the tabs are initialized or have changed
@@ -301,14 +370,12 @@ Template.Tabbed.helpers({
 
     // whether we display the navs before the panes
     navFirst(){
-        const position = Template.instance().TABBED.instance.get().navPosition();
-        return position === Tabbed.C.Position.TOP || position === Tabbed.C.Position.LEFT;
+        return Template.instance().TABBED.navFirst();
     },
 
     // whether we display the navs after the panes
     navLast(){
-        const position = Template.instance().TABBED.instance.get().navPosition();
-        return position === Tabbed.C.Position.BOTTOM || position === Tabbed.C.Position.RIGHT;
+        return !Template.instance().TABBED.navFirst();
     },
 
     // either 'nav-horizontal' or 'nav-vertical
