@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.8.0-rc.0
+### 1.8.0
 
-    Release date: 
+    Release date: 2026- 5-31
 
     - Honor 'paneClasses' parameter
     - Define new 'tabbedClasses' parameter, thus bumping minor candidate version number
@@ -124,4 +124,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, May. 10th
+- Last updated on 2026, May. 31st
