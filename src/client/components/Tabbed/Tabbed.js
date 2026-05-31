@@ -304,6 +304,11 @@ Template.Tabbed.onRendered( function(){
         return self.TABBED.calcTabbedMinHeight( $tabbed );
     });
 
+    // install the instance function
+    $tabbed.data( 'instance', function(){
+        return self.TABBED.instance.get();
+    });
+
     // advertise of our creation
     self.$( '.Tabbed' ).trigger( 'tabbed-rendered', { tabbedId, tabbedName, $tabbed });
 
