@@ -6,7 +6,7 @@
 
     Release date: 
 
-    - 
+    - Improve debug log
 
 ### 1.8.0
 

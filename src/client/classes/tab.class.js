@@ -55,6 +55,7 @@ export class Tab {
         }
 
         logger.verbose({ verbosity: Tabbed.configure().verbosity, against: Tabbed.C.Verbose.INSTANCIATIONS }, 'Tab.Tab()', tabbed.name(), 'instanciating tab', o, this.#id );
+        //logger.debug( 'Tab.Tab()', tabbed.name(), 'instanciating tab', o, this.#id );
 
         return this;
     }

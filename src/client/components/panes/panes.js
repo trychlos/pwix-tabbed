@@ -12,6 +12,10 @@ import './panes.html';
 
 const logger = Logger.get();
 
+Template.panes.onCreated( function(){
+    //logger.debug( 'panes.onCreated', Template.currentData());
+});
+
 Template.panes.helpers({
     // whether we have something to display in this pane ?
     hasTemplate( it ){
