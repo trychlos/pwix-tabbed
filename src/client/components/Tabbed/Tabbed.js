@@ -45,9 +45,13 @@ Template.Tabbed.onCreated( function(){
             index = self.TABBED.instance.get().nextActivable( index );
             if( index >= 0 ){
                 const selector = '.tabbed-navs[data-tabbed-id="'+self.TABBED.instance.get().id()+'"] .nav-link[data-tabbed-index="'+index+'"]';
-                UIUtils.DOM.waitFor( selector, { timeout: Tabbed.C.waitForTimeout }).then(( elt ) => {
-                    elt.click();
-                });
+                UIUtils.DOM.waitFor( selector, { timeout: Tabbed.C.waitForTimeout })
+                    .then(( elt ) => {
+                        elt.click();
+                    })
+                    .catch(( e ) => {
+                        // nothing
+                    });
             }
         },
 

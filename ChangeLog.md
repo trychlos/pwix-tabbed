@@ -7,6 +7,7 @@
     Release date: 
 
     - Improve debug log
+    - Catch UIUtils.DOM.waitFor() timeout exceptions
 
 ### 1.8.0
 
