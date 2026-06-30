@@ -2,9 +2,9 @@
 
 ## ChangeLog
 
-### 1.8.1-rc.0
+### 1.8.1
 
-    Release date: 
+    Release date: 2026- 6-30
 
     - Improve debug log
     - Catch UIUtils.DOM.waitFor() timeout exceptions
@@ -131,4 +131,4 @@
 
 ---
 P. Wieser
-- Last updated on 2026, May. 31st
+- Last updated on 2026, Jun. 30th
